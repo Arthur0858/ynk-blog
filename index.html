@@ -564,6 +564,126 @@
       font-weight: 300;
     }
 
+    /* ══════════════ ARCHIVE SECTION ══════════════ */
+    .archive-section {
+      margin-top: 40px;
+    }
+
+    .archive-title {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .archive-group {
+      margin-bottom: 4px;
+    }
+
+    .archive-group-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      background: var(--bg-card);
+      cursor: pointer;
+      transition: background 0.2s;
+      border-left: 3px solid transparent;
+      user-select: none;
+    }
+
+    .archive-group-header:hover {
+      background: var(--bg-card-hover);
+      border-left-color: var(--red);
+    }
+
+    .archive-group:first-child .archive-group-header {
+      border-radius: 8px 8px 0 0;
+    }
+
+    .archive-group:last-child .archive-group-header {
+      border-radius: 0 0 8px 8px;
+    }
+
+    .archive-group:last-child.open .archive-group-header {
+      border-radius: 0;
+    }
+
+    .archive-month {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--cream);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .archive-count {
+      font-size: 0.68rem;
+      font-weight: 500;
+      color: var(--text-dim);
+      background: rgba(185, 28, 28, 0.1);
+      padding: 1px 8px;
+      border-radius: 10px;
+    }
+
+    .archive-arrow {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      transition: transform 0.25s;
+    }
+
+    .archive-group.open .archive-arrow {
+      transform: rotate(90deg);
+    }
+
+    .archive-items {
+      display: none;
+      background: var(--bg);
+    }
+
+    .archive-group.open .archive-items {
+      display: block;
+    }
+
+    .archive-item {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      padding: 12px 20px 12px 26px;
+      cursor: pointer;
+      transition: background 0.15s;
+      border-left: 3px solid transparent;
+    }
+
+    .archive-item:hover {
+      background: var(--bg-card-hover);
+      border-left-color: var(--red);
+    }
+
+    .archive-item .a-date {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      font-weight: 500;
+      white-space: nowrap;
+      min-width: 48px;
+    }
+
+    .archive-item .a-title {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      transition: color 0.15s;
+    }
+
+    .archive-item:hover .a-title {
+      color: var(--cream);
+    }
+
     /* ══════════════ RESPONSIVE ══════════════ */
     @media (max-width: 700px) {
       /* hero responsive handled above */
@@ -626,6 +746,9 @@
     <div id="home-view">
       <p class="section-title" id="section-label">最新文章</p>
       <div class="article-list" id="article-list"></div>
+
+      <!-- ══════ ARCHIVE ══════ -->
+      <div class="archive-section" id="archive-section"></div>
 
       <!-- ══════ YOUTUBE SECTION ══════ -->
       <div class="yt-section" id="yt-section">
@@ -732,7 +855,7 @@
     const articles = [
       {
         id: 6,
-        title: "關稅降了，我的蛋餅還是一百五十塊",
+        title: "關稅降了，我的蛋餅還是五十塊",
         date: "2026-03-29",
         tags: ["時事", "生活", "觀察"],
         readTime: "4 分鐘",
@@ -786,31 +909,106 @@
       }
     ];
 
-    function renderArticleList(filteredArticles) {
-      const list = document.getElementById('article-list');
-      list.innerHTML = '';
-      (filteredArticles || articles).forEach((a, i) => {
-        const card = document.createElement('div');
-        card.className = 'article-card';
-        card.style.animationDelay = `${i * 0.05}s`;
-        card.onclick = () => showArticle(a.id);
-        card.innerHTML = `
-          <div class="meta"><span>${a.date}</span><span class="dot"></span><span>${a.readTime}</span></div>
-          <h2>${a.title}</h2>
-          <p class="excerpt">${a.excerpt}</p>
-          <div class="tags">${a.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
-          <span class="read-more">繼續閱讀</span>`;
-        list.appendChild(card);
+    const LATEST_COUNT = 3; // 首頁顯示最新幾篇完整卡片
+
+    // ── 渲染文章卡片 ──
+    function renderCard(a, i) {
+      const card = document.createElement('div');
+      card.className = 'article-card';
+      card.style.animationDelay = `${i * 0.05}s`;
+      card.onclick = () => showArticle(a.id);
+      card.innerHTML = `
+        <div class="meta"><span>${a.date}</span><span class="dot"></span><span>${a.readTime}</span></div>
+        <h2>${a.title}</h2>
+        <p class="excerpt">${a.excerpt}</p>
+        <div class="tags">${a.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+        <span class="read-more">繼續閱讀</span>`;
+      return card;
+    }
+
+    // ── 依年月分組 ──
+    function groupByMonth(items) {
+      const groups = {};
+      items.forEach(a => {
+        const key = a.date.substring(0, 7); // "2026-03"
+        if (!groups[key]) groups[key] = [];
+        groups[key].push(a);
+      });
+      return Object.entries(groups).sort((a, b) => b[0].localeCompare(a[0]));
+    }
+
+    function formatMonth(key) {
+      const [y, m] = key.split('-');
+      const months = ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
+      return `${y} 年 ${months[parseInt(m) - 1]}`;
+    }
+
+    // ── 渲染歸檔區 ──
+    function renderArchive(archivedArticles) {
+      const section = document.getElementById('archive-section');
+      section.innerHTML = '';
+      if (!archivedArticles || archivedArticles.length === 0) {
+        section.style.display = 'none';
+        return;
+      }
+      section.style.display = 'block';
+
+      const title = document.createElement('p');
+      title.className = 'archive-title';
+      title.textContent = '過往文章歸檔';
+      section.appendChild(title);
+
+      const grouped = groupByMonth(archivedArticles);
+      grouped.forEach(([key, items]) => {
+        const group = document.createElement('div');
+        group.className = 'archive-group';
+
+        group.innerHTML = `
+          <div class="archive-group-header" onclick="this.parentElement.classList.toggle('open')">
+            <span class="archive-month">${formatMonth(key)} <span class="archive-count">${items.length} 篇</span></span>
+            <span class="archive-arrow">›</span>
+          </div>
+          <div class="archive-items">
+            ${items.map(a => `
+              <div class="archive-item" onclick="showArticle(${a.id})">
+                <span class="a-date">${a.date.substring(5)}</span>
+                <span class="a-title">${a.title}</span>
+              </div>
+            `).join('')}
+          </div>`;
+        section.appendChild(group);
       });
     }
 
+    // ── 首頁渲染：最新 N 篇卡片 + 歸檔 ──
+    function renderHome(filteredArticles) {
+      const items = filteredArticles || articles;
+      const list = document.getElementById('article-list');
+      list.innerHTML = '';
+
+      // 篩選模式：全部顯示卡片，不顯示歸檔
+      if (filteredArticles) {
+        items.forEach((a, i) => list.appendChild(renderCard(a, i)));
+        document.getElementById('archive-section').style.display = 'none';
+        return;
+      }
+
+      // 首頁模式：最新 N 篇 + 歸檔
+      const latest = items.slice(0, LATEST_COUNT);
+      const archived = items.slice(LATEST_COUNT);
+
+      latest.forEach((a, i) => list.appendChild(renderCard(a, i)));
+      renderArchive(archived);
+    }
+
+    // ── 頁面切換 ──
     function showHome() {
       document.getElementById('home-view').style.display = 'block';
       document.getElementById('article-view').style.display = 'none';
       document.getElementById('about-view').style.display = 'none';
       document.getElementById('section-label').textContent = '最新文章';
       setActiveNav('全部');
-      renderArticleList();
+      renderHome();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -843,7 +1041,7 @@
       document.getElementById('about-view').style.display = 'none';
       document.getElementById('section-label').textContent = `# ${tag}`;
       setActiveNav(tag);
-      renderArticleList(articles.filter(a => a.tags.includes(tag)));
+      renderHome(articles.filter(a => a.tags.includes(tag)));
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -853,7 +1051,8 @@
       });
     }
 
-    renderArticleList();
+    // ── Init ──
+    renderHome();
   </script>
 </body>
 </html>
