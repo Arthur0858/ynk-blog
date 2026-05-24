@@ -5,7 +5,7 @@
   X-Frame-Options: SAMEORIGIN
 
 /assets/*
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=604800
 
 /*.html
   Cache-Control: public, max-age=300
