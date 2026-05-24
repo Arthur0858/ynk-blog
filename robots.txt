@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://arthur0858.github.io/ynk-blog/sitemap.xml
+Sitemap: https://parenttechchecklist.com/sitemap.xml
