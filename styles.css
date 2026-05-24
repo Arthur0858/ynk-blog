@@ -152,6 +152,51 @@ nav a:hover {
   line-height: 1.45;
 }
 
+.weekly-feature {
+  background: #fff;
+}
+
+.weekly-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 380px);
+  gap: clamp(18px, 4vw, 44px);
+  align-items: stretch;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.weekly-inner h2 {
+  max-width: 760px;
+  margin: 0;
+  color: var(--od-ink);
+  font-size: clamp(30px, 4vw, 48px);
+  line-height: 1.06;
+  letter-spacing: 0;
+}
+
+.weekly-points {
+  display: grid;
+  gap: 10px;
+  padding: 20px;
+  border: 1px solid rgba(154, 66, 81, .22);
+  border-left: 5px solid var(--od-rose);
+  border-radius: 8px;
+  background: #fbf7f8;
+  box-shadow: var(--od-soft-shadow);
+}
+
+.weekly-points strong {
+  color: var(--od-ink);
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.weekly-points span {
+  color: var(--od-muted);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
 .guide-card,
 .start-card,
 .latest-box,
@@ -320,12 +365,50 @@ nav a:hover {
   font-weight: 700;
 }
 
+.hero-note {
+  max-width: 680px;
+  margin: 12px 0 0;
+  color: var(--od-soft);
+  font-size: 14px;
+}
+
+.featured-download {
+  box-shadow: 0 10px 26px rgba(47, 107, 83, .18);
+}
+
 .content {
   max-width: 1050px !important;
 }
 
 .content h2 + p {
   max-width: 820px;
+}
+
+.pause-rule {
+  padding-top: clamp(22px, 4vw, 44px) !important;
+}
+
+.rule-box {
+  display: grid;
+  gap: 10px;
+  max-width: 900px;
+  margin: 18px 0;
+  padding: 20px;
+  border: 1px solid rgba(154, 66, 81, .24);
+  border-left: 5px solid var(--od-rose);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--od-soft-shadow);
+}
+
+.rule-box strong {
+  color: var(--od-ink);
+  font-size: clamp(20px, 2.5vw, 28px);
+  line-height: 1.16;
+}
+
+.rule-box span {
+  color: var(--od-muted);
 }
 
 .table-wrap {
@@ -479,7 +562,8 @@ td:first-child {
   .download-grid,
   .method-grid,
   .guide-summary-grid,
-  .next-grid {
+  .next-grid,
+  .weekly-inner {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -551,7 +635,8 @@ td:first-child {
   .download-grid,
   .method-grid,
   .guide-summary-grid,
-  .next-grid {
+  .next-grid,
+  .weekly-inner {
     grid-template-columns: 1fr;
   }
 
