@@ -1,16 +1,17 @@
 # Cloudflare Pages Deployment Notes
 
-This site is Cloudflare Pages-ready as a static HTML project.
+This site is deployed on Cloudflare Pages as a static HTML project.
 
-## Recommended Setup After Domain Purchase
+## Current Production Setup
 
 - Production domain: `https://parenttechchecklist.com/`.
-- Cloudflare Pages: use as the production host once the GitHub repo is connected.
+- Cloudflare Pages project: `parenttechchecklist`.
+- Pages preview URL: `https://parenttechchecklist.pages.dev/`.
 - Build command: leave blank.
 - Build output directory: `/` or project root.
 - Canonical URLs: use `https://parenttechchecklist.com/`.
-- Add both apex and `www` custom domains if Cloudflare Pages asks for them.
-- Redirect `www.parenttechchecklist.com` to `parenttechchecklist.com` with Cloudflare Bulk Redirects after both are live. Pages `_redirects` does not handle host-level redirects.
+- Custom domains added: `parenttechchecklist.com` and `www.parenttechchecklist.com`.
+- `www.parenttechchecklist.com` is live. A strict `www` to apex redirect can be added later with Cloudflare Bulk Redirects if needed. Pages `_redirects` does not handle host-level redirects.
 
 ## Included Files
 
@@ -19,16 +20,18 @@ This site is Cloudflare Pages-ready as a static HTML project.
 - `robots.txt`: points search engines to the production sitemap.
 - `sitemap.xml`: uses production domain URLs.
 
-## Final Domain Cutover
+## Deployment Workflow
 
-1. Create the Cloudflare Pages project from the GitHub repo.
-2. Use no build command and the repository root as the output directory.
-3. Add `parenttechchecklist.com` as the production custom domain.
-4. Add `www.parenttechchecklist.com` if visitors may type the `www` version.
-5. If a strict `www` to apex redirect is required, configure Cloudflare Bulk Redirects from `www.parenttechchecklist.com/*` to `https://parenttechchecklist.com/:splat` with a 301 status, preserving path suffix and query string.
-6. Verify `/`, `/guides/senior-phones.html`, `/robots.txt`, and `/sitemap.xml`.
-7. Update YouTube descriptions only after the final production URL is stable.
-8. Update affiliate network website/profile URLs if required by each network.
+Current deployment is manual direct upload through the Cloudflare dashboard because local GitHub push credentials are unavailable.
+
+1. Prepare the upload folder from `site/`, excluding `.git`, `.DS_Store`, `CLOUDFLARE_PAGES.md`, and `DESIGN.md`.
+2. Upload the prepared folder to the Cloudflare Pages project `parenttechchecklist`.
+3. Select the Production environment.
+4. Verify `/`, `/guides/senior-phones.html`, `/robots.txt`, and `/sitemap.xml`.
+5. Confirm live HTML points YouTube traffic to `https://www.youtube.com/@ParentTechChecklist`.
+6. Update affiliate network website/profile URLs if required by each network.
+
+When GitHub credentials are fixed, connect or push the repo and use Cloudflare Pages Git deploys instead of manual uploads.
 
 ## Compliance Reminder
 
