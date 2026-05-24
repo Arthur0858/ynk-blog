@@ -7,11 +7,13 @@ This site is deployed on Cloudflare Pages as a static HTML project.
 - Production domain: `https://parenttechchecklist.com/`.
 - Cloudflare Pages project: `parenttechchecklist`.
 - Pages preview URL: `https://parenttechchecklist.pages.dev/`.
+- Secondary custom domain: `https://www.parenttechchecklist.com/`.
 - Build command: leave blank.
 - Build output directory: `/` or project root.
 - Canonical URLs: use `https://parenttechchecklist.com/`.
 - Custom domains added: `parenttechchecklist.com` and `www.parenttechchecklist.com`.
 - `www.parenttechchecklist.com` is live. A strict `www` to apex redirect can be added later with Cloudflare Bulk Redirects if needed. Pages `_redirects` does not handle host-level redirects.
+- GitHub Pages for `Arthur0858/ynk-blog` has been unpublished and disabled. Do not use `https://arthur0858.github.io/ynk-blog/` in public copy.
 
 ## Included Files
 
