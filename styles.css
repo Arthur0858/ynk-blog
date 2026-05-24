@@ -243,6 +243,35 @@ nav a:hover {
   font-weight: 800;
 }
 
+.method-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.method-card {
+  min-height: 150px;
+  padding: 16px;
+  border: 1px solid var(--od-line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--od-soft-shadow);
+}
+
+.method-card strong {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--od-ink);
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+.method-card span {
+  color: var(--od-muted);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
 .guide-page .hero {
   border-bottom: 1px solid rgba(216, 224, 234, .9);
 }
@@ -282,6 +311,13 @@ nav a:hover {
 .guide-summary-card span {
   color: var(--od-muted);
   font-size: 14px;
+}
+
+.page-meta {
+  margin-top: 12px;
+  color: var(--od-soft);
+  font-size: 13px;
+  font-weight: 700;
 }
 
 .content {
@@ -372,6 +408,7 @@ td:first-child {
 @media (max-width: 980px) {
   .trust-strip,
   .download-grid,
+  .method-grid,
   .guide-summary-grid,
   .next-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -443,6 +480,7 @@ td:first-child {
 
   .trust-strip,
   .download-grid,
+  .method-grid,
   .guide-summary-grid,
   .next-grid {
     grid-template-columns: 1fr;
