@@ -1,0 +1,372 @@
+:root {
+  color-scheme: light;
+  --od-ink: #172033;
+  --od-muted: #5d6878;
+  --od-soft: #778295;
+  --od-line: #d8e0ea;
+  --od-paper: #f5f7f2;
+  --od-panel: #ffffff;
+  --od-blue: #245f86;
+  --od-blue-dark: #174565;
+  --od-green: #2f6b53;
+  --od-gold: #a76518;
+  --od-rose: #9a4251;
+  --od-blue-band: #e8f0f4;
+  --od-green-band: #eaf2ed;
+  --od-gold-band: #f5eee4;
+  --od-shadow: 0 18px 48px rgba(23, 32, 51, .12);
+  --od-soft-shadow: 0 8px 24px rgba(23, 32, 51, .07);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background:
+    linear-gradient(180deg, rgba(232, 240, 244, .72) 0, rgba(245, 247, 242, 0) 340px),
+    var(--od-paper) !important;
+  color: var(--od-ink) !important;
+}
+
+.site-header {
+  background: rgba(255, 255, 255, .92) !important;
+  box-shadow: 0 1px 0 rgba(216, 224, 234, .78);
+}
+
+.brand span {
+  color: var(--od-ink);
+}
+
+nav a {
+  color: var(--od-muted);
+}
+
+nav a:hover {
+  background: var(--od-blue-band);
+  color: var(--od-ink);
+}
+
+.hero {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.site-home .hero {
+  padding-bottom: clamp(20px, 3vw, 36px);
+}
+
+.eyebrow {
+  letter-spacing: .08em !important;
+}
+
+.lede {
+  color: var(--od-muted) !important;
+}
+
+.button {
+  border-radius: 8px !important;
+  border-color: var(--od-blue) !important;
+  transition: transform .18s ease, box-shadow .18s ease, background-color .18s ease;
+}
+
+.button.primary,
+.button:not(.secondary) {
+  background: var(--od-blue) !important;
+  color: #fff !important;
+}
+
+.button.secondary {
+  background: #fff !important;
+  color: var(--od-blue) !important;
+}
+
+.button:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--od-soft-shadow);
+}
+
+.hero-media,
+.hero img {
+  border: 1px solid rgba(216, 224, 234, .9);
+}
+
+.hero-media {
+  position: relative;
+}
+
+.hero-media::after {
+  content: "Checklist-first buying guidance";
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  max-width: calc(100% - 28px);
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, .9);
+  color: var(--od-ink);
+  font-size: 13px;
+  font-weight: 800;
+  box-shadow: 0 8px 22px rgba(23, 32, 51, .12);
+}
+
+.trust-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  max-width: 1180px;
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid var(--od-line);
+  border-radius: 8px;
+  background: var(--od-line);
+}
+
+.trust-item {
+  min-height: 112px;
+  padding: 18px;
+  background: #fff;
+}
+
+.trust-item strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--od-ink);
+  font-size: 16px;
+}
+
+.trust-item span {
+  display: block;
+  color: var(--od-muted);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.guide-card,
+.start-card,
+.latest-box,
+.checklist div,
+.guide-summary-card,
+.next-card {
+  border-color: rgba(216, 224, 234, .95) !important;
+  box-shadow: var(--od-soft-shadow);
+}
+
+.guide-card {
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.guide-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--od-shadow);
+}
+
+.guide-body {
+  min-height: 188px;
+}
+
+.guide-body p,
+.start-card span,
+.latest-box p,
+.content p,
+.content li {
+  color: var(--od-muted) !important;
+}
+
+.start-card {
+  border-left: 4px solid var(--od-blue) !important;
+}
+
+.start-card:nth-child(2) {
+  border-left-color: var(--od-rose) !important;
+}
+
+.start-card:nth-child(3) {
+  border-left-color: var(--od-green) !important;
+}
+
+.start-card:nth-child(4) {
+  border-left-color: var(--od-gold) !important;
+}
+
+.latest {
+  background: linear-gradient(135deg, var(--od-blue-band), var(--od-green-band)) !important;
+}
+
+.guide-page .hero {
+  border-bottom: 1px solid rgba(216, 224, 234, .9);
+}
+
+.guide-page .hero > div {
+  max-width: 760px;
+}
+
+.guide-page .hero img {
+  background: #fff;
+}
+
+.guide-summary {
+  padding-top: 0 !important;
+}
+
+.guide-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  max-width: 1180px;
+}
+
+.guide-summary-card {
+  padding: 18px;
+  border: 1px solid var(--od-line);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.guide-summary-card strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.guide-summary-card span {
+  color: var(--od-muted);
+  font-size: 14px;
+}
+
+.content {
+  max-width: 1050px !important;
+}
+
+.content h2 + p {
+  max-width: 820px;
+}
+
+.table-wrap {
+  box-shadow: var(--od-soft-shadow);
+}
+
+table {
+  background: #fff;
+}
+
+th {
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+td {
+  color: var(--od-muted);
+}
+
+td:first-child {
+  color: var(--od-ink);
+  font-weight: 800;
+}
+
+.checklist {
+  margin-top: 12px;
+}
+
+.checklist div {
+  position: relative;
+  padding-left: 18px !important;
+}
+
+.checklist div::before {
+  content: "";
+  display: block;
+  width: 34px;
+  height: 4px;
+  margin-bottom: 12px;
+  border-radius: 999px;
+  background: var(--od-blue);
+}
+
+.guide-page .disclosure {
+  background: #fff;
+}
+
+.next-guides {
+  background: var(--od-blue-band);
+}
+
+.next-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  max-width: 1050px;
+}
+
+.next-card {
+  display: block;
+  padding: 18px;
+  border: 1px solid var(--od-line);
+  border-radius: 8px;
+  background: #fff;
+  color: inherit;
+  text-decoration: none;
+}
+
+.next-card strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.next-card span {
+  color: var(--od-muted);
+  font-size: 14px;
+}
+
+@media (max-width: 980px) {
+  .trust-strip,
+  .guide-summary-grid,
+  .next-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  body {
+    background:
+      linear-gradient(180deg, rgba(232, 240, 244, .86) 0, rgba(245, 247, 242, 0) 260px),
+      var(--od-paper) !important;
+  }
+
+  .site-header {
+    gap: 8px !important;
+  }
+
+  .brand span {
+    max-width: 145px;
+    line-height: 1.05;
+  }
+
+  .hero-media::after {
+    display: none;
+  }
+
+  .trust-strip,
+  .guide-summary-grid,
+  .next-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .trust-item {
+    min-height: auto;
+    padding: 14px;
+  }
+
+  .guide-body {
+    min-height: auto;
+  }
+
+  .guide-page .hero {
+    padding-top: 18px !important;
+  }
+
+  .guide-page .hero img {
+    max-height: 160px;
+  }
+}
