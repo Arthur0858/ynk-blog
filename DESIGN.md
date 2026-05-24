@@ -1,8 +1,8 @@
-# Aging Parent Tech Guide Design System
+# Parent Tech Checklist Design System
 
 ## Positioning
 
-Aging Parent Tech Guide should feel like a practical consumer buying guide for US families helping aging parents choose and set up everyday technology. The visual language should borrow from trusted editorial review sites, not medical services, emergency providers, or AI product pages.
+Parent Tech Checklist should feel like a practical consumer buying guide for US families helping aging parents choose and set up everyday technology. The visual language should borrow from trusted editorial review sites, not medical services, emergency providers, or AI product pages.
 
 ## Design Direction
 
