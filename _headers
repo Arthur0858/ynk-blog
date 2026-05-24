@@ -10,7 +10,19 @@
 /downloads/*
   Cache-Control: public, max-age=604800
 
+/guides/*
+  Cache-Control: public, max-age=300
+
 /*.html
+  Cache-Control: public, max-age=300
+
+/contact
+  Cache-Control: public, max-age=300
+
+/privacy
+  Cache-Control: public, max-age=300
+
+/disclosure
   Cache-Control: public, max-age=300
 
 /styles.css
