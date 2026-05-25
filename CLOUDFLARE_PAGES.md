@@ -26,18 +26,59 @@ This site is deployed on Cloudflare Pages as a static HTML project.
 
 ## Deployment Workflow
 
-Current deployment is manual direct upload through the Cloudflare dashboard because local GitHub push credentials are unavailable.
+Current deployment uses a local direct-upload script instead of the Cloudflare dashboard UI.
 
-1. Prepare the upload folder from `site/`, excluding `.git`, `.DS_Store`, `CLOUDFLARE_PAGES.md`, and `DESIGN.md`.
-2. Upload the prepared folder to the Cloudflare Pages project `parenttechchecklist`.
-3. Select the Production environment.
-4. Verify `/`, `/guides/senior-phones`, `/contact`, `/privacy`, `/disclosure`, `/robots.txt`, and `/sitemap.xml`.
-5. Confirm live HTML points YouTube traffic to `https://www.youtube.com/@ParentTechChecklist`.
-6. Confirm `.html` guide URLs return 301 to extensionless URLs.
-7. Confirm `https://www.parenttechchecklist.com/` returns 301 to `https://parenttechchecklist.com/` after adding a Cloudflare Redirect Rule or Bulk Redirect.
-8. Update affiliate network website/profile URLs if required by each network.
+### One-time prerequisite
 
-When GitHub credentials are fixed, connect or push the repo and use Cloudflare Pages Git deploys instead of manual uploads.
+Install the asset hash dependency on the machine that will deploy:
+
+```bash
+python3 -m pip install --user blake3
+```
+
+### Scripted production deploy
+
+From the `site/` repo root, run:
+
+```bash
+python3 scripts/deploy_cloudflare_pages.py
+```
+
+Helpful variants:
+
+```bash
+python3 scripts/deploy_cloudflare_pages.py --dry-run
+python3 scripts/deploy_cloudflare_pages.py --verify-aliases
+python3 scripts/deploy_cloudflare_pages.py --skip-caching
+```
+
+### What the script does
+
+1. Reads the Cloudflare Pages write token from `~/.config/parenttechchecklist/cloudflare-pages-write.token` unless `CLOUDFLARE_API_TOKEN` is set.
+2. Uses the current git repo to attach `commit_hash`, `commit_message`, and `commit_dirty`.
+3. Uploads only missing static assets by calling the same Pages direct-upload APIs used by Wrangler.
+4. Re-attaches `_headers` and `_redirects` on every deployment.
+5. Polls until the Pages deployment reaches `success`.
+6. Verifies the deployment URL by checking `/`, `/products/parent-tech-quick-start-kit`, `/robots.txt`, and `/sitemap.xml`.
+
+### Deployment scope and exclusions
+
+The script is intentionally static-site only for this project. It does not bundle Pages Functions or `_worker.js`.
+
+It excludes these local-only inputs from public deployment:
+
+- `.git/`, `.wrangler/`, `functions/`, `node_modules/`, `scripts/`
+- hidden files such as `.DS_Store`
+- Markdown and local docs such as `CLOUDFLARE_PAGES.md` and `DESIGN.md`
+
+### Post-deploy checks
+
+After deployment, confirm:
+
+1. Live HTML still points YouTube traffic to `https://www.youtube.com/@ParentTechChecklist`.
+2. `.html` guide URLs return 301 to extensionless URLs.
+3. `https://www.parenttechchecklist.com/` returns 301 to `https://parenttechchecklist.com/` after adding a Cloudflare Redirect Rule or Bulk Redirect.
+4. Affiliate network website/profile URLs remain current where required.
 
 ## Compliance Reminder
 
