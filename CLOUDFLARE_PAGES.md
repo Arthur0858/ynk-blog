@@ -13,7 +13,7 @@ This site is deployed on Cloudflare Pages as a static HTML project.
 - Canonical URLs: use `https://parenttechchecklist.com/`.
 - Custom domains added: `parenttechchecklist.com` and `www.parenttechchecklist.com`.
 - `www.parenttechchecklist.com` is live. Direct-upload Pages deployments do not execute `functions/_middleware.js`, and `_redirects` does not reliably apply host-level redirects on custom domains. Add a Cloudflare Redirect Rule or Bulk Redirect for `www` to apex.
-- GitHub Pages for `Arthur0858/ynk-blog` has been unpublished and disabled. Do not use `https://arthur0858.github.io/ynk-blog/` in public copy.
+- The retired GitHub Pages deployment has been unpublished and disabled. Do not use retired GitHub Pages URLs in public copy.
 
 ## Included Files
 
