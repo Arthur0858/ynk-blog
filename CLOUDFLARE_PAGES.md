@@ -80,6 +80,20 @@ After deployment, confirm:
 3. `https://www.parenttechchecklist.com/` returns 301 to `https://parenttechchecklist.com/` after adding a Cloudflare Redirect Rule or Bulk Redirect.
 4. Affiliate network website/profile URLs remain current where required.
 
+Run the automated smoke test after every production deploy:
+
+```bash
+python3 scripts/smoke_test_parenttech.py --live
+```
+
+For local pre-deploy checks, run:
+
+```bash
+python3 scripts/smoke_test_parenttech.py --screenshot
+```
+
+The smoke test checks the homepage, product page, core guides, compliance pages, sitemap, robots file, downloadable PDFs, required links, console errors, loaded images, and desktop/mobile horizontal overflow.
+
 ## Compliance Reminder
 
 No unapproved affiliate links should be published. Safety, medical, emergency, and scam copy must stay comparison-focused and avoid guarantee claims.
