@@ -37,6 +37,7 @@ DEFAULT_TOKEN_FILE = (
 DEFAULT_VERIFY_PATHS = [
     "/",
     "/products/parent-tech-quick-start-kit",
+    "/products/personalized-setup-review",
     "/robots.txt",
     "/sitemap.xml",
 ]

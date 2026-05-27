@@ -40,6 +40,15 @@ PAGE_CHECKS = [
         "required_links": [
             "https://parenttechchecklist.gumroad.com/l/hjxqbv",
             "/downloads/scam-call-safety-checklist.pdf",
+            "/products/personalized-setup-review",
+        ],
+    },
+    {
+        "path": "/products/personalized-setup-review",
+        "required_text": ["Personalized Setup Review", "$29", "waitlist"],
+        "required_links": [
+            "mailto:contact@parenttechchecklist.com",
+            "/products/parent-tech-quick-start-kit",
         ],
     },
     {
@@ -285,7 +294,11 @@ def check_page(
 
         results.append(CheckResult(f"{viewport_name} {path} no console errors", not errors, {"errors": errors[:10]}))
 
-        if screenshot and path in {"/", "/products/parent-tech-quick-start-kit"}:
+        if screenshot and path in {
+            "/",
+            "/products/parent-tech-quick-start-kit",
+            "/products/personalized-setup-review",
+        }:
             filename = f"{viewport_name}-{path.strip('/').replace('/', '-') or 'home'}.png"
             page.screenshot(path=str(out_dir / filename), full_page=True)
     finally:
