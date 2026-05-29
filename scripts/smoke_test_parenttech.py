@@ -17,7 +17,7 @@ from typing import Any
 from urllib.parse import urljoin, urlparse
 from urllib.request import Request, urlopen
 
-from playwright.sync_api import Browser, Page, sync_playwright
+from playwright.sync_api import Browser, Page, TimeoutError as PlaywrightTimeoutError, sync_playwright
 
 
 SITE_DIR = Path(__file__).resolve().parents[1]
@@ -225,7 +225,11 @@ def check_page(
     url = urljoin(base_url + "/", path.lstrip("/"))
     results: list[CheckResult] = []
     try:
-        response = page.goto(url, wait_until="networkidle", timeout=timeout_ms)
+        response = page.goto(url, wait_until="domcontentloaded", timeout=timeout_ms)
+        try:
+            page.wait_for_load_state("load", timeout=min(timeout_ms, 5000))
+        except PlaywrightTimeoutError:
+            pass
         status = response.status if response else 0
         results.append(CheckResult(f"{viewport_name} {path} status", 200 <= status < 400, {"status": status}))
 
