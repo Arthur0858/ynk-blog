@@ -267,20 +267,24 @@ def check_page(
         broken_images = page.eval_on_selector_all(
             "img",
             """async els => {
-                for (const img of els) {
+                const waitForImage = async img => {
+                    img.loading = 'eager';
                     img.scrollIntoView({block: 'center'});
-                    if (!img.complete) {
-                        await new Promise(resolve => {
-                            const done = () => resolve();
-                            img.addEventListener('load', done, {once: true});
-                            img.addEventListener('error', done, {once: true});
-                            setTimeout(done, 3000);
-                        });
-                    }
+                    await new Promise(resolve => setTimeout(resolve, 250));
+                    if (img.complete && img.naturalWidth > 0) return;
+                    await new Promise(resolve => {
+                        const done = () => resolve();
+                        img.addEventListener('load', done, {once: true});
+                        img.addEventListener('error', done, {once: true});
+                        setTimeout(done, 7000);
+                    });
+                };
+                for (const img of els) {
+                    await waitForImage(img);
                 }
                 return els
                     .filter(img => !img.complete || img.naturalWidth === 0)
-                    .map(img => img.getAttribute('src'));
+                    .map(img => img.currentSrc || img.getAttribute('src'));
             }""",
         )
         results.append(
