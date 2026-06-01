@@ -169,11 +169,12 @@ def local_server(site_dir: Path):
         server.server_close()
 
 
-def fetch_status(url: str, timeout: int = 10) -> int:
-    req = Request(url, method="GET", headers={"User-Agent": "ParentTechSmoke/1.0"})
+def fetch_status(url: str, timeout: int = 10, *, method: str = "GET", read_body: bool = True) -> int:
+    req = Request(url, method=method, headers={"User-Agent": "ParentTechSmoke/1.0"})
     with urlopen(req, timeout=timeout) as response:
         status = int(response.status)
-        response.read()
+        if read_body:
+            response.read()
         return status
 
 
@@ -190,7 +191,10 @@ def assert_http_assets(base_url: str) -> list[CheckResult]:
     for path in ASSET_CHECKS:
         url = urljoin(base_url + "/", path.lstrip("/"))
         try:
-            status = fetch_status(url)
+            try:
+                status = fetch_status(url, method="HEAD", read_body=False)
+            except Exception:
+                status = fetch_status(url)
             results.append(CheckResult(f"asset {path}", 200 <= status < 400, {"status": status}))
         except Exception as exc:
             results.append(CheckResult(f"asset {path}", False, {"error": str(exc)}))
