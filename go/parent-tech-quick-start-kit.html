@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,follow">
+  <title>Continue to Parent Tech Quick-Start Kit Checkout</title>
+  <meta name="description" content="Continue to the Gumroad checkout for the Parent Tech Quick-Start Kit.">
+  <link rel="canonical" href="https://parenttechchecklist.com/products/parent-tech-quick-start-kit">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body class="trust-page go-page">
+  <main>
+    <p class="eyebrow">Secure checkout</p>
+    <h1>Continue to Gumroad</h1>
+    <p class="lede">The Parent Tech Quick-Start Kit checkout opens on Gumroad, which handles payment processing and file delivery.</p>
+    <section class="content-section">
+      <h2>Before you continue</h2>
+      <p>Gumroad checkout handles payment and file delivery for this digital download.</p>
+      <ul>
+        <li>The kit is a $9 one-time digital download.</li>
+        <li>Do not send passwords, medical details, addresses, or emergency contacts.</li>
+        <li>Use the free checklist first if you only need one scam-call conversation today.</li>
+      </ul>
+      <div class="hero-actions">
+        <a class="button primary" id="continue-checkout" href="https://parenttechchecklist.gumroad.com/l/hjxqbv?utm_source=parenttechchecklist&utm_medium=clickthrough&utm_campaign=ptc-product-kit-checkout&utm_content=direct" rel="noopener">Continue to Gumroad</a>
+        <a class="button secondary" href="../products/parent-tech-quick-start-kit">Back to product page</a>
+      </div>
+      <p class="hero-note" id="redirect-note">If you came from a checkout button, this page may continue automatically.</p>
+    </section>
+  </main>
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var surface = (params.get("surface") || "direct").replace(/[^a-z0-9_-]/gi, "").slice(0, 80) || "direct";
+      var checkout = document.getElementById("continue-checkout");
+      var target = new URL("https://parenttechchecklist.gumroad.com/l/hjxqbv");
+      target.searchParams.set("utm_source", "parenttechchecklist");
+      target.searchParams.set("utm_medium", "clickthrough");
+      target.searchParams.set("utm_campaign", "ptc-product-kit-checkout");
+      target.searchParams.set("utm_content", surface);
+      checkout.href = target.toString();
+      if (params.get("autoredirect") === "1") {
+        document.getElementById("redirect-note").textContent = "Opening Gumroad checkout now.";
+        window.setTimeout(function () {
+          window.location.href = target.toString();
+        }, 900);
+      }
+    }());
+  </script>
+</body>
+</html>

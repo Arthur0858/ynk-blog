@@ -38,9 +38,17 @@ PAGE_CHECKS = [
         "path": "/products/parent-tech-quick-start-kit",
         "required_text": ["Parent Tech Quick-Start Kit", "$9", "Buy on Gumroad"],
         "required_links": [
-            "https://parenttechchecklist.gumroad.com/l/hjxqbv",
+            "/go/parent-tech-quick-start-kit",
             "/downloads/scam-call-safety-checklist.pdf",
             "/products/personalized-setup-review",
+        ],
+    },
+    {
+        "path": "/go/parent-tech-quick-start-kit",
+        "required_text": ["Continue to Gumroad", "Gumroad checkout"],
+        "required_links": [
+            "https://parenttechchecklist.gumroad.com/l/hjxqbv",
+            "/products/parent-tech-quick-start-kit",
         ],
     },
     {
