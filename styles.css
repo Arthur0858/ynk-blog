@@ -255,6 +255,38 @@ h3 {
   max-width: 760px;
 }
 
+.checkout-confidence {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  max-width: 860px;
+  margin-top: 16px;
+}
+
+.checkout-confidence div {
+  min-height: 112px;
+  padding: 14px;
+  border: 1px solid rgba(36, 95, 134, .18);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, .88);
+  box-shadow: var(--od-soft-shadow);
+}
+
+.checkout-confidence strong {
+  display: block;
+  color: var(--od-ink);
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+.checkout-confidence span {
+  display: block;
+  margin-top: 6px;
+  color: var(--od-muted);
+  font-size: 13px;
+  line-height: 1.42;
+}
+
 .trust-strip {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -947,6 +979,7 @@ td:first-child {
   .premium-kit-inner,
   .review-offer-inner,
   .kit-grid,
+  .checkout-confidence,
   .fit-grid,
   .purchase-flow,
   .product-hero,
@@ -1029,6 +1062,7 @@ td:first-child {
   .review-offer-inner,
   .kit-grid,
   .decision-strip,
+  .checkout-confidence,
   .fit-grid,
   .purchase-flow,
   .product-hero,
