@@ -1,0 +1,169 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
+import json
+import subprocess
+from datetime import datetime
+from pathlib import Path
+from typing import Any
+
+
+SITE_DIR = Path(__file__).resolve().parents[1]
+DEFAULT_OUT_DIR = Path("/tmp/parenttech-metric-improvement-predeploy-gate")
+EXPECTED_LOCAL_COMMIT = "93a3f3e"
+EXPECTED_LIVE_DELTA_FAILURES = {
+    "desktop /products/parent-tech-quick-start-kit text Delivered by Gumroad",
+    "desktop /products/parent-tech-quick-start-kit text No sensitive details needed",
+    "desktop /go/parent-tech-quick-start-kit text receipt and file access",
+    "mobile /products/parent-tech-quick-start-kit text Delivered by Gumroad",
+    "mobile /products/parent-tech-quick-start-kit text No sensitive details needed",
+    "mobile /go/parent-tech-quick-start-kit text receipt and file access",
+}
+
+
+def read_json(path: Path) -> dict[str, Any]:
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except Exception as exc:
+        return {"available": False, "path": str(path), "error": type(exc).__name__}
+    if isinstance(data, dict):
+        data["available"] = True
+        data["path"] = str(path)
+        return data
+    return {"available": False, "path": str(path), "error": "json_not_object"}
+
+
+def git_output(args: list[str], *, cwd: Path = SITE_DIR) -> str:
+    result = subprocess.run(["git", "-C", str(cwd), *args], text=True, capture_output=True, check=False)
+    return result.stdout.strip() if result.returncode == 0 else ""
+
+
+def failed_names(report: dict[str, Any]) -> set[str]:
+    failed = report.get("failed") if isinstance(report.get("failed"), list) else []
+    return {str(item.get("name")) for item in failed if isinstance(item, dict) and item.get("name")}
+
+
+def build_report(args: argparse.Namespace) -> dict[str, Any]:
+    local_smoke = read_json(args.local_smoke_json)
+    live_smoke = read_json(args.live_smoke_json)
+    local_head = git_output(["rev-parse", "--short", "HEAD"])
+    origin_head = git_output(["rev-parse", "--short", "origin/main"])
+    ahead_count_text = git_output(["rev-list", "--count", "origin/main..HEAD"])
+    try:
+        ahead_count = int(ahead_count_text or "0")
+    except ValueError:
+        ahead_count = None
+
+    live_failed = failed_names(live_smoke)
+    unexpected_live_failures = sorted(live_failed - EXPECTED_LIVE_DELTA_FAILURES)
+    missing_expected_live_delta = sorted(EXPECTED_LIVE_DELTA_FAILURES - live_failed)
+    local_ok = local_smoke.get("ok") is True
+    live_delta_matches = bool(live_failed) and not unexpected_live_failures and not missing_expected_live_delta
+    local_commit_matches = bool(local_head.startswith(args.expected_local_commit))
+    publish_gate = "awaiting_explicit_publish_approval" if args.external_publish_approved is not True else "publish_approved_by_argument"
+
+    if not local_ok:
+        status = "blocked_local_smoke_failed"
+        next_action = "repair_local_site_before_publish_or_scale"
+    elif not local_commit_matches:
+        status = "blocked_unexpected_local_commit"
+        next_action = "review_parenttech_site_head_before_classifying_live_delta"
+    elif live_delta_matches and args.external_publish_approved is not True:
+        status = "ready_for_explicit_publish_approval"
+        next_action = "ask_user_before_push_or_deploy_then_run_live_smoke_after_deploy"
+    elif live_delta_matches:
+        status = "ready_for_publish_execution"
+        next_action = "run_the_existing_approved_deploy_path_then_live_smoke"
+    else:
+        status = "blocked_unexpected_live_regression"
+        next_action = "inspect_live_smoke_failures_before_publish"
+
+    return {
+        "generated_at": datetime.now().astimezone().isoformat(timespec="seconds"),
+        "model": "parenttech_metric_improvement_predeploy_gate",
+        "status": status,
+        "next_action": next_action,
+        "site_dir": str(SITE_DIR),
+        "local_head": local_head,
+        "origin_main": origin_head,
+        "ahead_count": ahead_count,
+        "expected_local_commit": args.expected_local_commit,
+        "local_commit_matches": local_commit_matches,
+        "publish_gate": publish_gate,
+        "local_smoke": {
+            "path": str(args.local_smoke_json),
+            "available": local_smoke.get("available") is True,
+            "ok": local_smoke.get("ok"),
+            "failed_count": len(failed_names(local_smoke)),
+        },
+        "live_smoke": {
+            "path": str(args.live_smoke_json),
+            "available": live_smoke.get("available") is True,
+            "ok": live_smoke.get("ok"),
+            "failed_count": len(live_failed),
+            "failed_names": sorted(live_failed),
+            "expected_predeploy_delta_failures": sorted(EXPECTED_LIVE_DELTA_FAILURES),
+            "unexpected_live_failures": unexpected_live_failures,
+            "missing_expected_live_delta": missing_expected_live_delta,
+            "live_delta_matches_unpublished_local_copy": live_delta_matches,
+        },
+        "rules": {
+            "read_only": True,
+            "no_external_login": True,
+            "no_external_publish": True,
+            "no_secret_reads": True,
+            "does_not_count_as_revenue": True,
+            "requires_explicit_publish_approval": True,
+        },
+    }
+
+
+def write_report(out_dir: Path, report: dict[str, Any]) -> tuple[Path, Path]:
+    out_dir.mkdir(parents=True, exist_ok=True)
+    json_path = out_dir / "predeploy-gate.json"
+    md_path = out_dir / "predeploy-gate.md"
+    json_path.write_text(json.dumps(report, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    lines = [
+        "# Parent Tech Metric Improvement Predeploy Gate",
+        "",
+        f"- Status: `{report['status']}`",
+        f"- Next action: `{report['next_action']}`",
+        f"- Local head: `{report['local_head']}`",
+        f"- Origin main: `{report['origin_main']}`",
+        f"- Ahead count: `{report['ahead_count']}`",
+        f"- Local smoke ok: `{report['local_smoke']['ok']}`",
+        f"- Live smoke ok: `{report['live_smoke']['ok']}`",
+        f"- Live delta matches unpublished local copy: `{report['live_smoke']['live_delta_matches_unpublished_local_copy']}`",
+        "",
+        "## Safety",
+        "",
+        "- Read-only gate.",
+        "- No deploy, publish, login, or secret read.",
+        "- Publish still requires explicit approval.",
+    ]
+    md_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    return json_path, md_path
+
+
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Classify Parent Tech metric-driven improvement before publish/deploy.")
+    parser.add_argument("--local-smoke-json", type=Path, required=True)
+    parser.add_argument("--live-smoke-json", type=Path, required=True)
+    parser.add_argument("--out-dir", type=Path, default=DEFAULT_OUT_DIR)
+    parser.add_argument("--expected-local-commit", default=EXPECTED_LOCAL_COMMIT)
+    parser.add_argument("--external-publish-approved", action="store_true")
+    return parser.parse_args(argv)
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = parse_args(argv)
+    report = build_report(args)
+    json_path, _ = write_report(args.out_dir, report)
+    print(str(json_path))
+    print(f"status={report['status']}")
+    return 0 if report["status"] in {"ready_for_explicit_publish_approval", "ready_for_publish_execution"} else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
