@@ -17,7 +17,16 @@ SPEC.loader.exec_module(gate)
 
 
 class ParentTechMetricImprovementPredeployGateTests(unittest.TestCase):
-    def run_report(self, local: dict, live: dict, *, head: str = "93a3f3e", approved: bool = False) -> dict:
+    def run_report(
+        self,
+        local: dict,
+        live: dict,
+        *,
+        head: str = "49994ff",
+        origin: str = "9f02de6",
+        ahead: str = "1",
+        approved: bool = False,
+    ) -> dict:
         with tempfile.TemporaryDirectory() as tmp:
             tmp_path = Path(tmp)
             local_path = tmp_path / "local.json"
@@ -29,9 +38,9 @@ class ParentTechMetricImprovementPredeployGateTests(unittest.TestCase):
                 if args == ["rev-parse", "--short", "HEAD"]:
                     return head
                 if args == ["rev-parse", "--short", "origin/main"]:
-                    return "62f0a29"
+                    return origin
                 if args == ["rev-list", "--count", "origin/main..HEAD"]:
-                    return "1"
+                    return ahead
                 return ""
 
             original = gate.git_output
@@ -42,7 +51,6 @@ class ParentTechMetricImprovementPredeployGateTests(unittest.TestCase):
                         local_smoke_json=local_path,
                         live_smoke_json=live_path,
                         out_dir=tmp_path / "out",
-                        expected_local_commit="93a3f3e",
                         external_publish_approved=approved,
                     )
                 )
@@ -55,6 +63,7 @@ class ParentTechMetricImprovementPredeployGateTests(unittest.TestCase):
 
         self.assertEqual(report["status"], "ready_for_explicit_publish_approval")
         self.assertTrue(report["live_smoke"]["live_delta_matches_unpublished_local_copy"])
+        self.assertTrue(report["local_unpublished_change_ready"])
         self.assertEqual(report["rules"]["no_external_publish"], True)
 
     def test_blocks_unexpected_live_failure(self) -> None:
@@ -69,6 +78,21 @@ class ParentTechMetricImprovementPredeployGateTests(unittest.TestCase):
         report = self.run_report({"ok": False, "failed": [{"name": "local fail"}]}, live)
 
         self.assertEqual(report["status"], "blocked_local_smoke_failed")
+
+    def test_blocks_when_local_state_has_no_unpublished_change(self) -> None:
+        live = {"ok": False, "failed": [{"name": name, "details": {}} for name in gate.EXPECTED_LIVE_DELTA_FAILURES]}
+        report = self.run_report({"ok": True, "failed": []}, live, head="9f02de6", origin="9f02de6", ahead="0")
+
+        self.assertEqual(report["status"], "blocked_unexpected_local_state")
+        self.assertFalse(report["local_unpublished_change_ready"])
+
+    def test_allows_multiple_local_commits_before_publish(self) -> None:
+        live = {"ok": False, "failed": [{"name": name, "details": {}} for name in gate.EXPECTED_LIVE_DELTA_FAILURES]}
+        report = self.run_report({"ok": True, "failed": []}, live, ahead="2")
+
+        self.assertEqual(report["status"], "ready_for_explicit_publish_approval")
+        self.assertEqual(report["ahead_count"], 2)
+        self.assertTrue(report["local_unpublished_change_ready"])
 
 
 if __name__ == "__main__":

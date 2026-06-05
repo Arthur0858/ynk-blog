@@ -11,14 +11,11 @@ from typing import Any
 
 SITE_DIR = Path(__file__).resolve().parents[1]
 DEFAULT_OUT_DIR = Path("/tmp/parenttech-metric-improvement-predeploy-gate")
-EXPECTED_LOCAL_COMMIT = "93a3f3e"
 EXPECTED_LIVE_DELTA_FAILURES = {
-    "desktop /products/parent-tech-quick-start-kit text Delivered by Gumroad",
-    "desktop /products/parent-tech-quick-start-kit text No sensitive details needed",
-    "desktop /go/parent-tech-quick-start-kit text receipt and file access",
-    "mobile /products/parent-tech-quick-start-kit text Delivered by Gumroad",
-    "mobile /products/parent-tech-quick-start-kit text No sensitive details needed",
-    "mobile /go/parent-tech-quick-start-kit text receipt and file access",
+    "desktop /products/parent-tech-quick-start-kit text 30 minutes this week",
+    "desktop /go/parent-tech-quick-start-kit text Checkout fit check",
+    "mobile /products/parent-tech-quick-start-kit text 30 minutes this week",
+    "mobile /go/parent-tech-quick-start-kit text Checkout fit check",
 }
 
 
@@ -60,15 +57,21 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
     missing_expected_live_delta = sorted(EXPECTED_LIVE_DELTA_FAILURES - live_failed)
     local_ok = local_smoke.get("ok") is True
     live_delta_matches = bool(live_failed) and not unexpected_live_failures and not missing_expected_live_delta
-    local_commit_matches = bool(local_head.startswith(args.expected_local_commit))
+    local_unpublished_change_ready = (
+        isinstance(ahead_count, int)
+        and ahead_count >= 1
+        and bool(local_head)
+        and bool(origin_head)
+        and local_head != origin_head
+    )
     publish_gate = "awaiting_explicit_publish_approval" if args.external_publish_approved is not True else "publish_approved_by_argument"
 
     if not local_ok:
         status = "blocked_local_smoke_failed"
         next_action = "repair_local_site_before_publish_or_scale"
-    elif not local_commit_matches:
-        status = "blocked_unexpected_local_commit"
-        next_action = "review_parenttech_site_head_before_classifying_live_delta"
+    elif not local_unpublished_change_ready:
+        status = "blocked_unexpected_local_state"
+        next_action = "review_parenttech_site_head_and_ahead_count_before_classifying_live_delta"
     elif live_delta_matches and args.external_publish_approved is not True:
         status = "ready_for_explicit_publish_approval"
         next_action = "ask_user_before_push_or_deploy_then_run_live_smoke_after_deploy"
@@ -88,8 +91,7 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
         "local_head": local_head,
         "origin_main": origin_head,
         "ahead_count": ahead_count,
-        "expected_local_commit": args.expected_local_commit,
-        "local_commit_matches": local_commit_matches,
+        "local_unpublished_change_ready": local_unpublished_change_ready,
         "publish_gate": publish_gate,
         "local_smoke": {
             "path": str(args.local_smoke_json),
@@ -151,7 +153,6 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--local-smoke-json", type=Path, required=True)
     parser.add_argument("--live-smoke-json", type=Path, required=True)
     parser.add_argument("--out-dir", type=Path, default=DEFAULT_OUT_DIR)
-    parser.add_argument("--expected-local-commit", default=EXPECTED_LOCAL_COMMIT)
     parser.add_argument("--external-publish-approved", action="store_true")
     return parser.parse_args(argv)
 
