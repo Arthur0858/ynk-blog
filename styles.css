@@ -287,6 +287,44 @@ h3 {
   line-height: 1.42;
 }
 
+.buy-fit-check {
+  max-width: 860px;
+  margin-top: 14px;
+  padding: 16px 18px;
+  border: 1px solid rgba(47, 107, 83, .22);
+  border-radius: 8px;
+  background: rgba(234, 242, 237, .92);
+}
+
+.buy-fit-check strong {
+  display: block;
+  color: var(--od-ink);
+  font-size: 15px;
+  line-height: 1.2;
+}
+
+.buy-fit-check ul {
+  margin: 10px 0 0;
+  padding-left: 20px;
+}
+
+.buy-fit-check li,
+.buy-fit-check span {
+  color: var(--od-muted);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.buy-fit-check.compact {
+  margin: 18px 0 0;
+  background: rgba(245, 238, 228, .82);
+}
+
+.buy-fit-check.compact span {
+  display: block;
+  margin-top: 6px;
+}
+
 .trust-strip {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));

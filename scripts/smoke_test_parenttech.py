@@ -42,6 +42,8 @@ PAGE_CHECKS = [
             "Buy on Gumroad",
             "Delivered by Gumroad",
             "No sensitive details needed",
+            "Before you buy",
+            "30 minutes this week",
         ],
         "required_links": [
             "/go/parent-tech-quick-start-kit",
@@ -51,7 +53,7 @@ PAGE_CHECKS = [
     },
     {
         "path": "/go/parent-tech-quick-start-kit",
-        "required_text": ["Continue to Gumroad", "Gumroad checkout", "receipt and file access"],
+        "required_text": ["Continue to Gumroad", "Gumroad checkout", "receipt and file access", "Checkout fit check"],
         "required_links": [
             "https://parenttechchecklist.gumroad.com/l/hjxqbv",
             "/products/parent-tech-quick-start-kit",
