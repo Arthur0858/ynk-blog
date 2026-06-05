@@ -325,6 +325,79 @@ h3 {
   margin-top: 6px;
 }
 
+.checkout-summary-grid,
+.checkout-path {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.checkout-summary-grid div,
+.checkout-path div,
+.checkout-boundary {
+  border: 1px solid var(--od-line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--od-soft-shadow);
+}
+
+.checkout-summary-grid div {
+  min-height: 118px;
+  padding: 16px;
+}
+
+.checkout-summary-grid strong,
+.checkout-boundary strong {
+  display: block;
+  color: var(--od-ink);
+  font-size: 15px;
+  line-height: 1.2;
+}
+
+.checkout-summary-grid span,
+.checkout-boundary span {
+  display: block;
+  margin-top: 7px;
+  color: var(--od-muted);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.checkout-path div {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  min-height: 82px;
+  padding: 14px;
+}
+
+.checkout-path strong {
+  display: inline-flex;
+  width: 34px;
+  height: 34px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--od-blue);
+  color: #fff;
+  font-size: 15px;
+  line-height: 1;
+}
+
+.checkout-path span {
+  color: var(--od-muted);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.checkout-boundary {
+  margin-top: 14px;
+  padding: 16px 18px;
+  border-left: 5px solid var(--od-rose);
+}
+
 .trust-strip {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -1018,6 +1091,8 @@ td:first-child {
   .review-offer-inner,
   .kit-grid,
   .checkout-confidence,
+  .checkout-summary-grid,
+  .checkout-path,
   .fit-grid,
   .purchase-flow,
   .product-hero,
@@ -1101,6 +1176,8 @@ td:first-child {
   .kit-grid,
   .decision-strip,
   .checkout-confidence,
+  .checkout-summary-grid,
+  .checkout-path,
   .fit-grid,
   .purchase-flow,
   .product-hero,

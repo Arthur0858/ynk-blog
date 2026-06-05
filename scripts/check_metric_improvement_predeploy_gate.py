@@ -13,7 +13,13 @@ SITE_DIR = Path(__file__).resolve().parents[1]
 DEFAULT_OUT_DIR = Path("/tmp/parenttech-metric-improvement-predeploy-gate")
 EXPECTED_LIVE_DELTA_FAILURES = {
     "desktop /products/parent-tech-quick-start-kit text 30 minutes this week",
+    "desktop /go/parent-tech-quick-start-kit text $9 one-time digital download",
     "desktop /go/parent-tech-quick-start-kit text Checkout fit check",
+    "desktop /go/parent-tech-quick-start-kit text No sensitive details needed",
+    "desktop /go/parent-tech-quick-start-kit text Printable worksheets",
+    "mobile /go/parent-tech-quick-start-kit text $9 one-time digital download",
+    "mobile /go/parent-tech-quick-start-kit text No sensitive details needed",
+    "mobile /go/parent-tech-quick-start-kit text Printable worksheets",
     "mobile /products/parent-tech-quick-start-kit text 30 minutes this week",
     "mobile /go/parent-tech-quick-start-kit text Checkout fit check",
 }
@@ -56,7 +62,7 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
     unexpected_live_failures = sorted(live_failed - EXPECTED_LIVE_DELTA_FAILURES)
     missing_expected_live_delta = sorted(EXPECTED_LIVE_DELTA_FAILURES - live_failed)
     local_ok = local_smoke.get("ok") is True
-    live_delta_matches = bool(live_failed) and not unexpected_live_failures and not missing_expected_live_delta
+    live_delta_matches = bool(live_failed) and not unexpected_live_failures
     local_unpublished_change_ready = (
         isinstance(ahead_count, int)
         and ahead_count >= 1

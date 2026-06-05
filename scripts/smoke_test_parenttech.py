@@ -53,7 +53,14 @@ PAGE_CHECKS = [
     },
     {
         "path": "/go/parent-tech-quick-start-kit",
-        "required_text": ["Continue to Gumroad", "Gumroad checkout", "receipt and file access", "Checkout fit check"],
+        "required_text": [
+            "Continue to Gumroad",
+            "$9 one-time digital download",
+            "receipt and file access",
+            "Printable worksheets",
+            "Checkout fit check",
+            "No sensitive details needed",
+        ],
         "required_links": [
             "https://parenttechchecklist.gumroad.com/l/hjxqbv",
             "/products/parent-tech-quick-start-kit",

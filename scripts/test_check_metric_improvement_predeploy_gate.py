@@ -66,6 +66,28 @@ class ParentTechMetricImprovementPredeployGateTests(unittest.TestCase):
         self.assertTrue(report["local_unpublished_change_ready"])
         self.assertEqual(report["rules"]["no_external_publish"], True)
 
+    def test_ready_when_live_failures_are_expected_subset(self) -> None:
+        live = {
+            "ok": False,
+            "failed": [
+                {"name": "desktop /go/parent-tech-quick-start-kit text No sensitive details needed", "details": {}},
+                {"name": "mobile /go/parent-tech-quick-start-kit text No sensitive details needed", "details": {}},
+            ],
+        }
+        report = self.run_report({"ok": True, "failed": []}, live)
+
+        self.assertEqual(report["status"], "ready_for_explicit_publish_approval")
+        self.assertTrue(report["live_smoke"]["live_delta_matches_unpublished_local_copy"])
+        self.assertGreater(len(report["live_smoke"]["missing_expected_live_delta"]), 0)
+
+    def test_expected_delta_covers_checkout_pause_v2_copy(self) -> None:
+        self.assertIn("desktop /go/parent-tech-quick-start-kit text $9 one-time digital download", gate.EXPECTED_LIVE_DELTA_FAILURES)
+        self.assertIn("desktop /go/parent-tech-quick-start-kit text Printable worksheets", gate.EXPECTED_LIVE_DELTA_FAILURES)
+        self.assertIn("desktop /go/parent-tech-quick-start-kit text No sensitive details needed", gate.EXPECTED_LIVE_DELTA_FAILURES)
+        self.assertIn("mobile /go/parent-tech-quick-start-kit text $9 one-time digital download", gate.EXPECTED_LIVE_DELTA_FAILURES)
+        self.assertIn("mobile /go/parent-tech-quick-start-kit text Printable worksheets", gate.EXPECTED_LIVE_DELTA_FAILURES)
+        self.assertIn("mobile /go/parent-tech-quick-start-kit text No sensitive details needed", gate.EXPECTED_LIVE_DELTA_FAILURES)
+
     def test_blocks_unexpected_live_failure(self) -> None:
         live = {"ok": False, "failed": [{"name": "desktop / broken unexpected", "details": {}}]}
         report = self.run_report({"ok": True, "failed": []}, live)
