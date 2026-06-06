@@ -345,30 +345,7 @@ def check_page(
     return results
 
 
-def run_smoke(base_url: str, out_dir: Path, screenshot: bool, timeout_ms: int) -> dict[str, Any]:
-    out_dir.mkdir(parents=True, exist_ok=True)
-    results: list[CheckResult] = []
-    results.extend(assert_http_assets(base_url))
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        try:
-            for viewport_name, viewport in VIEWPORTS.items():
-                for check in PAGE_CHECKS:
-                    results.extend(
-                        check_page(
-                            browser,
-                            base_url,
-                            check,
-                            viewport_name,
-                            viewport,
-                            out_dir,
-                            screenshot,
-                            timeout_ms,
-                        )
-                    )
-        finally:
-            browser.close()
-
+def write_smoke_report(base_url: str, out_dir: Path, results: list[CheckResult]) -> dict[str, Any]:
     failed = [result for result in results if not result.ok]
     report = {
         "generated_at": datetime.now().astimezone().isoformat(timespec="seconds"),
@@ -401,6 +378,50 @@ def run_smoke(base_url: str, out_dir: Path, screenshot: bool, timeout_ms: int) -
         summary_lines.append("")
     (out_dir / "smoke-report.md").write_text("\n".join(summary_lines))
     return report
+
+
+def run_smoke(base_url: str, out_dir: Path, screenshot: bool, timeout_ms: int) -> dict[str, Any]:
+    out_dir.mkdir(parents=True, exist_ok=True)
+    results: list[CheckResult] = []
+    results.extend(assert_http_assets(base_url))
+    try:
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=True)
+            try:
+                for viewport_name, viewport in VIEWPORTS.items():
+                    for check in PAGE_CHECKS:
+                        try:
+                            results.extend(
+                                check_page(
+                                    browser,
+                                    base_url,
+                                    check,
+                                    viewport_name,
+                                    viewport,
+                                    out_dir,
+                                    screenshot,
+                                    timeout_ms,
+                                )
+                            )
+                        except Exception as exc:
+                            results.append(
+                                CheckResult(
+                                    f"{viewport_name} {check.get('path', 'unknown')} page check",
+                                    False,
+                                    {"error_type": type(exc).__name__, "error": str(exc)},
+                                )
+                            )
+            finally:
+                browser.close()
+    except Exception as exc:
+        results.append(
+            CheckResult(
+                "browser smoke runner",
+                False,
+                {"error_type": type(exc).__name__, "error": str(exc)},
+            )
+        )
+    return write_smoke_report(base_url, out_dir, results)
 
 
 def git_sha(site_dir: Path) -> str:
