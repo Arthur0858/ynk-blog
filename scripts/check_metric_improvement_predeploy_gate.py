@@ -17,11 +17,19 @@ EXPECTED_LIVE_DELTA_FAILURES = {
     "desktop /go/parent-tech-quick-start-kit text Checkout fit check",
     "desktop /go/parent-tech-quick-start-kit text No sensitive details needed",
     "desktop /go/parent-tech-quick-start-kit text Printable worksheets",
+    "desktop /products/parent-tech-quick-start-kit text First 30 minutes after download",
+    "desktop /products/parent-tech-quick-start-kit text PDF worksheets in a ZIP download",
+    "desktop /go/parent-tech-quick-start-kit text What you get",
+    "desktop /go/parent-tech-quick-start-kit text What this is not",
     "mobile /go/parent-tech-quick-start-kit text $9 one-time digital download",
     "mobile /go/parent-tech-quick-start-kit text No sensitive details needed",
     "mobile /go/parent-tech-quick-start-kit text Printable worksheets",
     "mobile /products/parent-tech-quick-start-kit text 30 minutes this week",
+    "mobile /products/parent-tech-quick-start-kit text First 30 minutes after download",
+    "mobile /products/parent-tech-quick-start-kit text PDF worksheets in a ZIP download",
     "mobile /go/parent-tech-quick-start-kit text Checkout fit check",
+    "mobile /go/parent-tech-quick-start-kit text What you get",
+    "mobile /go/parent-tech-quick-start-kit text What this is not",
 }
 
 

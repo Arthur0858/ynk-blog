@@ -84,9 +84,15 @@ class ParentTechMetricImprovementPredeployGateTests(unittest.TestCase):
         self.assertIn("desktop /go/parent-tech-quick-start-kit text $9 one-time digital download", gate.EXPECTED_LIVE_DELTA_FAILURES)
         self.assertIn("desktop /go/parent-tech-quick-start-kit text Printable worksheets", gate.EXPECTED_LIVE_DELTA_FAILURES)
         self.assertIn("desktop /go/parent-tech-quick-start-kit text No sensitive details needed", gate.EXPECTED_LIVE_DELTA_FAILURES)
+        self.assertIn("desktop /products/parent-tech-quick-start-kit text First 30 minutes after download", gate.EXPECTED_LIVE_DELTA_FAILURES)
+        self.assertIn("desktop /products/parent-tech-quick-start-kit text PDF worksheets in a ZIP download", gate.EXPECTED_LIVE_DELTA_FAILURES)
+        self.assertIn("desktop /go/parent-tech-quick-start-kit text What you get", gate.EXPECTED_LIVE_DELTA_FAILURES)
         self.assertIn("mobile /go/parent-tech-quick-start-kit text $9 one-time digital download", gate.EXPECTED_LIVE_DELTA_FAILURES)
         self.assertIn("mobile /go/parent-tech-quick-start-kit text Printable worksheets", gate.EXPECTED_LIVE_DELTA_FAILURES)
         self.assertIn("mobile /go/parent-tech-quick-start-kit text No sensitive details needed", gate.EXPECTED_LIVE_DELTA_FAILURES)
+        self.assertIn("mobile /products/parent-tech-quick-start-kit text First 30 minutes after download", gate.EXPECTED_LIVE_DELTA_FAILURES)
+        self.assertIn("mobile /products/parent-tech-quick-start-kit text PDF worksheets in a ZIP download", gate.EXPECTED_LIVE_DELTA_FAILURES)
+        self.assertIn("mobile /go/parent-tech-quick-start-kit text What this is not", gate.EXPECTED_LIVE_DELTA_FAILURES)
 
     def test_blocks_unexpected_live_failure(self) -> None:
         live = {"ok": False, "failed": [{"name": "desktop / broken unexpected", "details": {}}]}

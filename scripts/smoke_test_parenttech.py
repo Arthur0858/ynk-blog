@@ -44,6 +44,8 @@ PAGE_CHECKS = [
             "No sensitive details needed",
             "Before you buy",
             "30 minutes this week",
+            "First 30 minutes after download",
+            "PDF worksheets in a ZIP download",
         ],
         "required_links": [
             "/go/parent-tech-quick-start-kit",
@@ -60,6 +62,8 @@ PAGE_CHECKS = [
             "Printable worksheets",
             "Checkout fit check",
             "No sensitive details needed",
+            "What you get",
+            "What this is not",
         ],
         "required_links": [
             "https://parenttechchecklist.gumroad.com/l/hjxqbv",
