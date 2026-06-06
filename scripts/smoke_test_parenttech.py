@@ -45,6 +45,7 @@ PAGE_CHECKS = [
             "Before you buy",
             "30 minutes this week",
             "First 30 minutes after download",
+            "Good reason to continue to checkout",
             "PDF worksheets in a ZIP download",
         ],
         "required_links": [
@@ -56,11 +57,15 @@ PAGE_CHECKS = [
     {
         "path": "/go/parent-tech-quick-start-kit",
         "required_text": [
+            "Confirm fit before Gumroad",
             "Continue to Gumroad",
             "$9 one-time digital download",
             "receipt and file access",
             "Printable worksheets",
             "Checkout fit check",
+            "Best checkout fit",
+            "Automatic checkout handoff",
+            "Stay on this page",
             "No sensitive details needed",
             "What you get",
             "What this is not",

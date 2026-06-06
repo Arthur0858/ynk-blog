@@ -12,11 +12,15 @@
 <body class="trust-page go-page">
   <main>
     <p class="eyebrow">Secure checkout</p>
-    <h1>Continue to Gumroad</h1>
-    <p class="lede">The Parent Tech Quick-Start Kit checkout opens on Gumroad, which handles payment processing, receipt, and file delivery for the $9 worksheet pack.</p>
+    <h1>Confirm fit before Gumroad</h1>
+    <p class="lede">The Parent Tech Quick-Start Kit is a $9 worksheet pack for one family setup week. Continue only if you want printable planning pages, not an app, device, emergency tool, or done-for-you account help.</p>
     <section class="content-section">
       <h2>Before you continue</h2>
       <p>Use this pause page to confirm that the kit matches what you need before you leave Parent Tech Checklist.</p>
+      <div class="checkout-intent-panel" aria-label="Best checkout fit">
+        <strong>Best checkout fit</strong>
+        <span>Continue if you can name the first family setup problem you want to solve this week: phone setup, scam-call rules, video calling, or living-alone check-ins.</span>
+      </div>
       <div class="checkout-summary-grid" aria-label="Checkout summary">
         <div>
           <strong>Price</strong>
@@ -49,6 +53,11 @@
         <strong>No sensitive details needed</strong>
         <span>Do not send passwords, account access, medical details, addresses, or emergency contacts. The kit is not an app, subscription, emergency tool, or done-for-you setup service.</span>
       </div>
+      <div class="redirect-status" id="redirect-status" aria-live="polite">
+        <strong>Automatic checkout handoff</strong>
+        <span id="redirect-message">If you came from a buy button, Gumroad will open after this short fit check.</span>
+        <button type="button" id="pause-redirect">Stay on this page</button>
+      </div>
       <div class="hero-actions">
         <a class="button primary" id="continue-checkout" href="https://parenttechchecklist.gumroad.com/l/hjxqbv?utm_source=parenttechchecklist&utm_medium=clickthrough&utm_campaign=ptc-product-kit-checkout&utm_content=direct" rel="noopener">Continue to Gumroad</a>
         <a class="button secondary" href="../products/parent-tech-quick-start-kit">Back to product page</a>
@@ -62,17 +71,33 @@
       var params = new URLSearchParams(window.location.search);
       var surface = (params.get("surface") || "direct").replace(/[^a-z0-9_-]/gi, "").slice(0, 80) || "direct";
       var checkout = document.getElementById("continue-checkout");
+      var pause = document.getElementById("pause-redirect");
+      var status = document.getElementById("redirect-status");
+      var message = document.getElementById("redirect-message");
       var target = new URL("https://parenttechchecklist.gumroad.com/l/hjxqbv");
+      var redirectTimer = null;
       target.searchParams.set("utm_source", "parenttechchecklist");
       target.searchParams.set("utm_medium", "clickthrough");
       target.searchParams.set("utm_campaign", "ptc-product-kit-checkout");
       target.searchParams.set("utm_content", surface);
       checkout.href = target.toString();
+      pause.addEventListener("click", function () {
+        if (redirectTimer) {
+          window.clearTimeout(redirectTimer);
+          redirectTimer = null;
+        }
+        status.classList.add("paused");
+        message.textContent = "Automatic checkout is paused. Use Continue to Gumroad when you are ready.";
+      });
       if (params.get("autoredirect") === "1") {
-        document.getElementById("redirect-note").textContent = "Opening Gumroad checkout now.";
-        window.setTimeout(function () {
+        document.getElementById("redirect-note").textContent = "Gumroad will open after this short fit check unless you pause it.";
+        message.textContent = "Opening Gumroad in about three seconds. Choose Stay on this page if you want to review first.";
+        redirectTimer = window.setTimeout(function () {
           window.location.href = target.toString();
-        }, 900);
+        }, 3200);
+      } else {
+        status.classList.add("paused");
+        message.textContent = "Automatic checkout is off. Use Continue to Gumroad when you are ready.";
       }
     }());
   </script>

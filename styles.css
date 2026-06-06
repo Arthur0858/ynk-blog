@@ -354,6 +354,73 @@ h3 {
   line-height: 1.45;
 }
 
+.checkout-intent-card,
+.checkout-intent-panel,
+.redirect-status {
+  max-width: 860px;
+  margin-top: 14px;
+  padding: 16px 18px;
+  border: 1px solid rgba(167, 101, 24, .28);
+  border-left: 5px solid var(--od-gold);
+  border-radius: 8px;
+  background: rgba(245, 238, 228, .9);
+  box-shadow: var(--od-soft-shadow);
+}
+
+.checkout-intent-card strong,
+.checkout-intent-panel strong,
+.redirect-status strong {
+  display: block;
+  color: var(--od-ink);
+  font-size: 15px;
+  line-height: 1.2;
+}
+
+.checkout-intent-card span,
+.checkout-intent-panel span,
+.redirect-status span {
+  display: block;
+  margin-top: 7px;
+  color: var(--od-muted);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.redirect-status {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px 14px;
+  align-items: center;
+  border-color: rgba(36, 95, 134, .2);
+  border-left-color: var(--od-blue);
+  background: rgba(232, 240, 244, .9);
+}
+
+.redirect-status strong,
+.redirect-status span {
+  grid-column: 1;
+}
+
+.redirect-status button {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  min-height: 42px;
+  padding: 10px 14px;
+  border: 1px solid var(--od-blue);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--od-blue);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.redirect-status.paused {
+  border-left-color: var(--od-green);
+  background: rgba(234, 242, 237, .92);
+}
+
 .checkout-proof-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
