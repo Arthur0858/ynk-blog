@@ -49,6 +49,9 @@ PAGE_CHECKS = [
             "Checkout readiness",
             "free worksheet preview first",
             "PDF worksheets in a ZIP download",
+            "Know the files before checkout",
+            "01-7-Day-Parent-Tech-Setup-Plan.pdf",
+            "05-Living-Alone-Tech-Comparison-Worksheet.pdf",
         ],
         "required_links": [
             "/go/parent-tech-quick-start-kit",
@@ -76,6 +79,8 @@ PAGE_CHECKS = [
             "Ready to buy when",
             "I understand, continue to Gumroad",
             "about five seconds",
+            "Files included after purchase",
+            "01-7-Day-Parent-Tech-Setup-Plan.pdf",
         ],
         "required_links": [
             "https://parenttechchecklist.gumroad.com/l/hjxqbv",

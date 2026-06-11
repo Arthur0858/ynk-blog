@@ -358,6 +358,7 @@ h3 {
 .checkout-intent-panel,
 .checkout-readiness-card,
 .checkout-sample-card,
+.file-manifest-card,
 .redirect-status {
   max-width: 860px;
   margin-top: 14px;
@@ -373,6 +374,7 @@ h3 {
 .checkout-intent-panel strong,
 .checkout-readiness-card strong,
 .checkout-sample-card strong,
+.file-manifest-card strong,
 .redirect-status strong {
   display: block;
   color: var(--od-ink);
@@ -384,6 +386,7 @@ h3 {
 .checkout-intent-panel span,
 .checkout-readiness-card span,
 .checkout-sample-card span,
+.file-manifest-card span,
 .redirect-status span {
   display: block;
   margin-top: 7px;
@@ -400,6 +403,17 @@ h3 {
 
 .checkout-readiness-card.compact {
   margin-top: 14px;
+}
+
+.file-manifest-card {
+  border-color: rgba(36, 95, 134, .22);
+  border-left-color: var(--od-blue);
+  background: rgba(232, 240, 244, .9);
+}
+
+.file-manifest-card.compact {
+  margin-top: 14px;
+  background: #fff;
 }
 
 .checkout-sample-card {
@@ -480,6 +494,38 @@ h3 {
 
 .checkout-proof-grid.compact {
   margin-top: 14px;
+}
+
+.file-manifest-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.file-manifest-grid div {
+  min-height: 112px;
+  padding: 14px;
+  border: 1px solid rgba(36, 95, 134, .18);
+  border-radius: 8px;
+  background: rgba(232, 240, 244, .56);
+  box-shadow: var(--od-soft-shadow);
+}
+
+.file-manifest-grid strong {
+  display: block;
+  color: var(--od-ink);
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+.file-manifest-grid span {
+  display: block;
+  margin-top: 7px;
+  color: var(--od-muted);
+  font-size: 13px;
+  line-height: 1.38;
+  overflow-wrap: anywhere;
 }
 
 .checkout-summary-grid,
@@ -1251,6 +1297,7 @@ td:first-child {
   .checkout-proof-grid,
   .checkout-summary-grid,
   .checkout-path,
+  .file-manifest-grid,
   .fit-grid,
   .purchase-flow,
   .product-hero,
@@ -1337,6 +1384,7 @@ td:first-child {
   .checkout-proof-grid,
   .checkout-summary-grid,
   .checkout-path,
+  .file-manifest-grid,
   .fit-grid,
   .purchase-flow,
   .product-hero,
