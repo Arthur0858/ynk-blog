@@ -21,6 +21,9 @@ EXPECTED_LIVE_DELTA_FAILURES = {
     "desktop /products/parent-tech-quick-start-kit text PDF worksheets in a ZIP download",
     "desktop /go/parent-tech-quick-start-kit text What you get",
     "desktop /go/parent-tech-quick-start-kit text What this is not",
+    "desktop /go/parent-tech-quick-start-kit text Need to preview the format first?",
+    "desktop /go/parent-tech-quick-start-kit text Preview a free worksheet PDF",
+    "desktop /go/parent-tech-quick-start-kit link /downloads/scam-call-safety-checklist.pdf",
     "mobile /go/parent-tech-quick-start-kit text $9 one-time digital download",
     "mobile /go/parent-tech-quick-start-kit text No sensitive details needed",
     "mobile /go/parent-tech-quick-start-kit text Printable worksheets",
@@ -30,6 +33,9 @@ EXPECTED_LIVE_DELTA_FAILURES = {
     "mobile /go/parent-tech-quick-start-kit text Checkout fit check",
     "mobile /go/parent-tech-quick-start-kit text What you get",
     "mobile /go/parent-tech-quick-start-kit text What this is not",
+    "mobile /go/parent-tech-quick-start-kit text Need to preview the format first?",
+    "mobile /go/parent-tech-quick-start-kit text Preview a free worksheet PDF",
+    "mobile /go/parent-tech-quick-start-kit link /downloads/scam-call-safety-checklist.pdf",
 }
 
 
