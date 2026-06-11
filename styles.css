@@ -356,6 +356,7 @@ h3 {
 
 .checkout-intent-card,
 .checkout-intent-panel,
+.checkout-readiness-card,
 .checkout-sample-card,
 .redirect-status {
   max-width: 860px;
@@ -370,6 +371,7 @@ h3 {
 
 .checkout-intent-card strong,
 .checkout-intent-panel strong,
+.checkout-readiness-card strong,
 .checkout-sample-card strong,
 .redirect-status strong {
   display: block;
@@ -380,6 +382,7 @@ h3 {
 
 .checkout-intent-card span,
 .checkout-intent-panel span,
+.checkout-readiness-card span,
 .checkout-sample-card span,
 .redirect-status span {
   display: block;
@@ -387,6 +390,16 @@ h3 {
   color: var(--od-muted);
   font-size: 14px;
   line-height: 1.45;
+}
+
+.checkout-readiness-card {
+  border-color: rgba(36, 95, 134, .22);
+  border-left-color: var(--od-blue);
+  background: rgba(232, 240, 244, .9);
+}
+
+.checkout-readiness-card.compact {
+  margin-top: 14px;
 }
 
 .checkout-sample-card {

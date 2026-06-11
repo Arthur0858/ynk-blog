@@ -46,6 +46,8 @@ PAGE_CHECKS = [
             "30 minutes this week",
             "First 30 minutes after download",
             "Good reason to continue to checkout",
+            "Checkout readiness",
+            "free worksheet preview first",
             "PDF worksheets in a ZIP download",
         ],
         "required_links": [
@@ -71,6 +73,9 @@ PAGE_CHECKS = [
             "What this is not",
             "Need to preview the format first?",
             "Preview a free worksheet PDF",
+            "Ready to buy when",
+            "I understand, continue to Gumroad",
+            "about five seconds",
         ],
         "required_links": [
             "https://parenttechchecklist.gumroad.com/l/hjxqbv",
