@@ -356,6 +356,7 @@ h3 {
 
 .checkout-intent-card,
 .checkout-intent-panel,
+.checkout-sample-card,
 .redirect-status {
   max-width: 860px;
   margin-top: 14px;
@@ -369,6 +370,7 @@ h3 {
 
 .checkout-intent-card strong,
 .checkout-intent-panel strong,
+.checkout-sample-card strong,
 .redirect-status strong {
   display: block;
   color: var(--od-ink);
@@ -378,12 +380,23 @@ h3 {
 
 .checkout-intent-card span,
 .checkout-intent-panel span,
+.checkout-sample-card span,
 .redirect-status span {
   display: block;
   margin-top: 7px;
   color: var(--od-muted);
   font-size: 14px;
   line-height: 1.45;
+}
+
+.checkout-sample-card {
+  border-color: rgba(47, 107, 83, .24);
+  border-left-color: var(--od-green);
+  background: rgba(234, 242, 237, .92);
+}
+
+.checkout-sample-card .button {
+  margin-top: 12px;
 }
 
 .redirect-status {

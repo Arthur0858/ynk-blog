@@ -69,10 +69,13 @@ PAGE_CHECKS = [
             "No sensitive details needed",
             "What you get",
             "What this is not",
+            "Need to preview the format first?",
+            "Preview a free worksheet PDF",
         ],
         "required_links": [
             "https://parenttechchecklist.gumroad.com/l/hjxqbv",
             "/products/parent-tech-quick-start-kit",
+            "/downloads/scam-call-safety-checklist.pdf",
         ],
     },
     {
