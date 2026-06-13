@@ -105,7 +105,7 @@ def build_report() -> dict[str, object]:
     ready_programs = [
         row
         for row in registration_rows
-        if row.get("application_status") == "approved"
+        if row.get("application_status") in {"approved", "review_pending_after_3_qualified_sales"}
         and row.get("tracking_status") == "active"
         and row.get("terms_status") in {"approved", "reviewed"}
     ]
