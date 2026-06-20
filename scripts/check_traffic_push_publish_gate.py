@@ -69,6 +69,10 @@ def build_report(package_json: Path) -> dict[str, Any]:
         blockers.append("duplicate_product_tracker_campaign")
     if youtube.get("pressure_gate_status") == "blocked_by_daily_limit" or youtube.get("quota_skip_reason"):
         blockers.append("youtube_quota_or_daily_limit_gate")
+    remaining_by_project = youtube.get("quota_summary", {}).get("remaining_by_project", {})
+    parenttech_remaining = remaining_by_project.get("parenttech") if isinstance(remaining_by_project, dict) else None
+    if isinstance(parenttech_remaining, int) and parenttech_remaining <= 0:
+        blockers.append("parenttech_daily_quota_exhausted")
     if youtube.get("pending_pressure_status") == "high":
         blockers.append("youtube_pending_pressure_high")
     if not STATUS_JSON.exists():
@@ -92,6 +96,7 @@ def build_report(package_json: Path) -> dict[str, Any]:
             "pending_pressure_status": youtube.get("pending_pressure_status", "unknown"),
             "quota_skip_reason": youtube.get("quota_skip_reason", ""),
             "pending_count": youtube.get("pending_count", "unknown"),
+            "parenttech_remaining": parenttech_remaining,
         },
         "allowed_handoff": {
             "requires_visible_account_check_before_publish": True,
