@@ -39,7 +39,7 @@ def build_request(task_json: Path, request_dir: Path, write_request: bool) -> di
         "blockers": blockers,
         "public_side_effect_allowed": False,
         "operator_surface": "windows-codex-computer-use",
-        "machine": "DESKTOP-OL33V78",
+        "machine": "ArthurNB",
         "target_app": "youtube_studio",
         "expected_account_or_channel": EXPECTED_CHANNEL_HANDLE,
         "expected_channel_url": EXPECTED_CHANNEL_URL,
@@ -95,7 +95,7 @@ def render_markdown(request: dict[str, Any]) -> str:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Build a DESKTOP GUI preflight request for Parent Tech traffic push publishing.")
+    parser = argparse.ArgumentParser(description="Build an ArthurNB GUI preflight request for Parent Tech traffic push publishing.")
     parser.add_argument("--task-json", type=Path, required=True)
     parser.add_argument("--out-dir", type=Path, default=Path("/tmp/parenttech-traffic-push-gui-preflight-request"))
     parser.add_argument("--request-dir", type=Path, default=DEFAULT_REQUEST_DIR)

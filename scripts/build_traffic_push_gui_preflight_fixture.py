@@ -56,6 +56,7 @@ def gui_report(mode: str, created_at: str, screenshot_path: str) -> dict[str, An
         "started_at": created_at,
         "completed_at": created_at,
         "target_app": "youtube_studio",
+        "machine": "ArthurNB",
         "target_account_or_channel": EXPECTED_CHANNEL if allowed else "@WrongChannel",
         "expected_account_or_channel": EXPECTED_CHANNEL,
         "identity_verified": allowed,

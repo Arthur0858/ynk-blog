@@ -9,6 +9,7 @@ from typing import Any
 
 DEFAULT_REPORT_ROOT = Path("/Users/mac/Mounts/ProjectDataCenter/reports/gui-ops")
 EXPECTED_IDENTITIES = {"@ParentTechChecklist", "ParentTechChecklist", "Parent Tech Checklist"}
+EXPECTED_GUI_MACHINE = "ArthurNB"
 
 
 def read_json(path: Path) -> dict[str, Any]:
@@ -67,6 +68,8 @@ def build_report(task_json: Path, reports_root: Path) -> dict[str, Any]:
     else:
         if gui.get("status") != "success":
             blockers.append(f"gui_status_not_success:{gui.get('status', 'unknown')}")
+        if str(gui.get("machine") or "") != EXPECTED_GUI_MACHINE:
+            blockers.append(f"gui_machine_not_arthurnb:{gui.get('machine', 'unknown')}")
         if gui.get("identity_verified") is not True:
             blockers.append("gui_identity_not_verified")
         if gui.get("duplicate_check") != "passed":
@@ -89,6 +92,7 @@ def build_report(task_json: Path, reports_root: Path) -> dict[str, Any]:
         "selected_gui_report": str(report_path) if report_path else "",
         "selected_gui_summary": {
             "status": gui.get("status", ""),
+            "machine": gui.get("machine", ""),
             "target_app": gui.get("target_app", ""),
             "target_account_or_channel": gui.get("target_account_or_channel", ""),
             "expected_account_or_channel": gui.get("expected_account_or_channel", ""),
