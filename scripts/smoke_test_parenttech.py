@@ -55,6 +55,8 @@ PAGE_CHECKS = [
             "Know the files before checkout",
             "01-7-Day-Parent-Tech-Setup-Plan.pdf",
             "05-Living-Alone-Tech-Comparison-Worksheet.pdf",
+            "Know what to send",
+            "worksheet name, main family concern, and device category",
         ],
         "required_links": [
             "/go/parent-tech-quick-start-kit",
@@ -95,7 +97,16 @@ PAGE_CHECKS = [
     },
     {
         "path": "/products/personalized-setup-review",
-        "required_text": ["Personalized Setup Review", "$29", "waitlist"],
+        "required_text": [
+            "Personalized Setup Review",
+            "$29",
+            "waitlist",
+            "What you would get back",
+            "What to send",
+            "worksheet name, the main family concern",
+            "device or service category",
+            "Example outcome",
+        ],
         "required_links": [
             "mailto:contact@parenttechchecklist.com",
             "/products/parent-tech-quick-start-kit",
