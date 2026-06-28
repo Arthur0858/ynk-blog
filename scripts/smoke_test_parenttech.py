@@ -106,6 +106,7 @@ PAGE_CHECKS = [
             "worksheet name, the main family concern",
             "device or service category",
             "Example outcome",
+            "I will not send passwords",
         ],
         "required_links": [
             "mailto:contact@parenttechchecklist.com",
