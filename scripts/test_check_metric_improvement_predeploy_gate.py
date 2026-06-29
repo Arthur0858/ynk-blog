@@ -141,12 +141,13 @@ class ParentTechMetricImprovementPredeployGateTests(unittest.TestCase):
 
         self.assertEqual(report["status"], "blocked_local_smoke_failed")
 
-    def test_blocks_when_local_state_has_no_unpublished_change(self) -> None:
+    def test_waits_when_local_state_has_no_unpublished_change(self) -> None:
         live = {"ok": False, "failed": [{"name": name, "details": {}} for name in gate.EXPECTED_LIVE_DELTA_FAILURES]}
         report = self.run_report({"ok": True, "failed": []}, live, head="9f02de6", origin="9f02de6", ahead="0")
 
-        self.assertEqual(report["status"], "blocked_unexpected_local_state")
+        self.assertEqual(report["status"], "healthy_wait_no_unpublished_site_candidate")
         self.assertFalse(report["local_unpublished_change_ready"])
+        self.assertEqual(report["rules"]["read_only"], True)
 
     def test_allows_multiple_local_commits_before_publish(self) -> None:
         live = {"ok": False, "failed": [{"name": name, "details": {}} for name in gate.EXPECTED_LIVE_DELTA_FAILURES]}

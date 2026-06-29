@@ -10,7 +10,7 @@ from typing import Any
 
 
 SITE_DIR = Path(__file__).resolve().parents[1]
-DEFAULT_OUT_DIR = Path("/tmp/parenttech-metric-improvement-predeploy-gate")
+DEFAULT_OUT_DIR = Path("/tmp/parenttech-cta-optimization-predeploy-gate")
 EXPECTED_LIVE_DELTA_FAILURES = {
     "desktop /products/parent-tech-quick-start-kit text 30 minutes this week",
     "desktop /go/parent-tech-quick-start-kit text $9 one-time digital download",
@@ -138,8 +138,11 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
         status = "blocked_local_smoke_failed"
         next_action = "repair_local_site_before_publish_or_scale"
     elif not local_unpublished_change_ready:
-        status = "blocked_unexpected_local_state"
-        next_action = "review_parenttech_site_head_and_ahead_count_before_classifying_live_delta"
+        status = "healthy_wait_no_unpublished_site_candidate"
+        next_action = (
+            "continue_parenttech_cta_and_lead_intent_measurement; "
+            "no local site publish candidate is pending"
+        )
     elif live_delta_matches and args.external_publish_approved is not True:
         status = "ready_for_explicit_publish_approval"
         next_action = "ask_user_before_push_or_deploy_then_run_live_smoke_after_deploy"
@@ -231,7 +234,12 @@ def main(argv: list[str] | None = None) -> int:
     json_path, _ = write_report(args.out_dir, report)
     print(str(json_path))
     print(f"status={report['status']}")
-    return 0 if report["status"] in {"ready_for_explicit_publish_approval", "ready_for_publish_execution"} else 1
+    ok_statuses = {
+        "healthy_wait_no_unpublished_site_candidate",
+        "ready_for_explicit_publish_approval",
+        "ready_for_publish_execution",
+    }
+    return 0 if report["status"] in ok_statuses else 1
 
 
 if __name__ == "__main__":
