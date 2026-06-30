@@ -103,6 +103,27 @@ nav a:hover {
   color: var(--od-ink);
 }
 
+a:focus,
+button:focus,
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid rgba(167, 101, 24, .78);
+  outline-offset: 3px;
+}
+
+.button:focus,
+.download-card:focus,
+.guide-card:focus,
+.next-card:focus,
+.premium-kit-card:focus,
+.button:focus-visible,
+.download-card:focus-visible,
+.guide-card:focus-visible,
+.next-card:focus-visible,
+.premium-kit-card:focus-visible {
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, .95), 0 0 0 7px rgba(167, 101, 24, .72);
+}
+
 main {
   overflow: hidden;
 }
@@ -1126,7 +1147,10 @@ h3 {
 }
 
 .table-wrap {
+  position: relative;
+  overflow-x: auto;
   box-shadow: var(--od-soft-shadow);
+  -webkit-overflow-scrolling: touch;
 }
 
 table {
@@ -1330,8 +1354,50 @@ td:first-child {
     justify-content: flex-start !important;
     max-width: 100%;
     overflow-x: auto;
-    padding-bottom: 2px;
+    gap: 8px;
+    padding-bottom: 6px;
     white-space: nowrap;
+    scroll-padding-inline: 18px;
+  }
+
+  nav a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 12px;
+  }
+
+  .table-wrap {
+    margin-top: 12px;
+    padding-top: 34px;
+  }
+
+  .table-wrap::before {
+    content: "Swipe sideways to compare columns";
+    position: absolute;
+    top: 8px;
+    left: 12px;
+    color: var(--od-muted);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+
+  .table-wrap::after {
+    content: "";
+    position: absolute;
+    top: 34px;
+    right: 0;
+    bottom: 0;
+    width: 34px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(245, 247, 242, .95));
+    pointer-events: none;
+  }
+
+  .table-wrap table {
+    min-width: 720px;
   }
 
   h1 {
