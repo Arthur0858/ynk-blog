@@ -26,6 +26,7 @@ class ParentTechMetricImprovementPredeployGateTests(unittest.TestCase):
         origin: str = "9f02de6",
         ahead: str = "1",
         approved: bool = False,
+        dirty: str = "",
     ) -> dict:
         with tempfile.TemporaryDirectory() as tmp:
             tmp_path = Path(tmp)
@@ -41,6 +42,8 @@ class ParentTechMetricImprovementPredeployGateTests(unittest.TestCase):
                     return origin
                 if args == ["rev-list", "--count", "origin/main..HEAD"]:
                     return ahead
+                if args == ["status", "--short"]:
+                    return dirty
                 return ""
 
             original = gate.git_output
@@ -81,6 +84,9 @@ class ParentTechMetricImprovementPredeployGateTests(unittest.TestCase):
         self.assertGreater(len(report["live_smoke"]["missing_expected_live_delta"]), 0)
 
     def test_expected_delta_covers_checkout_pause_v2_copy(self) -> None:
+        self.assertIn("desktop / text Buy on Gumroad", gate.EXPECTED_LIVE_DELTA_FAILURES)
+        self.assertIn("desktop / text The paid kit is a one-time Gumroad download", gate.EXPECTED_LIVE_DELTA_FAILURES)
+        self.assertIn("desktop / link /go/parent-tech-quick-start-kit", gate.EXPECTED_LIVE_DELTA_FAILURES)
         self.assertIn("desktop /go/parent-tech-quick-start-kit text $9 one-time digital download", gate.EXPECTED_LIVE_DELTA_FAILURES)
         self.assertIn("desktop /go/parent-tech-quick-start-kit text Printable worksheets", gate.EXPECTED_LIVE_DELTA_FAILURES)
         self.assertIn("desktop /go/parent-tech-quick-start-kit text No sensitive details needed", gate.EXPECTED_LIVE_DELTA_FAILURES)
@@ -121,6 +127,9 @@ class ParentTechMetricImprovementPredeployGateTests(unittest.TestCase):
         self.assertIn("desktop /go/parent-tech-quick-start-kit text Need to preview the format first?", gate.EXPECTED_LIVE_DELTA_FAILURES)
         self.assertIn("desktop /go/parent-tech-quick-start-kit text Preview a free worksheet PDF", gate.EXPECTED_LIVE_DELTA_FAILURES)
         self.assertIn("desktop /go/parent-tech-quick-start-kit link /downloads/scam-call-safety-checklist.pdf", gate.EXPECTED_LIVE_DELTA_FAILURES)
+        self.assertIn("mobile / text Buy on Gumroad", gate.EXPECTED_LIVE_DELTA_FAILURES)
+        self.assertIn("mobile / text The paid kit is a one-time Gumroad download", gate.EXPECTED_LIVE_DELTA_FAILURES)
+        self.assertIn("mobile / link /go/parent-tech-quick-start-kit", gate.EXPECTED_LIVE_DELTA_FAILURES)
         self.assertIn("mobile /go/parent-tech-quick-start-kit text Need to preview the format first?", gate.EXPECTED_LIVE_DELTA_FAILURES)
         self.assertIn("mobile /go/parent-tech-quick-start-kit text Preview a free worksheet PDF", gate.EXPECTED_LIVE_DELTA_FAILURES)
         self.assertIn("mobile /go/parent-tech-quick-start-kit text Ready to buy when", gate.EXPECTED_LIVE_DELTA_FAILURES)
@@ -135,6 +144,43 @@ class ParentTechMetricImprovementPredeployGateTests(unittest.TestCase):
         self.assertEqual(report["status"], "blocked_unexpected_live_regression")
         self.assertEqual(report["live_smoke"]["unexpected_live_failures"], ["desktop / broken unexpected"])
 
+    def test_allows_known_live_medication_image_delta_only(self) -> None:
+        live = {
+            "ok": False,
+            "failed": [
+                {
+                    "name": "desktop / images load",
+                    "details": {"broken_images": ["https://parenttechchecklist.com/assets/medication-reminder-hero.jpg"]},
+                },
+                {"name": "desktop / no console errors", "details": {"errors": ["Failed to load resource: 404"]}},
+                {
+                    "name": "mobile / images load",
+                    "details": {"broken_images": ["https://parenttechchecklist.com/assets/medication-reminder-hero.jpg"]},
+                },
+                {"name": "mobile / no console errors", "details": {"errors": ["Failed to load resource: 404"]}},
+            ],
+        }
+        report = self.run_report({"ok": True, "failed": []}, live)
+
+        self.assertEqual(report["status"], "ready_for_explicit_publish_approval")
+        self.assertEqual(report["live_smoke"]["unexpected_live_failures"], [])
+
+    def test_blocks_unknown_live_broken_image_delta(self) -> None:
+        live = {
+            "ok": False,
+            "failed": [
+                {
+                    "name": "desktop / images load",
+                    "details": {"broken_images": ["https://parenttechchecklist.com/assets/unknown.jpg"]},
+                },
+                {"name": "desktop / no console errors", "details": {"errors": ["Failed to load resource: 404"]}},
+            ],
+        }
+        report = self.run_report({"ok": True, "failed": []}, live)
+
+        self.assertEqual(report["status"], "blocked_unexpected_live_regression")
+        self.assertIn("desktop / images load", report["live_smoke"]["unexpected_live_failures"])
+
     def test_blocks_failed_local_smoke(self) -> None:
         live = {"ok": False, "failed": [{"name": name, "details": {}} for name in gate.EXPECTED_LIVE_DELTA_FAILURES]}
         report = self.run_report({"ok": False, "failed": [{"name": "local fail"}]}, live)
@@ -148,6 +194,21 @@ class ParentTechMetricImprovementPredeployGateTests(unittest.TestCase):
         self.assertEqual(report["status"], "healthy_wait_no_unpublished_site_candidate")
         self.assertFalse(report["local_unpublished_change_ready"])
         self.assertEqual(report["rules"]["read_only"], True)
+
+    def test_dirty_local_site_counts_as_unpublished_change(self) -> None:
+        live = {"ok": False, "failed": [{"name": name, "details": {}} for name in gate.EXPECTED_LIVE_DELTA_FAILURES]}
+        report = self.run_report(
+            {"ok": True, "failed": []},
+            live,
+            head="9f02de6",
+            origin="9f02de6",
+            ahead="0",
+            dirty=" M index.html\n",
+        )
+
+        self.assertEqual(report["status"], "ready_for_explicit_publish_approval")
+        self.assertTrue(report["local_unpublished_change_ready"])
+        self.assertEqual(report["dirty_paths_count"], 1)
 
     def test_allows_multiple_local_commits_before_publish(self) -> None:
         live = {"ok": False, "failed": [{"name": name, "details": {}} for name in gate.EXPECTED_LIVE_DELTA_FAILURES]}

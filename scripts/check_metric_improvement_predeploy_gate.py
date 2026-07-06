@@ -12,6 +12,9 @@ from typing import Any
 SITE_DIR = Path(__file__).resolve().parents[1]
 DEFAULT_OUT_DIR = Path("/tmp/parenttech-cta-optimization-predeploy-gate")
 EXPECTED_LIVE_DELTA_FAILURES = {
+    "desktop / text Buy on Gumroad",
+    "desktop / text The paid kit is a one-time Gumroad download",
+    "desktop / link /go/parent-tech-quick-start-kit",
     "desktop /products/parent-tech-quick-start-kit text 30 minutes this week",
     "desktop /go/parent-tech-quick-start-kit text $9 one-time digital download",
     "desktop /go/parent-tech-quick-start-kit text US Letter worksheet pack",
@@ -48,6 +51,9 @@ EXPECTED_LIVE_DELTA_FAILURES = {
     "desktop /go/parent-tech-quick-start-kit text Files included after purchase",
     "desktop /go/parent-tech-quick-start-kit text 01-7-Day-Parent-Tech-Setup-Plan.pdf",
     "desktop /go/parent-tech-quick-start-kit link /downloads/scam-call-safety-checklist.pdf",
+    "mobile / text Buy on Gumroad",
+    "mobile / text The paid kit is a one-time Gumroad download",
+    "mobile / link /go/parent-tech-quick-start-kit",
     "mobile /go/parent-tech-quick-start-kit text $9 one-time digital download",
     "mobile /go/parent-tech-quick-start-kit text US Letter worksheet pack",
     "mobile /go/parent-tech-quick-start-kit text US Letter printable worksheets",
@@ -85,6 +91,9 @@ EXPECTED_LIVE_DELTA_FAILURES = {
     "mobile /go/parent-tech-quick-start-kit text 01-7-Day-Parent-Tech-Setup-Plan.pdf",
     "mobile /go/parent-tech-quick-start-kit link /downloads/scam-call-safety-checklist.pdf",
 }
+EXPECTED_LIVE_DELTA_BROKEN_IMAGES = {
+    "https://parenttechchecklist.com/assets/medication-reminder-hero.jpg",
+}
 
 
 def read_json(path: Path) -> dict[str, Any]:
@@ -109,28 +118,68 @@ def failed_names(report: dict[str, Any]) -> set[str]:
     return {str(item.get("name")) for item in failed if isinstance(item, dict) and item.get("name")}
 
 
+def has_expected_broken_image(report: dict[str, Any], viewport_name: str) -> bool:
+    failed = report.get("failed") if isinstance(report.get("failed"), list) else []
+    target_name = f"{viewport_name} / images load"
+    for item in failed:
+        if not isinstance(item, dict) or item.get("name") != target_name:
+            continue
+        details = item.get("details") if isinstance(item.get("details"), dict) else {}
+        broken = details.get("broken_images") if isinstance(details.get("broken_images"), list) else []
+        if broken and set(map(str, broken)).issubset(EXPECTED_LIVE_DELTA_BROKEN_IMAGES):
+            return True
+    return False
+
+
+def is_expected_live_delta_failure(report: dict[str, Any], item: dict[str, Any]) -> bool:
+    name = str(item.get("name", ""))
+    if name in EXPECTED_LIVE_DELTA_FAILURES:
+        return True
+    if name in {"desktop / images load", "mobile / images load"}:
+        return has_expected_broken_image(report, name.split(" ", 1)[0])
+    if name in {"desktop / no console errors", "mobile / no console errors"}:
+        return has_expected_broken_image(report, name.split(" ", 1)[0])
+    return False
+
+
+def unexpected_live_failures(report: dict[str, Any]) -> list[str]:
+    failed = report.get("failed") if isinstance(report.get("failed"), list) else []
+    names: list[str] = []
+    for item in failed:
+        if not isinstance(item, dict):
+            continue
+        name = str(item.get("name", ""))
+        if name and not is_expected_live_delta_failure(report, item):
+            names.append(name)
+    return sorted(names)
+
+
 def build_report(args: argparse.Namespace) -> dict[str, Any]:
     local_smoke = read_json(args.local_smoke_json)
     live_smoke = read_json(args.live_smoke_json)
     local_head = git_output(["rev-parse", "--short", "HEAD"])
     origin_head = git_output(["rev-parse", "--short", "origin/main"])
     ahead_count_text = git_output(["rev-list", "--count", "origin/main..HEAD"])
+    dirty_paths = [line for line in git_output(["status", "--short"]).splitlines() if line.strip()]
     try:
         ahead_count = int(ahead_count_text or "0")
     except ValueError:
         ahead_count = None
 
     live_failed = failed_names(live_smoke)
-    unexpected_live_failures = sorted(live_failed - EXPECTED_LIVE_DELTA_FAILURES)
+    unexpected_failures = unexpected_live_failures(live_smoke)
     missing_expected_live_delta = sorted(EXPECTED_LIVE_DELTA_FAILURES - live_failed)
     local_ok = local_smoke.get("ok") is True
-    live_delta_matches = bool(live_failed) and not unexpected_live_failures
+    live_delta_matches = bool(live_failed) and not unexpected_failures
     local_unpublished_change_ready = (
-        isinstance(ahead_count, int)
-        and ahead_count >= 1
-        and bool(local_head)
-        and bool(origin_head)
-        and local_head != origin_head
+        (
+            isinstance(ahead_count, int)
+            and ahead_count >= 1
+            and bool(local_head)
+            and bool(origin_head)
+            and local_head != origin_head
+        )
+        or bool(dirty_paths)
     )
     publish_gate = "awaiting_explicit_publish_approval" if args.external_publish_approved is not True else "publish_approved_by_argument"
 
@@ -162,6 +211,8 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
         "local_head": local_head,
         "origin_main": origin_head,
         "ahead_count": ahead_count,
+        "dirty_paths_count": len(dirty_paths),
+        "dirty_paths_sample": dirty_paths[:20],
         "local_unpublished_change_ready": local_unpublished_change_ready,
         "publish_gate": publish_gate,
         "local_smoke": {
@@ -177,7 +228,7 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
             "failed_count": len(live_failed),
             "failed_names": sorted(live_failed),
             "expected_predeploy_delta_failures": sorted(EXPECTED_LIVE_DELTA_FAILURES),
-            "unexpected_live_failures": unexpected_live_failures,
+            "unexpected_live_failures": unexpected_failures,
             "missing_expected_live_delta": missing_expected_live_delta,
             "live_delta_matches_unpublished_local_copy": live_delta_matches,
         },

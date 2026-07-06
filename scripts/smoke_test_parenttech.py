@@ -27,11 +27,17 @@ DEFAULT_OUT_DIR = Path("/tmp/parenttechchecklist-smoke")
 PAGE_CHECKS = [
     {
         "path": "/",
-        "required_text": ["Parent Tech Checklists for Families", "Featured guides"],
+        "required_text": [
+            "Parent Tech Checklists for Families",
+            "Buy on Gumroad",
+            "The paid kit is a one-time Gumroad download",
+            "Featured guides",
+        ],
         "required_links": [
             "/guides/senior-phones",
             "/guides/scam-call-safety",
             "/products/parent-tech-quick-start-kit",
+            "/go/parent-tech-quick-start-kit",
         ],
     },
     {
