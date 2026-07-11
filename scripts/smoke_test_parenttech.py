@@ -29,6 +29,7 @@ PAGE_CHECKS = [
         "path": "/",
         "required_text": [
             "Parent Tech Checklists for Families",
+            "Status",
             "Buy on Gumroad",
             "The paid kit is a one-time Gumroad download",
             "Featured guides",
@@ -36,8 +37,64 @@ PAGE_CHECKS = [
         "required_links": [
             "/guides/senior-phones",
             "/guides/scam-call-safety",
+            "/status",
             "/products/parent-tech-quick-start-kit",
             "/go/parent-tech-quick-start-kit",
+        ],
+    },
+    {
+        "path": "/status",
+        "required_text": [
+            "Parent Tech Status",
+            "Family Service Status",
+            "Current Verified Update",
+            "U.S. Consumer Alerts",
+            "Before resetting the phone",
+            "Checklist Routing",
+            "Watch Live Status",
+            "Source freshness rules",
+        ],
+        "required_text_when_api_mock": [
+            "Live scene: Event Takeover",
+            "FTC Consumer Alerts: New verified consumer alert",
+            "Use action template: PAUSE_AND_VERIFY",
+        ],
+        "required_links": [
+            "/guides/video-calling",
+            "/guides/scam-call-safety",
+            "/guides/living-alone-safety",
+            "/live",
+            "https://www.youtube.com/@ParentTechChecklist",
+            "https://www.google.com/appsstatus/dashboard/",
+            "https://status.zoom.us/",
+            "https://www.apple.com/support/systemstatus/",
+            "https://consumer.ftc.gov/consumer-alerts",
+            "https://www.cisa.gov/news-events/cybersecurity-advisories",
+            "https://www.cpsc.gov/Recalls",
+        ],
+    },
+    {
+        "path": "/live",
+        "required_text": [
+            "Live family service status",
+            "Current scene",
+            "Open full status page",
+        ],
+        "required_text_when_api_mock": [
+            "Event Takeover",
+            "Verified update",
+            "FTC Consumer Alerts",
+            "New verified consumer alert",
+            "Family action: PAUSE_AND_VERIFY",
+        ],
+        "required_links": [
+            "/status",
+            "/guides/senior-phones",
+            "/guides/video-calling",
+            "/guides/scam-call-safety",
+        ],
+        "required_links_when_api_mock": [
+            "https://consumer.ftc.gov/consumer-alerts",
         ],
     },
     {
@@ -158,6 +215,94 @@ VIEWPORTS = {
     "mobile": {"width": 390, "height": 844},
 }
 
+MOCK_LIVE_STATUS = {
+    "generated_at": "2026-07-11T00:42:00Z",
+    "schema_version": "2.0.0",
+    "scene": {
+        "id": "event_takeover",
+        "name": "Event Takeover",
+        "cycle_position": 0,
+        "duration_seconds": 10,
+        "seconds_remaining": 8,
+        "next_scene_id": "family_action_steps",
+        "next_scene_label": "Family Action Steps",
+        "data_age_seconds": 12,
+        "highlight_key": "ftc",
+    },
+    "priority_event": {
+        "source": "FTC Consumer Alerts",
+        "key": "ftc",
+        "status": "New verified consumer alert",
+        "official_url": "https://consumer.ftc.gov/consumer-alerts",
+        "checklist_slug": "scam-call-safety",
+        "consumer_action_code": "PAUSE_AND_VERIFY",
+    },
+    "cards": [
+        {
+            "source": "Google Workspace",
+            "key": "google",
+            "status": "No known official incident",
+            "detail": "No active official incident for family-relevant Google services.",
+            "checked_at": "2026-07-11T00:42:00Z",
+            "source_url": "https://www.google.com/appsstatus/dashboard/",
+            "source_available": True,
+            "consumer_action_code": "WAIT_FOR_OFFICIAL_UPDATE",
+        },
+        {
+            "source": "Zoom",
+            "key": "zoom",
+            "status": "No known official incident",
+            "detail": "No unresolved official incident for family-relevant Zoom services.",
+            "checked_at": "2026-07-11T00:42:00Z",
+            "source_url": "https://status.zoom.us/",
+            "source_available": True,
+            "consumer_action_code": "WAIT_FOR_OFFICIAL_UPDATE",
+        },
+        {
+            "source": "Apple System Status",
+            "key": "apple",
+            "status": "No known official incident",
+            "detail": "No active official incident for family-relevant Apple services.",
+            "checked_at": "2026-07-11T00:42:00Z",
+            "source_url": "https://www.apple.com/support/systemstatus/",
+            "source_available": True,
+            "consumer_action_code": "WAIT_FOR_OFFICIAL_UPDATE",
+        },
+        {
+            "source": "FTC Consumer Alerts",
+            "key": "ftc",
+            "status": "New verified consumer alert",
+            "detail": "FTC consumer alert: Test phone scam warning. Pause before paying, sharing a code, or giving remote access.",
+            "checked_at": "2026-07-11T00:42:00Z",
+            "source_url": "https://consumer.ftc.gov/consumer-alerts",
+            "source_available": True,
+            "official_url": "https://consumer.ftc.gov/consumer-alerts",
+            "consumer_action_code": "PAUSE_AND_VERIFY",
+            "checklist_slug": "scam-call-safety",
+        },
+        {
+            "source": "CISA Alerts",
+            "key": "cisa",
+            "status": "No new verified consumer alert",
+            "detail": "No new verified CISA alert matched the family-tech relevance rules.",
+            "checked_at": "2026-07-11T00:42:00Z",
+            "source_url": "https://www.cisa.gov/news-events/cybersecurity-advisories",
+            "source_available": True,
+            "consumer_action_code": "KEEP_AUTO_UPDATES_ON",
+        },
+        {
+            "source": "CPSC Recalls",
+            "key": "cpsc",
+            "status": "No new verified consumer alert",
+            "detail": "No new verified CPSC product recall in the current review window.",
+            "checked_at": "2026-07-11T00:42:00Z",
+            "source_url": "https://www.cpsc.gov/Recalls",
+            "source_available": True,
+            "consumer_action_code": "WAIT_FOR_OFFICIAL_UPDATE",
+        },
+    ],
+}
+
 
 @dataclass
 class CheckResult:
@@ -172,15 +317,33 @@ class ReusableTCPServer(socketserver.TCPServer):
 
 class CloudflareLikeHandler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self) -> None:
+        if self.serve_mock_api():
+            return
         self.path = self.route_path(self.path)
         super().do_GET()
 
     def do_HEAD(self) -> None:
+        if self.serve_mock_api(head_only=True):
+            return
         self.path = self.route_path(self.path)
         super().do_HEAD()
 
     def log_message(self, format: str, *args: Any) -> None:
         return
+
+    def serve_mock_api(self, head_only: bool = False) -> bool:
+        parsed = urlparse(self.path)
+        if parsed.path != "/api/live-status":
+            return False
+        body = json.dumps(MOCK_LIVE_STATUS).encode("utf-8")
+        self.send_response(200)
+        self.send_header("content-type", "application/json; charset=utf-8")
+        self.send_header("cache-control", "no-store")
+        self.send_header("content-length", str(len(body)))
+        self.end_headers()
+        if not head_only:
+            self.wfile.write(body)
+        return True
 
     def route_path(self, request_path: str) -> str:
         parsed = urlparse(request_path)
@@ -199,6 +362,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--site-dir", default=str(SITE_DIR))
     parser.add_argument("--base-url", help="Existing base URL to test. If omitted, a local static server is started.")
     parser.add_argument("--live", action="store_true", help=f"Test {DEFAULT_LIVE_BASE}.")
+    parser.add_argument(
+        "--live-status-api",
+        choices=("mock", "optional"),
+        help="Use mock for the local server; optional for production before /api/live-status cutover.",
+    )
     parser.add_argument("--out-dir", default=str(DEFAULT_OUT_DIR))
     parser.add_argument("--screenshot", action="store_true", help="Save desktop and mobile screenshots.")
     parser.add_argument("--timeout-ms", type=int, default=15000)
@@ -289,6 +457,7 @@ def check_page(
     out_dir: Path,
     screenshot: bool,
     timeout_ms: int,
+    live_status_api_mode: str,
 ) -> list[CheckResult]:
     context = browser.new_context(viewport=viewport)
     page = context.new_page()
@@ -309,7 +478,10 @@ def check_page(
         results.append(CheckResult(f"{viewport_name} {path} title", bool(title), {"title": title}))
 
         body_text = page.locator("body").inner_text(timeout=timeout_ms)
-        for text in check.get("required_text", []):
+        required_text = list(check.get("required_text", []))
+        if live_status_api_mode == "mock":
+            required_text.extend(check.get("required_text_when_api_mock", []))
+        for text in required_text:
             results.append(
                 CheckResult(
                     f"{viewport_name} {path} text {text}",
@@ -320,7 +492,10 @@ def check_page(
         hrefs = page.eval_on_selector_all("a[href]", "els => els.map(a => a.href)")
         normalized_hrefs = {normalize_path(href) for href in hrefs}
         raw_hrefs = set(hrefs)
-        for required in check.get("required_links", []):
+        required_links = list(check.get("required_links", []))
+        if live_status_api_mode == "mock":
+            required_links.extend(check.get("required_links_when_api_mock", []))
+        for required in required_links:
             if required.startswith("http"):
                 ok = any(href.startswith(required) for href in raw_hrefs)
             else:
@@ -376,6 +551,8 @@ def check_page(
 
         if screenshot and path in {
             "/",
+            "/status",
+            "/live",
             "/products/parent-tech-quick-start-kit",
             "/products/personalized-setup-review",
         }:
@@ -421,7 +598,7 @@ def write_smoke_report(base_url: str, out_dir: Path, results: list[CheckResult])
     return report
 
 
-def run_smoke(base_url: str, out_dir: Path, screenshot: bool, timeout_ms: int) -> dict[str, Any]:
+def run_smoke(base_url: str, out_dir: Path, screenshot: bool, timeout_ms: int, live_status_api_mode: str = "mock") -> dict[str, Any]:
     out_dir.mkdir(parents=True, exist_ok=True)
     results: list[CheckResult] = []
     results.extend(assert_http_assets(base_url))
@@ -442,6 +619,7 @@ def run_smoke(base_url: str, out_dir: Path, screenshot: bool, timeout_ms: int) -
                                     out_dir,
                                     screenshot,
                                     timeout_ms,
+                                    live_status_api_mode,
                                 )
                             )
                         except Exception as exc:
@@ -486,12 +664,12 @@ def main() -> int:
 
     if args.live:
         base_url = DEFAULT_LIVE_BASE
-        report = run_smoke(base_url, out_dir, args.screenshot, args.timeout_ms)
+        report = run_smoke(base_url, out_dir, args.screenshot, args.timeout_ms, args.live_status_api or "optional")
     elif args.base_url:
-        report = run_smoke(args.base_url.rstrip("/"), out_dir, args.screenshot, args.timeout_ms)
+        report = run_smoke(args.base_url.rstrip("/"), out_dir, args.screenshot, args.timeout_ms, args.live_status_api or "optional")
     else:
         with local_server(site_dir) as base_url:
-            report = run_smoke(base_url, out_dir, args.screenshot, args.timeout_ms)
+            report = run_smoke(base_url, out_dir, args.screenshot, args.timeout_ms, args.live_status_api or "mock")
 
     print(json.dumps({"ok": report["ok"], "out_dir": str(out_dir), "failed": len(report["failed"])}, ensure_ascii=False))
     return 0 if report["ok"] else 1

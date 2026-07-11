@@ -1,4 +1,6 @@
 https://www.parenttechchecklist.com/* https://parenttechchecklist.com/:splat 301
+/status /status/ 301
+/live /live/ 301
 /guides/senior-phones.html /guides/senior-phones 301
 /guides/scam-call-safety.html /guides/scam-call-safety 301
 /guides/video-calling.html /guides/video-calling 301

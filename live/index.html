@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="icon" type="image/png" href="/assets/ptc-avatar-96.png">
+  <title>Parent Tech Live Status | Parent Tech Checklist</title>
+  <style>
+    :root{color-scheme:dark;--bg:#07111f;--panel:#10304a;--panel2:#0d2135;--ok:#123f37;--warn:#4a3414;--off:#3b1d2a;--line:#43617d;--text:#f8fafc;--muted:#bfdbfe;--gold:#facc15;--blue:#38bdf8}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% 0,#123a59 0,#07111f 42rem);color:var(--text);font-family:Arial,Helvetica,sans-serif;line-height:1.45}.wrap{max-width:1180px;margin:auto;padding:28px 20px 48px}.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,380px);gap:18px;align-items:stretch}.panel,.scene,.event,.card,.note{border:1px solid var(--line);border-radius:16px;background:rgba(16,48,74,.92);box-shadow:0 18px 50px rgba(0,0,0,.22)}header{padding:26px 28px}.kicker,.label{color:#bae6fd;font-size:.78rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}h1{margin:.25rem 0 0;font-size:clamp(2rem,6vw,3.6rem);line-height:1}.lede,.muted{color:var(--muted)}.scene{display:grid;gap:12px;padding:22px}.scene strong{font-size:1.5rem}.meter{height:10px;border-radius:999px;background:#07111f;overflow:hidden}.meter span{display:block;height:100%;width:var(--progress,50%);background:linear-gradient(90deg,var(--blue),var(--gold))}.event{display:none;margin-top:18px;padding:22px;border-left:5px solid var(--gold);background:rgba(74,52,20,.92)}.event.active{display:block}.event h2{margin:.2rem 0 .5rem;font-size:clamp(1.6rem,4vw,2.7rem)}.facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}.facts div{padding:10px;border:1px solid rgba(250,204,21,.28);border-radius:10px;background:rgba(7,17,31,.32)}.facts dt{color:#fde68a;font-size:.74rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase}.facts dd{margin:4px 0 0;color:#f8fafc;font-size:.95rem;overflow-wrap:anywhere}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:18px 0}.card{min-height:210px;padding:18px;background:var(--off)}.card.ok{background:var(--ok)}.card.warn{background:var(--warn)}.card h2{margin:0 0 8px;font-size:1.05rem}.status{font-weight:800;font-size:1.02rem;margin-bottom:10px}.detail{min-height:4.2em;color:#e0f2fe}.time{color:#cbd5e1;font-size:.86rem}.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px}.button{display:inline-flex;min-height:44px;align-items:center;justify-content:center;border:1px solid #d8b56a;border-radius:10px;padding:11px 15px;background:#d8b56a;color:#07111f;text-decoration:none;font-weight:800}.button.secondary{background:transparent;color:#f8fafc;border-color:#60a5fa}.note{padding:16px 18px;background:var(--panel2)}.error{color:#fecdd3}@media(max-width:820px){.hero,.grid,.facts{grid-template-columns:1fr}.wrap{padding:16px}.card{min-height:auto}}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero" aria-labelledby="live-title">
+      <header class="panel">
+        <p class="kicker">PARENT TECH CHECKLIST</p>
+        <h1 id="live-title">Live family service status</h1>
+        <p class="lede">Check official services before resetting a device. This page never diagnoses a phone, account, or emergency.</p>
+        <p id="updated" class="muted">Loading verified source status...</p>
+      </header>
+      <aside class="scene" aria-labelledby="scene-title">
+        <span class="label">Current scene</span>
+        <strong id="scene-title">Waiting for live snapshot</strong>
+        <span id="scene-detail" class="muted">The live desk will show the next segment when source data is available.</span>
+        <div class="meter" aria-hidden="true"><span id="scene-progress"></span></div>
+        <span id="scene-next" class="muted">Next segment pending</span>
+      </aside>
+    </section>
+
+    <section id="event" class="event" aria-live="polite">
+      <span class="label">Verified update</span>
+      <h2 id="event-title">No current priority event</h2>
+      <p id="event-detail"></p>
+      <dl id="event-facts" class="facts" hidden></dl>
+      <div class="actions">
+        <a id="event-source" class="button secondary" href="/status">Official source</a>
+        <a id="event-checklist" class="button" href="/status">Open checklist</a>
+      </div>
+    </section>
+
+    <section id="cards" class="grid" aria-live="polite"></section>
+
+    <section class="note">
+      <strong>Use this safely.</strong>
+      <span>A normal official status does not prove that a specific device or account is working. If a source cannot be verified, it is shown as unavailable.</span>
+    </section>
+
+    <nav class="actions" aria-label="Parent Tech Checklists">
+      <a class="button" data-live-cta="senior-phone" href="/guides/senior-phones?utm_source=youtube&utm_medium=live&utm_campaign=parent-tech-status-30d&utm_content=normal-phone-checklist">Senior phone setup</a>
+      <a class="button" data-live-cta="video-calling" href="/guides/video-calling?utm_source=youtube&utm_medium=live&utm_campaign=parent-tech-status-30d&utm_content=video-calling">Video calling setup</a>
+      <a class="button" data-live-cta="scam-safety" href="/guides/scam-call-safety?utm_source=youtube&utm_medium=live&utm_campaign=parent-tech-status-30d&utm_content=scam-safety">Scam safety guide</a>
+      <a class="button secondary" href="/status?utm_source=live-page&utm_medium=internal&utm_campaign=parent-tech-status">Open full status page</a>
+    </nav>
+  </main>
+  <script>
+    const cards = document.querySelector('#cards');
+    const updated = document.querySelector('#updated');
+    const sceneTitle = document.querySelector('#scene-title');
+    const sceneDetail = document.querySelector('#scene-detail');
+    const sceneNext = document.querySelector('#scene-next');
+    const sceneProgress = document.querySelector('#scene-progress');
+    const eventBox = document.querySelector('#event');
+    const eventTitle = document.querySelector('#event-title');
+    const eventDetail = document.querySelector('#event-detail');
+    const eventSource = document.querySelector('#event-source');
+    const eventChecklist = document.querySelector('#event-checklist');
+    const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+    const tone = card => card.source_available && (card.status === 'No known official incident' || card.status === 'No new verified consumer alert') ? 'ok' : card.source_available ? 'warn' : '';
+    const checklistHref = slug => slug ? `/guides/${slug}?utm_source=live-page&utm_medium=event&utm_campaign=parent-tech-status` : '/status';
+    const shortText = (value, max = 220) => {
+      const text = String(value || '').replace(/\s+/g, ' ').trim();
+      return text.length > max ? `${text.slice(0, max - 1).trim()}…` : text;
+    };
+    function factsHtml(item) {
+      const facts = [
+        ['Product', item?.product_name],
+        ['Model', item?.model_number],
+        ['Hazard', item?.hazard],
+        ['Official remedy', shortText(item?.remedy, 260)]
+      ].filter(([, value]) => value);
+      return facts.map(([label, value]) => `<div><dt>${esc(label)}</dt><dd>${esc(value)}</dd></div>`).join('');
+    }
+    function showScene(scene) {
+      if (!scene) return;
+      const remaining = Number(scene.seconds_remaining ?? 0);
+      const duration = Math.max(1, Number(scene.duration_seconds ?? 10));
+      const progress = Math.max(0, Math.min(100, 100 - (remaining / duration * 100)));
+      sceneTitle.textContent = scene.name || 'Live status scene';
+      sceneDetail.textContent = `Data age: ${scene.data_age_seconds ?? 'unknown'} seconds`;
+      sceneNext.textContent = `Next: ${scene.next_scene_label || 'status segment'} in ${remaining || 0}s`;
+      sceneProgress.style.setProperty('--progress', `${progress}%`);
+    }
+    function showEvent(payload) {
+      const event = payload.priority_event;
+      if (!event) {
+        eventBox.classList.remove('active');
+        document.querySelector('#event-facts').hidden = true;
+        return;
+      }
+      const active = payload.active_event;
+      const timeline = active?.timeline?.length ? ` Timeline updates: ${active.timeline.length}. Severity: ${active.severity || 'verified update'}.` : '';
+      const card = (payload.cards || []).find(item => item.key === event.key);
+      const facts = factsHtml(active || card);
+      eventBox.classList.add('active');
+      eventTitle.textContent = `${event.source}: ${event.status}`;
+      eventDetail.textContent = `Family action: ${event.consumer_action_code || 'WAIT_FOR_OFFICIAL_UPDATE'}.${timeline}`;
+      document.querySelector('#event-facts').innerHTML = facts;
+      document.querySelector('#event-facts').hidden = !facts;
+      eventSource.href = event.official_url || '/status';
+      eventChecklist.href = checklistHref(event.checklist_slug);
+    }
+    function show(payload) {
+      const generated = payload.generated_at ? new Date(payload.generated_at).toUTCString() : 'Unavailable';
+      updated.textContent = `Last verified: ${generated}`;
+      showScene(payload.scene);
+      showEvent(payload);
+      cards.innerHTML = (payload.cards || []).map(card => `<article class="card ${tone(card)}"><h2>${esc(card.source)}</h2><div class="status">${esc(card.status)}</div><p class="detail">${esc(card.detail)}</p><p class="time">${card.source_available ? 'Official source verified' : 'Verification held'}: ${esc(card.checked_at)}</p></article>`).join('');
+    }
+    async function refresh() {
+      try {
+        const response = await fetch('/api/live-status', {cache:'no-store'});
+        if (!response.ok) throw new Error(`status ${response.status}`);
+        show(await response.json());
+      } catch (_) {
+        updated.innerHTML = '<span class="error">Live status is temporarily unavailable. Please use the official links in the live stream description.</span>';
+        sceneTitle.textContent = 'Live status temporarily unavailable';
+        sceneDetail.textContent = 'The page is fail-closed until the verified snapshot returns.';
+        sceneNext.textContent = 'Retrying automatically';
+        cards.innerHTML = '';
+        eventBox.classList.remove('active');
+        document.querySelector('#event-facts').hidden = true;
+      }
+    }
+    document.querySelectorAll('[data-live-cta]').forEach(link => link.addEventListener('click', () => window.gtag?.('event', 'checklist_open', {content:link.dataset.liveCta, source:'live'})));
+    refresh(); setInterval(refresh, 60000);
+  </script>
+</body>
+</html>
