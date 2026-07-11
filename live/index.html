@@ -17,7 +17,7 @@
       <header class="panel">
         <p class="kicker">PARENT TECH CHECKLIST</p>
         <h1 id="live-title">Live family service status</h1>
-        <p class="lede">Check official services before resetting a device. This page never diagnoses a phone, account, or emergency.</p>
+        <p class="lede">Before you reset the phone, check the official source and the next family action first. This page never diagnoses a phone, account, or emergency.</p>
         <p id="updated" class="muted">Loading verified source status...</p>
       </header>
       <aside class="scene" aria-labelledby="scene-title">
@@ -35,8 +35,8 @@
       <p id="event-detail"></p>
       <dl id="event-facts" class="facts" hidden></dl>
       <div class="actions">
-        <a id="event-source" class="button secondary" href="/status">Official source</a>
-        <a id="event-checklist" class="button" href="/status">Open checklist</a>
+        <a id="event-source" class="button secondary" href="/status">View official source</a>
+        <a id="event-checklist" class="button" href="/status">Open matching checklist</a>
       </div>
     </section>
 
@@ -52,6 +52,7 @@
       <a class="button" data-live-cta="video-calling" href="/guides/video-calling?utm_source=youtube&utm_medium=live&utm_campaign=parent-tech-status-30d&utm_content=video-calling">Video calling setup</a>
       <a class="button" data-live-cta="scam-safety" href="/guides/scam-call-safety?utm_source=youtube&utm_medium=live&utm_campaign=parent-tech-status-30d&utm_content=scam-safety">Scam safety guide</a>
       <a class="button secondary" href="/status?utm_source=live-page&utm_medium=internal&utm_campaign=parent-tech-status">Open full status page</a>
+      <a class="button secondary" href="https://www.youtube.com/@ParentTechChecklist?utm_source=live-page&utm_medium=internal&utm_campaign=parent-tech-status" rel="noopener">Watch status stream</a>
     </nav>
   </main>
   <script>
@@ -82,6 +83,21 @@
       ].filter(([, value]) => value);
       return facts.map(([label, value]) => `<div><dt>${esc(label)}</dt><dd>${esc(value)}</dd></div>`).join('');
     }
+    function actionLabel(code) {
+      return ({
+        STOP_USING_IF_MATCHED: 'Match the model number first. Stop using it only if it matches the official recall.',
+        PAUSE_AND_VERIFY: 'Pause before paying, clicking, sharing codes, or allowing remote access.',
+        DO_NOT_RESET: 'Do not reset the phone or account yet. Try a backup call or text first.',
+        UPDATE_FROM_OFFICIAL_SETTINGS: 'Update only through the official settings screen or app store.',
+        WAIT_FOR_OFFICIAL_UPDATE: 'Check the official source and use the smallest safe next step first.'
+      })[code] || 'Check the official source and use the smallest safe next step first.';
+    }
+    function familyImpactTitle(event, card) {
+      if (event?.key === 'cpsc') return `Recall check: ${card?.product_name || 'match the product'} before using it`;
+      if (event?.key === 'ftc' || event?.key === 'cisa') return 'Pause before clicking or sharing codes';
+      if (['google', 'zoom', 'apple'].includes(event?.key)) return `Do not reset yet: ${event.source} may be the issue`;
+      return `${event?.source || 'Official source'}: family action needed`;
+    }
     function showScene(scene) {
       if (!scene) return;
       const remaining = Number(scene.seconds_remaining ?? 0);
@@ -104,12 +120,14 @@
       const card = (payload.cards || []).find(item => item.key === event.key);
       const facts = factsHtml(active || card);
       eventBox.classList.add('active');
-      eventTitle.textContent = `${event.source}: ${event.status}`;
-      eventDetail.textContent = `Family action: ${event.consumer_action_code || 'WAIT_FOR_OFFICIAL_UPDATE'}.${timeline}`;
+      eventTitle.textContent = familyImpactTitle(event, card);
+      eventDetail.textContent = `Family action: ${actionLabel(event.consumer_action_code)} ${timeline}`.trim();
       document.querySelector('#event-facts').innerHTML = facts;
       document.querySelector('#event-facts').hidden = !facts;
       eventSource.href = event.official_url || '/status';
       eventChecklist.href = checklistHref(event.checklist_slug);
+      eventSource.textContent = 'View official source';
+      eventChecklist.textContent = 'Open matching checklist';
     }
     function show(payload) {
       const generated = payload.generated_at ? new Date(payload.generated_at).toUTCString() : 'Unavailable';

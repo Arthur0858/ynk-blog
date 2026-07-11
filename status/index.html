@@ -63,7 +63,7 @@
         <p id="current-update-copy">Google, Zoom, and the verified consumer alert feeds show no family-impacting incident in this preview. Apple status verification is held until a server-side parser is attached.</p>
         <div class="family-action">
           <strong>Family action</strong>
-          <span id="current-family-action">Do not reset the device yet. Check Wi-Fi or cellular service, try a regular phone call or text, then wait for the next official update.</span>
+          <span id="current-family-action">Start here: check the official source, try a backup call or text, then reset only if the issue is not service-wide.</span>
         </div>
         <dl class="event-facts" id="current-event-facts" hidden></dl>
         <div class="hero-actions">
@@ -257,6 +257,21 @@
       ].filter(([, value]) => value);
       return facts.map(([label, value]) => `<div><dt>${esc(label)}</dt><dd>${esc(value)}</dd></div>`).join('');
     }
+    function familyImpactTitle(event, card) {
+      if (event?.key === 'cpsc') return `Recall check: ${card?.product_name || 'match the product'} before using it`;
+      if (event?.key === 'ftc' || event?.key === 'cisa') return 'Pause before clicking or sharing codes';
+      if (['google', 'zoom', 'apple'].includes(event?.key)) return `Do not reset yet: ${event.source} may be the issue`;
+      return `${event?.source || 'Official source'}: family action needed`;
+    }
+    function actionLabel(code) {
+      return ({
+        STOP_USING_IF_MATCHED: 'Find the exact model number. Stop using it only if it matches the official recall.',
+        PAUSE_AND_VERIFY: 'Pause before paying, clicking, sharing codes, or allowing remote access.',
+        DO_NOT_RESET: 'Do not reset the phone or account yet. Try a backup call or text first.',
+        UPDATE_FROM_OFFICIAL_SETTINGS: 'Update only through the official settings screen or app store.',
+        WAIT_FOR_OFFICIAL_UPDATE: 'Check the official source and use the smallest safe next step first.'
+      })[code] || 'Check the official source and use the smallest safe next step first.';
+    }
 
     function cardMatchesEvent(card, event) {
       return event && card.key === event.key;
@@ -283,11 +298,11 @@
         }
         if (payload.priority_event) {
           const eventCard = payload.cards.find(card => cardMatchesEvent(card, payload.priority_event));
-          currentTitle.textContent = `${payload.priority_event.source}: ${payload.priority_event.status}`;
+          currentTitle.textContent = familyImpactTitle(payload.priority_event, eventCard);
           currentCopy.textContent = eventCard?.detail || 'A verified official update needs family attention.';
           const activeEvent = payload.active_event;
           const timeline = activeEvent?.timeline?.length ? ` Timeline updates: ${activeEvent.timeline.length}.` : '';
-          currentFamilyAction.textContent = `Use action template: ${payload.priority_event.consumer_action_code || 'WAIT_FOR_OFFICIAL_UPDATE'}.${timeline}`;
+          currentFamilyAction.textContent = `${actionLabel(payload.priority_event.consumer_action_code)}${timeline}`;
           const factSource = activeEvent || eventCard;
           const facts = eventFactsHtml(factSource);
           const factList = document.querySelector('#current-event-facts');

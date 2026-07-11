@@ -56,8 +56,8 @@ PAGE_CHECKS = [
         ],
         "required_text_when_api_mock": [
             "Live scene: Event Takeover",
-            "FTC Consumer Alerts: New verified consumer alert",
-            "Use action template: PAUSE_AND_VERIFY",
+            "Pause before clicking or sharing codes",
+            "Pause before paying, clicking, sharing codes, or allowing remote access.",
         ],
         "required_links": [
             "/guides/video-calling",
@@ -85,7 +85,8 @@ PAGE_CHECKS = [
             "Verified update",
             "FTC Consumer Alerts",
             "New verified consumer alert",
-            "Family action: PAUSE_AND_VERIFY",
+            "Pause before clicking or sharing codes",
+            "Family action: Pause before paying, clicking, sharing codes, or allowing remote access.",
         ],
         "required_links": [
             "/status",
