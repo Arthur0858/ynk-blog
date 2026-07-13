@@ -966,6 +966,37 @@ h3 {
   color: rgba(255, 255, 255, .82);
 }
 
+.live-player-frame {
+  position: relative;
+  display: block;
+  min-height: 260px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.live-player-frame iframe {
+  display: block;
+  width: 100%;
+  min-height: 260px;
+  border: 0;
+}
+
+.player-fallback {
+  display: block;
+  padding: 10px 16px;
+  color: #fff;
+  background: rgba(7, 20, 33, .86);
+  text-align: center;
+  text-decoration: underline;
+}
+
+.build-stamp {
+  margin: 12px 0 0;
+  color: var(--od-muted);
+  font-size: 12px;
+  letter-spacing: .02em;
+}
+
 .trust-strip {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));

@@ -11,7 +11,7 @@ import subprocess
 import threading
 import time
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 from urllib.parse import urljoin, urlparse
@@ -43,21 +43,30 @@ PAGE_CHECKS = [
         ],
     },
     {
-        "path": "/status",
+        "path": "/status/",
         "required_text": [
             "Parent Tech Status",
             "Family Service Status",
-            "Current Verified Update",
             "U.S. Consumer Alerts",
             "Before resetting the phone",
             "Checklist Routing",
             "Watch Live Status",
             "Source freshness rules",
         ],
+        "required_text_any": [
+            ["Current Verified Update", "Current Status Unavailable", "Latest Available Snapshot"],
+        ],
         "required_text_when_api_mock": [
             "Live scene: Event Takeover",
             "Pause before clicking or sharing codes",
             "Pause before paying, clicking, sharing codes, or allowing remote access.",
+        ],
+        "forbidden_text": [
+            "Static public preview",
+            "API snapshot hook ready",
+            "Waiting for confirmed YouTube live embed ID",
+            "Loading verified source status",
+            "No current priority event",
         ],
         "required_links": [
             "/guides/video-calling",
@@ -74,9 +83,9 @@ PAGE_CHECKS = [
         ],
     },
     {
-        "path": "/live",
+        "path": "/live/",
         "required_text": [
-            "Live family service status",
+            "Aging parent tech status LIVE",
             "Current scene",
             "Open full status page",
         ],
@@ -87,6 +96,12 @@ PAGE_CHECKS = [
             "New verified consumer alert",
             "Pause before clicking or sharing codes",
             "Family action: Pause before paying, clicking, sharing codes, or allowing remote access.",
+        ],
+        "forbidden_text": [
+            "Loading verified source status",
+            "Waiting for live snapshot",
+            "Next segment pending",
+            "No current priority event",
         ],
         "required_links": [
             "/status",
@@ -336,7 +351,10 @@ class CloudflareLikeHandler(http.server.SimpleHTTPRequestHandler):
         parsed = urlparse(self.path)
         if parsed.path != "/api/live-status":
             return False
-        body = json.dumps(MOCK_LIVE_STATUS).encode("utf-8")
+        payload = dict(MOCK_LIVE_STATUS)
+        payload["generated_at"] = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+        payload["snapshot_policy"] = {"max_age_seconds": 300, "stale_is_not_normal": True}
+        body = json.dumps(payload).encode("utf-8")
         self.send_response(200)
         self.send_header("content-type", "application/json; charset=utf-8")
         self.send_header("cache-control", "no-store")
@@ -487,6 +505,20 @@ def check_page(
                 CheckResult(
                     f"{viewport_name} {path} text {text}",
                     text.lower() in body_text.lower(),
+                )
+            )
+        for alternatives in check.get("required_text_any", []):
+            results.append(
+                CheckResult(
+                    f"{viewport_name} {path} text one of {alternatives}",
+                    any(text.lower() in body_text.lower() for text in alternatives),
+                )
+            )
+        for text in check.get("forbidden_text", []):
+            results.append(
+                CheckResult(
+                    f"{viewport_name} {path} forbidden text {text}",
+                    text.lower() not in body_text.lower(),
                 )
             )
 
