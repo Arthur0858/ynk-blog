@@ -1873,3 +1873,133 @@ td:first-child {
     gap: 8px !important;
   }
 }
+
+/* Lead-capture form styles */
+.lead-form-section {
+  max-width: 640px;
+  margin: 0 0 32px;
+}
+
+.lead-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.form-field label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--od-ink);
+}
+
+.form-field .required {
+  color: var(--od-rose);
+}
+
+.form-field input[type="email"],
+.form-field input[type="text"],
+.form-field select {
+  display: block;
+  width: 100%;
+  max-width: 480px;
+  padding: 10px 12px;
+  border: 1px solid var(--od-line);
+  border-radius: 8px;
+  background: #fff;
+  font: inherit;
+  font-size: 15px;
+  color: var(--od-ink);
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+.form-field input:focus,
+.form-field select:focus {
+  border-color: var(--od-blue);
+  box-shadow: 0 0 0 3px rgba(36, 95, 134, .15);
+  outline: none;
+}
+
+.form-field input::placeholder {
+  color: var(--od-soft);
+}
+
+.consent-field {
+  max-width: 560px;
+}
+
+.consent-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--od-muted);
+  cursor: pointer;
+}
+
+.consent-label input[type="checkbox"] {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  margin-top: 3px;
+  border: 1px solid var(--od-line);
+  border-radius: 4px;
+  accent-color: var(--od-blue);
+  cursor: pointer;
+}
+
+.consent-label a {
+  color: var(--od-blue);
+  text-decoration: underline;
+}
+
+.form-actions {
+  margin-top: 4px;
+}
+
+.form-status {
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.form-success {
+  color: #155724;
+  background: #d4edda;
+  border: 1px solid #c3e6cb;
+}
+
+.form-error {
+  color: #721c24;
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+}
+
+.privacy-note {
+  margin-top: 16px;
+  padding: 10px 14px;
+  background: rgba(232, 240, 244, .6);
+  border: 1px solid rgba(216, 224, 234, .96);
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--od-muted);
+}
+
+.privacy-note p {
+  margin: 0;
+}
+
+@media (max-width: 620px) {
+  .lead-form-section {
+    max-width: 100%;
+  }
+  .form-field input[type="email"],
+  .form-field input[type="text"],
+  .form-field select {
+    max-width: 100%;
+  }
+}

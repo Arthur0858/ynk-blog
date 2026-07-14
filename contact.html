@@ -30,7 +30,68 @@
   <main>
     <p class="eyebrow">Contact</p>
     <h1>Contact Parent Tech Checklist</h1>
-    <p class="lede">Use this address for website questions, affiliate program review, correction requests, and business contact. We do not provide personal medical, legal, financial, cybersecurity, or emergency advice.</p>
+    <p class="lede">Use the form below for general questions, affiliate program review, and correction requests. For a product or affiliate inquiry, include the program name and tracking requirements. We do not provide personal medical, legal, financial, cybersecurity, or emergency advice.</p>
+
+    <section class="lead-form-section" aria-labelledby="lead-form-title">
+      <h2 id="lead-form-title">Get the checklist guide by email</h2>
+      <p>Enter your email and choose the topic you care about. I will send the matching free checklist and occasional site updates. No spam, unsubscribe anytime.</p>
+
+      <form id="lead-form" class="lead-form" action="/api/lead" method="POST" novalidate>
+        <!-- Honeypot: hidden from real users, visible to bots -->
+        <div class="honeypot" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0;overflow:hidden">
+          <label for="website">Leave this empty</label>
+          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+        </div>
+
+        <!-- Submission timestamp (anti-bot, set by JS) -->
+        <input type="hidden" name="honeypot_time" id="honeypot-time" value="">
+
+        <!-- UTM attribution — populated by JS from URL params -->
+        <input type="hidden" name="utm_source" id="utm-source" value="">
+        <input type="hidden" name="utm_medium" id="utm-medium" value="">
+        <input type="hidden" name="utm_campaign" id="utm-campaign" value="">
+        <input type="hidden" name="utm_content" id="utm-content" value="">
+
+        <div class="form-field">
+          <label for="field-email">Email <span class="required" aria-label="required">*</span></label>
+          <input type="email" id="field-email" name="email" required maxlength="320" placeholder="you@example.com" autocomplete="email" inputmode="email">
+        </div>
+
+        <div class="form-field">
+          <label for="field-name">Your name (optional)</label>
+          <input type="text" id="field-name" name="name" maxlength="200" placeholder="Jane" autocomplete="name">
+        </div>
+
+        <div class="form-field">
+          <label for="field-topic">What topic interests you?</label>
+          <select id="field-topic" name="topic">
+            <option value="">Select a topic</option>
+            <option value="phone-setup">Phone setup for seniors</option>
+            <option value="scam-call-safety">Scam call safety</option>
+            <option value="video-calling">Video calling devices</option>
+            <option value="living-alone-safety">Living alone safety tech</option>
+            <option value="general">General question</option>
+          </select>
+        </div>
+
+        <div class="form-field consent-field">
+          <label class="consent-label">
+            <input type="checkbox" name="consent" value="yes" required aria-required="true">
+            <span>I agree to the <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a> and consent to receive the free checklist and occasional site updates. Unsubscribe anytime.</span>
+          </label>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="button primary">Send me the free checklist</button>
+        </div>
+
+        <div id="form-status" class="form-status" aria-live="polite" hidden></div>
+      </form>
+
+      <div class="privacy-note">
+        <p><strong>Privacy:</strong> Your email will only be used to send the requested checklist and occasional site updates. We never share or sell your data. See our <a href="/privacy">Privacy Policy</a>.</p>
+      </div>
+    </section>
 
     <section class="content-section">
       <h2>Email</h2>
@@ -52,5 +113,63 @@
       <a href="https://www.youtube.com/@ParentTechChecklist" rel="noopener">YouTube</a>
     </div>
   </footer>
+
+  <script>
+    (function () {
+      // Set honeypot_time on load so we can reject under-2-second submissions
+      document.getElementById('honeypot-time').value = String(Date.now());
+
+      // Capture UTM params from URL
+      var params = new URLSearchParams(window.location.search);
+      function setUtm(name) {
+        var el = document.getElementById('utm-' + name);
+        if (el) el.value = (params.get('utm_' + name) || '').replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 200);
+      }
+      setUtm('source');
+      setUtm('medium');
+      setUtm('campaign');
+      setUtm('content');
+
+      // Handle form submission via fetch (progressive enhancement — no JS fallback is standard POST)
+      var form = document.getElementById('lead-form');
+      var statusDiv = document.getElementById('form-status');
+      var submitBtn = form.querySelector('button[type="submit"]');
+
+      if (form && window.fetch) {
+        form.addEventListener('submit', function (e) {
+          // Only intercept if fetch is available
+          e.preventDefault();
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Sending…';
+
+          var body = new FormData(form);
+          fetch('/api/lead', { method: 'POST', body: body })
+            .then(function (r) { return r.json().then(function (data) { return { status: r.status, data: data }; }); })
+            .then(function (result) {
+              statusDiv.hidden = false;
+              if (result.data.success) {
+                statusDiv.className = 'form-status form-success';
+                statusDiv.textContent = result.data.message || 'Thank you! Check your email for the free checklist.';
+                form.reset();
+                // Re-set honeypot_time for a potential second submission
+                document.getElementById('honeypot-time').value = String(Date.now());
+              } else {
+                statusDiv.className = 'form-status form-error';
+                statusDiv.textContent = result.data.error || 'Something went wrong. Please try again or email us directly.';
+              }
+              submitBtn.disabled = false;
+              submitBtn.textContent = 'Send me the free checklist';
+            })
+            .catch(function () {
+              statusDiv.hidden = false;
+              statusDiv.className = 'form-status form-error';
+              statusDiv.textContent = 'Network error. Please try again or email us directly.';
+              submitBtn.disabled = false;
+              submitBtn.textContent = 'Send me the free checklist';
+            });
+        });
+      }
+    }());
+  </script>
 </body>
 </html>
