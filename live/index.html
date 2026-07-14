@@ -25,8 +25,10 @@
         <span class="label">Current scene</span>
         <strong id="scene-title">STATUS UPDATES UNAVAILABLE</strong>
         <span id="scene-detail" class="muted">The shared status snapshot is reconnecting. Do not assume Google, Apple or Zoom is normal.</span>
+        <span id="program-theme" class="muted">Today's family check is loading.</span>
         <div class="meter" aria-hidden="true"><span id="scene-progress"></span></div>
         <span id="scene-next" class="muted">Try a regular call or text before resetting.</span>
+        <span id="program-next" class="muted">Next caregiver spotlight is being scheduled.</span>
       </aside>
     </section>
 
@@ -63,6 +65,8 @@
     const sceneDetail = document.querySelector('#scene-detail');
     const sceneNext = document.querySelector('#scene-next');
     const sceneProgress = document.querySelector('#scene-progress');
+    const programTheme = document.querySelector('#program-theme');
+    const programNext = document.querySelector('#program-next');
     const snapshotStamp = document.querySelector('#snapshot-stamp');
     const eventBox = document.querySelector('#event');
     const eventTitle = document.querySelector('#event-title');
@@ -116,6 +120,17 @@
       sceneNext.textContent = `Next: ${retention.next_teaser || scene.next_scene_label || 'status segment'} in ${remaining || 0}s`;
       sceneProgress.style.setProperty('--progress', `${progress}%`);
     }
+    function showProgram(program) {
+      if (!program) return;
+      const modeLabel = ({event:'Verified event coverage', spotlight:'Caregiver spotlight', quiet:'Official checks'})[program.mode] || 'Official checks';
+      programTheme.textContent = `${modeLabel} · Today: ${program.daily_theme_label || 'family technology safety'}`;
+      const next = Date.parse(program.next_spotlight_at || '');
+      programNext.textContent = program.spotlight_active
+        ? `Spotlight is active · ${program.daily_habit || 'Use one calm next step.'}`
+        : Number.isFinite(next)
+          ? `Next caregiver spotlight: ${new Date(next).toLocaleString([], {weekday:'short', hour:'numeric', minute:'2-digit'})}`
+          : `Daily habit: ${program.daily_habit || 'Check the official source first.'}`;
+    }
     function showEvent(payload) {
       const event = payload.priority_event;
       if (!event) {
@@ -162,6 +177,7 @@
       snapshotStamp.textContent = `Build ${payload.build_id || 'unknown'} · ${payload.snapshot_id || 'snapshot pending'}`;
       window.__parentTechRetention = payload.retention || {};
       showScene(payload.scene);
+      showProgram(payload.program);
       showEvent(payload);
       cards.innerHTML = (payload.cards || []).map(card => `<article class="card ${tone(card)}"><h2>${esc(card.source)}</h2><div class="status">${esc(card.status)}</div><p class="detail">${esc(card.detail)}</p><p class="time">${card.source_available ? 'Official source verified' : 'Verification held'}: ${esc(card.checked_at)}</p></article>`).join('');
     }
