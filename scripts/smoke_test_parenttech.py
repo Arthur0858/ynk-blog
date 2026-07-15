@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import contextlib
 import http.server
+import importlib
 import json
 import socket
 import socketserver
@@ -17,7 +18,15 @@ from typing import Any
 from urllib.parse import urljoin, urlparse
 from urllib.request import Request, urlopen
 
-from playwright.sync_api import Browser, Page, TimeoutError as PlaywrightTimeoutError, sync_playwright
+try:
+    _playwright_sync_api = importlib.import_module("playwright.sync_api")
+    PlaywrightTimeoutError = _playwright_sync_api.TimeoutError
+    sync_playwright = _playwright_sync_api.sync_playwright
+except ModuleNotFoundError:
+    PlaywrightTimeoutError = TimeoutError
+
+    def sync_playwright() -> Any:
+        raise RuntimeError("Python Playwright is required for browser smoke checks: pip install playwright")
 
 
 SITE_DIR = Path(__file__).resolve().parents[1]
@@ -456,7 +465,7 @@ def assert_http_assets(base_url: str) -> list[CheckResult]:
     return results
 
 
-def page_console_errors(page: Page) -> list[str]:
+def page_console_errors(page: Any) -> list[str]:
     errors: list[str] = []
 
     def on_console(msg):
@@ -468,7 +477,7 @@ def page_console_errors(page: Page) -> list[str]:
 
 
 def check_page(
-    browser: Browser,
+    browser: Any,
     base_url: str,
     check: dict[str, Any],
     viewport_name: str,
