@@ -1,9 +1,9 @@
 // Parent Tech Checklist — Lead Capture Form Handler (Cloudflare Pages Function)
 // Deployed at /api/lead. Accepts POST with FormData.
 // Fail-closed: never counts undelivered as a verified lead.
-// Environment bindings (set via Cloudflare Pages dashboard):
-//   LEAD_WEBHOOK_URL — POST validated leads here for delivery (optional)
-//   LEAD_WEBHOOK_SECRET — shared secret for webhook auth (optional)
+// Environment bindings (set via Cloudflare Pages):
+//   MAILERLITE_API_TOKEN — MailerLite API token
+//   PARENTTECH_MAILERLITE_GROUP_ID — verified ParentTech subscriber group
 
 /**
  * @param {import('@cloudflare/workers-types').ExportedHandlerRequestContext} context
@@ -36,44 +36,33 @@ export async function onRequest(context) {
       return okResponse();
     }
 
-    // Attempt delivery via webhook if configured
-    const webhookUrl = env.LEAD_WEBHOOK_URL;
-    if (webhookUrl) {
-      try {
-        const payload = {
-          name: result.name,
-          email: result.email,
-          topic: result.topic,
-          utm_source: result.utm_source,
-          utm_medium: result.utm_medium,
-          utm_campaign: result.utm_campaign,
-          utm_content: result.utm_content,
-          submitted_at: new Date().toISOString(),
-          source: 'parenttechchecklist-lead-form',
-        };
-        const headers = { 'content-type': 'application/json' };
-        if (env.LEAD_WEBHOOK_SECRET) {
-          headers['x-webhook-secret'] = env.LEAD_WEBHOOK_SECRET;
-        }
-        const webhookResp = await fetch(webhookUrl, {
+    if (!env.MAILERLITE_API_TOKEN || !env.PARENTTECH_MAILERLITE_GROUP_ID) {
+      return new Response(JSON.stringify({
+        success: false,
+        error: 'Delivery temporarily unavailable. Please try again.',
+      }), {
+        status: 503,
+        headers: { 'content-type': 'application/json' },
+      });
+    }
+
+    try {
+      const mailerLiteResp = await fetch('https://connect.mailerlite.com/api/subscribers', {
           method: 'POST',
-          headers,
-          body: JSON.stringify(payload),
-        });
-        if (!webhookResp.ok) {
-          // Webhook delivery failed — do NOT count as verified lead
-          console.error('Lead webhook delivery failed:', webhookResp.status);
-          return new Response(JSON.stringify({
-            success: false,
-            error: 'Delivery temporarily unavailable. Please try again.',
-          }), {
-            status: 502,
-            headers: { 'content-type': 'application/json' },
-          });
-        }
-      } catch (err) {
-        // Network error — fail closed, do NOT count as verified lead
-        console.error('Lead webhook network error:', err);
+          headers: {
+            'content-type': 'application/json',
+            Authorization: `Bearer ${env.MAILERLITE_API_TOKEN}`,
+          },
+          body: JSON.stringify({
+            email: result.email,
+            fields: result.name ? { name: result.name } : {},
+            groups: [env.PARENTTECH_MAILERLITE_GROUP_ID],
+            status: 'active',
+          }),
+      });
+      const mailerLiteData = await mailerLiteResp.json();
+      if (!mailerLiteResp.ok || !mailerLiteData.data?.id || mailerLiteData.data.status !== 'active') {
+        console.error('MailerLite lead delivery failed:', mailerLiteResp.status);
         return new Response(JSON.stringify({
           success: false,
           error: 'Delivery temporarily unavailable. Please try again.',
@@ -82,9 +71,16 @@ export async function onRequest(context) {
           headers: { 'content-type': 'application/json' },
         });
       }
+    } catch (err) {
+      console.error('MailerLite lead delivery failed');
+      return new Response(JSON.stringify({
+        success: false,
+        error: 'Delivery temporarily unavailable. Please try again.',
+      }), {
+        status: 502,
+        headers: { 'content-type': 'application/json' },
+      });
     }
-    // No webhook configured (local/dev mode) — return success without recording
-    // ponytail: no-op until LEAD_WEBHOOK_URL is set via env binding
 
     return okResponse();
   } catch (err) {

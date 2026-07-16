@@ -6,8 +6,10 @@ import base64
 import json
 import mimetypes
 import os
+import shutil
 import subprocess
 import sys
+import tempfile
 import time
 import uuid
 from dataclasses import dataclass
@@ -260,6 +262,38 @@ def collect_site_files(site_dir: Path) -> dict[str, FileEntry]:
             )
 
     return file_map
+
+
+def stage_wrangler_assets(
+    site_dir: Path, file_map: dict[str, FileEntry], stage_dir: Path
+) -> None:
+    for entry in file_map.values():
+        destination = stage_dir / entry.rel_path
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(entry.path, destination)
+
+    for special_name in ("_headers", "_redirects", "_routes.json"):
+        source = site_dir / special_name
+        if source.exists():
+            stage_dir.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(source, stage_dir / special_name)
+
+
+def build_wrangler_deploy_command(
+    stage_dir: Path, project_name: str, branch: str
+) -> list[str]:
+    return [
+        "npx",
+        "--yes",
+        "wrangler",
+        "pages",
+        "deploy",
+        str(stage_dir),
+        "--project-name",
+        project_name,
+        "--branch",
+        branch,
+    ]
 
 
 def api_json(
@@ -632,6 +666,32 @@ def main() -> int:
 
     if args.dry_run:
         log("Dry run complete. No deployment created.")
+        return 0
+
+    if (site_dir / "functions").is_dir():
+        with tempfile.TemporaryDirectory(prefix="parenttech-pages-") as temporary_dir:
+            stage_dir = Path(temporary_dir)
+            stage_wrangler_assets(site_dir, file_map, stage_dir)
+            command = build_wrangler_deploy_command(
+                stage_dir, args.project_name, args.branch
+            )
+            wrangler_env = os.environ.copy()
+            wrangler_env["CLOUDFLARE_API_TOKEN"] = api_token
+            wrangler_env["CLOUDFLARE_ACCOUNT_ID"] = args.account_id
+            log("Pages Functions detected: deploying filtered assets with Wrangler")
+            try:
+                subprocess.run(
+                    command,
+                    cwd=site_dir,
+                    env=wrangler_env,
+                    check=True,
+                )
+            except (FileNotFoundError, subprocess.CalledProcessError) as exc:
+                raise DeployError(f"Wrangler deployment failed: {exc}") from exc
+
+        if not args.no_verify:
+            verify_urls([f"https://{args.project_name}.pages.dev"])
+        log("Cloudflare Pages Functions deployment completed")
         return 0
 
     upload_missing_files(upload_jwt, missing_files)
