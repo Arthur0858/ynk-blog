@@ -16,6 +16,7 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 SITE_DIR = SCRIPT_DIR.parent
 HANDLER_PATH = SCRIPT_DIR / "lead_handler.py"
 CONTACT_HTML = SITE_DIR / "contact.html"
+PERSONALIZED_REVIEW_HTML = SITE_DIR / "products" / "personalized-setup-review.html"
 
 # Load lead_handler module
 spec = importlib.util.spec_from_file_location("lead_handler", HANDLER_PATH)
@@ -153,7 +154,14 @@ class LeadValidationTests(unittest.TestCase):
         self.assertIn("field", result)
 
     def test_all_valid_topics_covered(self):
-        expected = {"phone-setup", "scam-call-safety", "video-calling", "living-alone-safety", "general"}
+        expected = {
+            "phone-setup",
+            "scam-call-safety",
+            "video-calling",
+            "living-alone-safety",
+            "personalized-review",
+            "general",
+        }
         self.assertEqual(lh.VALID_TOPICS, expected)
 
     def test_no_secrets_in_handler(self):
@@ -233,6 +241,10 @@ class ContactFormMarkupTests(unittest.TestCase):
         self.assertIn('id="form-status"', self.html)
         self.assertIn('aria-live="polite"', self.html)
 
+    def test_supports_personalized_review_intent(self):
+        self.assertIn('<option value="personalized-review">', self.html)
+        self.assertIn("params.get('topic')", self.html)
+
     def test_privacy_note_present(self):
         self.assertIn("Privacy Policy", self.html)
         self.assertIn("never share or sell", self.html.lower())
@@ -246,6 +258,16 @@ class ContactFormMarkupTests(unittest.TestCase):
         """Original email contact is preserved."""
         self.assertIn("contact@parenttechchecklist.com", self.html)
         self.assertIn("mailto:", self.html)
+
+
+class PersonalizedReviewWaitlistTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.html = PERSONALIZED_REVIEW_HTML.read_text(encoding="utf-8")
+
+    def test_primary_cta_uses_verified_contact_form(self):
+        self.assertIn('/contact?topic=personalized-review&amp;', self.html)
+        self.assertNotIn('href="mailto:', self.html)
 
 
 class SmokeTestServerFormExtensionTests(unittest.TestCase):

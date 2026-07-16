@@ -4,6 +4,7 @@
 // Environment bindings (set via Cloudflare Pages):
 //   MAILERLITE_API_TOKEN — MailerLite API token
 //   PARENTTECH_MAILERLITE_GROUP_ID — verified ParentTech subscriber group
+//   PARENTTECH_REVIEW_MAILERLITE_GROUP_ID — personalized review waitlist subgroup
 
 /**
  * @param {import('@cloudflare/workers-types').ExportedHandlerRequestContext} context
@@ -46,6 +47,20 @@ export async function onRequest(context) {
       });
     }
 
+    const groups = [env.PARENTTECH_MAILERLITE_GROUP_ID];
+    if (result.topic === 'personalized-review') {
+      if (!env.PARENTTECH_REVIEW_MAILERLITE_GROUP_ID) {
+        return new Response(JSON.stringify({
+          success: false,
+          error: 'Delivery temporarily unavailable. Please try again.',
+        }), {
+          status: 503,
+          headers: { 'content-type': 'application/json' },
+        });
+      }
+      groups.push(env.PARENTTECH_REVIEW_MAILERLITE_GROUP_ID);
+    }
+
     try {
       const mailerLiteResp = await fetch('https://connect.mailerlite.com/api/subscribers', {
           method: 'POST',
@@ -56,7 +71,7 @@ export async function onRequest(context) {
           body: JSON.stringify({
             email: result.email,
             fields: result.name ? { name: result.name } : {},
-            groups: [env.PARENTTECH_MAILERLITE_GROUP_ID],
+            groups,
             status: 'active',
           }),
       });
@@ -151,7 +166,7 @@ function validateLead(formData) {
   }
 
   // Topic: must be a known value
-  const validTopics = ['phone-setup', 'scam-call-safety', 'video-calling', 'living-alone-safety', 'general'];
+  const validTopics = ['phone-setup', 'scam-call-safety', 'video-calling', 'living-alone-safety', 'personalized-review', 'general'];
   if (topic && !validTopics.includes(topic)) {
     return { valid: false, error: 'Invalid topic', field: 'topic' };
   }

@@ -5,6 +5,8 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from types import SimpleNamespace
+from unittest import mock
 
 SCRIPT = Path(__file__).with_name("deploy_cloudflare_pages.py")
 SPEC = importlib.util.spec_from_file_location("deploy_cloudflare_pages", SCRIPT)
@@ -57,6 +59,54 @@ class WranglerStagingTests(unittest.TestCase):
             self.assertFalse((stage / "scripts").exists())
             self.assertFalse((stage / "functions").exists())
             self.assertFalse((stage / "notes.md").exists())
+
+    def test_functions_deploy_does_not_request_static_upload_token(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            site = Path(tmp)
+            (site / "functions" / "api").mkdir(parents=True)
+            (site / "functions" / "api" / "lead.js").write_text(
+                "export {}", encoding="utf-8"
+            )
+            (site / "index.html").write_text("ok", encoding="utf-8")
+            args = SimpleNamespace(
+                site_dir=str(site),
+                token_file=str(site / "token"),
+                account_id="account-1",
+                project_name="parenttechchecklist",
+                branch="main",
+                commit_hash=None,
+                commit_message=None,
+                commit_dirty=None,
+                skip_caching=False,
+                dry_run=False,
+                no_verify=True,
+                verify_aliases=False,
+            )
+
+            with (
+                mock.patch.object(module, "parse_args", return_value=args),
+                mock.patch.object(module, "load_api_token", return_value="token"),
+                mock.patch.object(
+                    module,
+                    "detect_git_metadata",
+                    return_value=("commit", "message", False),
+                ),
+                mock.patch.object(
+                    module,
+                    "get_upload_jwt",
+                    side_effect=AssertionError("static upload token requested"),
+                ),
+                mock.patch.object(module.subprocess, "run"),
+            ):
+                self.assertEqual(module.main(), 0)
+
+    def test_verifies_live_lead_function_contract(self) -> None:
+        with mock.patch.object(
+            module,
+            "fetch_url",
+            return_value=(405, '{"success":false,"error":"Method not allowed"}'),
+        ):
+            module.verify_lead_endpoint("https://parenttechchecklist.pages.dev")
 
 
 if __name__ == "__main__":

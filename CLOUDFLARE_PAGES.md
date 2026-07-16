@@ -1,6 +1,6 @@
 # Cloudflare Pages Deployment Notes
 
-This site is deployed on Cloudflare Pages as a static HTML project.
+This site is deployed on Cloudflare Pages with static HTML assets and a lead-capture Pages Function.
 
 ## Current Production Setup
 
@@ -23,6 +23,7 @@ This site is deployed on Cloudflare Pages as a static HTML project.
 - `robots.txt`: points search engines to the production sitemap.
 - `sitemap.xml`: uses production domain URLs.
 - `contact.html`, `privacy.html`, and `disclosure.html`: trust and compliance pages for users and affiliate review.
+- `functions/api/lead.js`: fail-closed MailerLite lead delivery for `/api/lead`.
 
 ## Deployment Workflow
 
@@ -56,14 +57,24 @@ python3 scripts/deploy_cloudflare_pages.py --skip-caching
 
 1. Reads the Cloudflare Pages write token from `~/.config/parenttechchecklist/cloudflare-pages-write.token` unless `CLOUDFLARE_API_TOKEN` is set.
 2. Uses the current git repo to attach `commit_hash`, `commit_message`, and `commit_dirty`.
-3. Uploads only missing static assets by calling the same Pages direct-upload APIs used by Wrangler.
+3. Stages only the allowlisted public assets and uses Wrangler when Pages Functions are present.
 4. Re-attaches `_headers` and `_redirects` on every deployment.
 5. Polls until the Pages deployment reaches `success`.
 6. Verifies the deployment URL by checking `/`, `/products/parent-tech-quick-start-kit`, `/robots.txt`, and `/sitemap.xml`.
 
+### Pages Function bindings
+
+The `/api/lead` Function requires these production secrets on the `parenttechchecklist` Pages project:
+
+- `MAILERLITE_API_TOKEN`
+- `PARENTTECH_MAILERLITE_GROUP_ID`
+- `PARENTTECH_REVIEW_MAILERLITE_GROUP_ID`
+
+General leads join the main group. `personalized-review` leads join both the main group and the review waitlist subgroup. Missing required bindings fail closed; the Function does not report an undelivered lead as successful.
+
 ### Deployment scope and exclusions
 
-The script is intentionally static-site only for this project. It does not bundle Pages Functions or `_worker.js`.
+The script deploys `functions/` through Wrangler but excludes Function source from the staged static assets.
 
 It excludes these local-only inputs from public deployment:
 

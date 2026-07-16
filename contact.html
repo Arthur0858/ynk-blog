@@ -34,7 +34,7 @@
 
     <section class="lead-form-section" aria-labelledby="lead-form-title">
       <h2 id="lead-form-title">Get the checklist guide by email</h2>
-      <p>Enter your email and choose the topic you care about. I will send the matching free checklist and occasional site updates. No spam, unsubscribe anytime.</p>
+      <p id="lead-form-description">Enter your email and choose the topic you care about. I will send the matching free checklist and occasional site updates. No spam, unsubscribe anytime.</p>
 
       <form id="lead-form" class="lead-form" action="/api/lead" method="POST" novalidate>
         <!-- Honeypot: hidden from real users, visible to bots -->
@@ -70,6 +70,7 @@
             <option value="scam-call-safety">Scam call safety</option>
             <option value="video-calling">Video calling devices</option>
             <option value="living-alone-safety">Living alone safety tech</option>
+            <option value="personalized-review">Personalized Setup Review waitlist</option>
             <option value="general">General question</option>
           </select>
         </div>
@@ -130,10 +131,26 @@
       setUtm('campaign');
       setUtm('content');
 
+      // Preserve a known product intent without trusting arbitrary query values.
+      var requestedTopic = params.get('topic');
+      var allowedTopics = ['phone-setup', 'scam-call-safety', 'video-calling', 'living-alone-safety', 'personalized-review', 'general'];
+      var topicSelect = document.getElementById('field-topic');
+      if (topicSelect && allowedTopics.indexOf(requestedTopic) !== -1) {
+        topicSelect.value = requestedTopic;
+      }
+      var reviewIntent = requestedTopic === 'personalized-review';
+
       // Handle form submission via fetch (progressive enhancement — no JS fallback is standard POST)
       var form = document.getElementById('lead-form');
       var statusDiv = document.getElementById('form-status');
       var submitBtn = form.querySelector('button[type="submit"]');
+      var idleSubmitLabel = 'Send me the free checklist';
+      if (reviewIntent) {
+        document.getElementById('lead-form-title').textContent = 'Join the Personalized Setup Review waitlist';
+        document.getElementById('lead-form-description').textContent = 'Enter your email to register interest in the possible $29 review. No payment is collected. You can unsubscribe anytime.';
+        idleSubmitLabel = 'Join the waitlist';
+        submitBtn.textContent = idleSubmitLabel;
+      }
 
       if (form && window.fetch) {
         form.addEventListener('submit', function (e) {
@@ -158,14 +175,14 @@
                 statusDiv.textContent = result.data.error || 'Something went wrong. Please try again or email us directly.';
               }
               submitBtn.disabled = false;
-              submitBtn.textContent = 'Send me the free checklist';
+              submitBtn.textContent = idleSubmitLabel;
             })
             .catch(function () {
               statusDiv.hidden = false;
               statusDiv.className = 'form-status form-error';
               statusDiv.textContent = 'Network error. Please try again or email us directly.';
               submitBtn.disabled = false;
-              submitBtn.textContent = 'Send me the free checklist';
+              submitBtn.textContent = idleSubmitLabel;
             });
         });
       }

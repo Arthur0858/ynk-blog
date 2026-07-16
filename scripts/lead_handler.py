@@ -18,6 +18,7 @@ VALID_TOPICS = {
     "scam-call-safety",
     "video-calling",
     "living-alone-safety",
+    "personalized-review",
     "general",
 }
 

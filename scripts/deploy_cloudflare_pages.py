@@ -43,6 +43,10 @@ DEFAULT_VERIFY_PATHS = [
     "/robots.txt",
     "/sitemap.xml",
 ]
+DEFAULT_VERIFY_ALIASES = [
+    "https://parenttechchecklist.com",
+    "https://www.parenttechchecklist.com",
+]
 MAX_ASSET_SIZE = 25 * 1024 * 1024
 MAX_BUCKET_SIZE = 40 * 1024 * 1024
 MAX_BUCKET_FILE_COUNT = 2000
@@ -619,6 +623,22 @@ def verify_urls(base_urls: list[str]) -> None:
             log(f"Verified {target} -> HTTP 200")
 
 
+def verify_lead_endpoint(base_url: str) -> None:
+    target = f"{base_url.rstrip('/')}/api/lead"
+    status, body = fetch_url(target)
+    try:
+        payload = json.loads(body)
+    except json.JSONDecodeError as exc:
+        raise DeployError(f"Lead Function returned invalid JSON for {target}") from exc
+    if (
+        status != 405
+        or payload.get("success") is not False
+        or payload.get("error") != "Method not allowed"
+    ):
+        raise DeployError(f"Lead Function verification failed for {target}: HTTP {status}")
+    log(f"Verified {target} -> HTTP 405 JSON Function response")
+
+
 def main() -> int:
     args = parse_args()
     site_dir = Path(args.site_dir).resolve()
@@ -644,31 +664,14 @@ def main() -> int:
         log(f"Commit message: {commit_message}")
     log(f"Commit dirty: {commit_dirty}")
 
-    upload_jwt = get_upload_jwt(args.account_id, args.project_name, api_token)
     file_map = collect_site_files(site_dir)
     total_size = sum(entry.size_in_bytes for entry in file_map.values())
     log(f"Static assets: {len(file_map)} file(s), {total_size} bytes")
 
-    if args.skip_caching:
-        missing_hashes = {entry.hash_value for entry in file_map.values()}
-        log("Cache mode: skip remote hash check")
-    else:
-        missing_hashes = set(
-            get_missing_hashes(
-                upload_jwt, (entry.hash_value for entry in file_map.values())
-            )
-        )
-        log(f"Remote missing hashes: {len(missing_hashes)}")
-
-    missing_files = [
-        entry for entry in file_map.values() if entry.hash_value in missing_hashes
-    ]
-
-    if args.dry_run:
-        log("Dry run complete. No deployment created.")
-        return 0
-
     if (site_dir / "functions").is_dir():
+        if args.dry_run:
+            log("Dry run complete. No deployment created.")
+            return 0
         with tempfile.TemporaryDirectory(prefix="parenttech-pages-") as temporary_dir:
             stage_dir = Path(temporary_dir)
             stage_wrangler_assets(site_dir, file_map, stage_dir)
@@ -690,8 +693,34 @@ def main() -> int:
                 raise DeployError(f"Wrangler deployment failed: {exc}") from exc
 
         if not args.no_verify:
-            verify_urls([f"https://{args.project_name}.pages.dev"])
+            verify_targets = [f"https://{args.project_name}.pages.dev"]
+            if args.verify_aliases and args.project_name == DEFAULT_PROJECT_NAME:
+                verify_targets.extend(DEFAULT_VERIFY_ALIASES)
+            verify_urls(verify_targets)
+            for base_url in verify_targets:
+                verify_lead_endpoint(base_url)
         log("Cloudflare Pages Functions deployment completed")
+        return 0
+
+    upload_jwt = get_upload_jwt(args.account_id, args.project_name, api_token)
+
+    if args.skip_caching:
+        missing_hashes = {entry.hash_value for entry in file_map.values()}
+        log("Cache mode: skip remote hash check")
+    else:
+        missing_hashes = set(
+            get_missing_hashes(
+                upload_jwt, (entry.hash_value for entry in file_map.values())
+            )
+        )
+        log(f"Remote missing hashes: {len(missing_hashes)}")
+
+    missing_files = [
+        entry for entry in file_map.values() if entry.hash_value in missing_hashes
+    ]
+
+    if args.dry_run:
+        log("Dry run complete. No deployment created.")
         return 0
 
     upload_missing_files(upload_jwt, missing_files)
