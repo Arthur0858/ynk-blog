@@ -12,6 +12,12 @@ from typing import Any
 SITE_DIR = Path(__file__).resolve().parents[1]
 DEFAULT_OUT_DIR = Path("/tmp/parenttech-cta-optimization-predeploy-gate")
 EXPECTED_LIVE_DELTA_FAILURES = {
+    "desktop /status/ text The website and live stream use the same verified snapshot",
+    "desktop /status/ text Parent Tech Status never asks families for passwords",
+    "desktop /status/ forbidden text Browser code must not call",
+    "desktop /status/ forbidden text private API keys",
+    "desktop /status/ forbidden text OAuth tokens",
+    "desktop /status/ forbidden text parser secrets",
     "desktop / text Buy on Gumroad",
     "desktop / text The paid kit is a one-time Gumroad download",
     "desktop / link /go/parent-tech-quick-start-kit",
@@ -90,6 +96,12 @@ EXPECTED_LIVE_DELTA_FAILURES = {
     "mobile /go/parent-tech-quick-start-kit text Files included after purchase",
     "mobile /go/parent-tech-quick-start-kit text 01-7-Day-Parent-Tech-Setup-Plan.pdf",
     "mobile /go/parent-tech-quick-start-kit link /downloads/scam-call-safety-checklist.pdf",
+    "mobile /status/ text The website and live stream use the same verified snapshot",
+    "mobile /status/ text Parent Tech Status never asks families for passwords",
+    "mobile /status/ forbidden text Browser code must not call",
+    "mobile /status/ forbidden text private API keys",
+    "mobile /status/ forbidden text OAuth tokens",
+    "mobile /status/ forbidden text parser secrets",
 }
 EXPECTED_LIVE_DELTA_BROKEN_IMAGES = {
     "https://parenttechchecklist.com/assets/medication-reminder-hero.jpg",

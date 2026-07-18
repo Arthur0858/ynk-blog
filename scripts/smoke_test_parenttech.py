@@ -32,6 +32,15 @@ except ModuleNotFoundError:
 SITE_DIR = Path(__file__).resolve().parents[1]
 DEFAULT_LIVE_BASE = "https://parenttechchecklist.com"
 DEFAULT_OUT_DIR = Path("/tmp/parenttechchecklist-smoke")
+SCREENSHOT_PATHS = {
+    "/",
+    "/checklists/",
+    "/guides/password-recovery",
+    "/status/",
+    "/live/",
+    "/products/parent-tech-quick-start-kit",
+    "/products/personalized-setup-review",
+}
 
 PAGE_CHECKS = [
     {
@@ -41,14 +50,51 @@ PAGE_CHECKS = [
             "Status",
             "Buy on Gumroad",
             "The paid kit is a one-time Gumroad download",
+            "Family tech status desk",
             "Featured guides",
         ],
         "required_links": [
+            "/checklists/",
             "/guides/senior-phones",
             "/guides/scam-call-safety",
             "/status",
+            "/live",
+            "/go/home-live-youtube",
             "/products/parent-tech-quick-start-kit",
             "/go/parent-tech-quick-start-kit",
+        ],
+    },
+    {
+        "path": "/checklists/",
+        "required_text": [
+            "40 Weeks of Calm Family Tech Checklists",
+            "Week 8",
+            "Week 47",
+            "Password Recovery Without Panic",
+            "Annual family tech review",
+            "Core buying and setup guides",
+        ],
+        "required_links": [
+            "/guides/password-recovery",
+            "/guides/family-tech-binder",
+            "/guides/senior-phones",
+            "/status/",
+            "/live/",
+        ],
+    },
+    {
+        "path": "/guides/password-recovery",
+        "required_text": [
+            "Password Recovery Without Panic",
+            "Three safe steps",
+            "Printable family checklist",
+            "Official-source note",
+            "Safety boundary",
+        ],
+        "required_links": [
+            "/checklists/",
+            "/status/",
+            "/live/",
         ],
     },
     {
@@ -61,12 +107,14 @@ PAGE_CHECKS = [
             "Checklist Routing",
             "Watch Live Status",
             "Source freshness rules",
+            "The website and live stream use the same verified snapshot",
+            "Parent Tech Status never asks families for passwords",
         ],
         "required_text_any": [
             ["Current Verified Update", "Current Status Unavailable", "Latest Available Snapshot"],
         ],
         "required_text_when_api_mock": [
-            "Live scene: Event Takeover",
+            "Stream snapshot: Event Takeover",
             "Pause before clicking or sharing codes",
             "Pause before paying, clicking, sharing codes, or allowing remote access.",
         ],
@@ -76,6 +124,10 @@ PAGE_CHECKS = [
             "Waiting for confirmed YouTube live embed ID",
             "Loading verified source status",
             "No current priority event",
+            "Browser code must not call",
+            "private API keys",
+            "OAuth tokens",
+            "parser secrets",
         ],
         "required_links": [
             "/guides/video-calling",
@@ -95,7 +147,8 @@ PAGE_CHECKS = [
         "path": "/live/",
         "required_text": [
             "Aging parent tech status LIVE",
-            "Current scene",
+            "Latest verified segment",
+            "Open text status",
             "Open full status page",
         ],
         "required_text_when_api_mock": [
@@ -114,9 +167,10 @@ PAGE_CHECKS = [
         ],
         "required_links": [
             "/status",
-            "/guides/senior-phones",
-            "/guides/video-calling",
-            "/guides/scam-call-safety",
+            "/go/live-senior-phone",
+            "/go/live-video-calling",
+            "/go/live-scam-safety",
+            "/go/live-youtube",
         ],
         "required_links_when_api_mock": [
             "https://consumer.ftc.gov/consumer-alerts",
@@ -197,7 +251,7 @@ PAGE_CHECKS = [
             "I will not send passwords",
         ],
         "required_links": [
-            "mailto:contact@parenttechchecklist.com",
+            "/contact",
             "/products/parent-tech-quick-start-kit",
         ],
     },
@@ -237,12 +291,16 @@ ASSET_CHECKS = [
 
 VIEWPORTS = {
     "desktop": {"width": 1440, "height": 1100},
+    "tablet": {"width": 820, "height": 1180},
     "mobile": {"width": 390, "height": 844},
 }
 
 MOCK_LIVE_STATUS = {
     "generated_at": "2026-07-11T00:42:00Z",
+    "build_id": "2026.07.11.0042",
+    "snapshot_id": "snapshot-smoke-fixture",
     "schema_version": "2.0.0",
+    "overall_state": "incident_detected",
     "scene": {
         "id": "event_takeover",
         "name": "Event Takeover",
@@ -261,6 +319,17 @@ MOCK_LIVE_STATUS = {
         "official_url": "https://consumer.ftc.gov/consumer-alerts",
         "checklist_slug": "scam-call-safety",
         "consumer_action_code": "PAUSE_AND_VERIFY",
+    },
+    "program": {
+        "mode": "event",
+        "daily_theme": "scam_messages",
+        "daily_theme_label": "Scam messages and code sharing",
+        "daily_habit": "Pause before sharing any code.",
+        "spotlight_active": False,
+        "next_spotlight_at": "2026-07-12T23:00:00Z",
+    },
+    "retention": {
+        "next_teaser": "one safe habit",
     },
     "cards": [
         {
@@ -392,8 +461,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--live", action="store_true", help=f"Test {DEFAULT_LIVE_BASE}.")
     parser.add_argument(
         "--live-status-api",
-        choices=("mock", "optional"),
-        help="Use mock for the local server; optional for production before /api/live-status cutover.",
+        choices=("mock", "optional", "required"),
+        help="Use mock locally, required for production, or optional only before API cutover.",
     )
     parser.add_argument("--out-dir", default=str(DEFAULT_OUT_DIR))
     parser.add_argument("--screenshot", action="store_true", help="Save desktop and mobile screenshots.")
@@ -465,11 +534,20 @@ def assert_http_assets(base_url: str) -> list[CheckResult]:
     return results
 
 
+IGNORED_THIRD_PARTY_CONSOLE_ERRORS = (
+    "Permissions policy violation: compute-pressure is not allowed in this document.",
+)
+
+
+def is_ignored_third_party_console_error(message: str) -> bool:
+    return any(pattern in message for pattern in IGNORED_THIRD_PARTY_CONSOLE_ERRORS)
+
+
 def page_console_errors(page: Any) -> list[str]:
     errors: list[str] = []
 
     def on_console(msg):
-        if msg.type == "error":
+        if msg.type == "error" and not is_ignored_third_party_console_error(msg.text):
             errors.append(msg.text)
 
     page.on("console", on_console)
@@ -499,6 +577,17 @@ def check_page(
             page.wait_for_load_state("load", timeout=min(timeout_ms, 5000))
         except PlaywrightTimeoutError:
             pass
+        if path in {"/status/", "/live/"} and live_status_api_mode in {"mock", "required"}:
+            try:
+                page.wait_for_function(
+                    """() => {
+                        const stamp = document.querySelector('#snapshot-stamp');
+                        return stamp && !/pending|not verified/i.test(stamp.textContent || '');
+                    }""",
+                    timeout=min(timeout_ms, 8000),
+                )
+            except PlaywrightTimeoutError:
+                pass
         status = response.status if response else 0
         results.append(CheckResult(f"{viewport_name} {path} status", 200 <= status < 400, {"status": status}))
 
@@ -506,6 +595,16 @@ def check_page(
         results.append(CheckResult(f"{viewport_name} {path} title", bool(title), {"title": title}))
 
         body_text = page.locator("body").inner_text(timeout=timeout_ms)
+        if path in {"/status/", "/live/"} and live_status_api_mode == "required":
+            snapshot_text = page.locator("#snapshot-stamp").inner_text(timeout=timeout_ms)
+            hydrated = not any(marker in snapshot_text.lower() for marker in ("pending", "not verified"))
+            results.append(
+                CheckResult(
+                    f"{viewport_name} {path} live snapshot hydrates",
+                    hydrated,
+                    {"snapshot_stamp": snapshot_text},
+                )
+            )
         required_text = list(check.get("required_text", []))
         if live_status_api_mode == "mock":
             required_text.extend(check.get("required_text_when_api_mock", []))
@@ -591,13 +690,17 @@ def check_page(
 
         results.append(CheckResult(f"{viewport_name} {path} no console errors", not errors, {"errors": errors[:10]}))
 
-        if screenshot and path in {
-            "/",
-            "/status",
-            "/live",
-            "/products/parent-tech-quick-start-kit",
-            "/products/personalized-setup-review",
-        }:
+        if path == "/live/":
+            player_src = page.locator("iframe[title='Parent Tech Status LIVE video']").get_attribute("src")
+            results.append(
+                CheckResult(
+                    f"{viewport_name} {path} privacy enhanced live player",
+                    bool(player_src and player_src.startswith("https://www.youtube-nocookie.com/embed/4HYkV-6NRcY")),
+                    {"src": player_src},
+                )
+            )
+
+        if screenshot and path in SCREENSHOT_PATHS:
             filename = f"{viewport_name}-{path.strip('/').replace('/', '-') or 'home'}.png"
             page.screenshot(path=str(out_dir / filename), full_page=True)
     finally:
@@ -706,7 +809,7 @@ def main() -> int:
 
     if args.live:
         base_url = DEFAULT_LIVE_BASE
-        report = run_smoke(base_url, out_dir, args.screenshot, args.timeout_ms, args.live_status_api or "optional")
+        report = run_smoke(base_url, out_dir, args.screenshot, args.timeout_ms, args.live_status_api or "required")
     elif args.base_url:
         report = run_smoke(args.base_url.rstrip("/"), out_dir, args.screenshot, args.timeout_ms, args.live_status_api or "optional")
     else:

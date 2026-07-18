@@ -1,6 +1,14 @@
 https://www.parenttechchecklist.com/* https://parenttechchecklist.com/:splat 301
 /status /status/ 301
 /live /live/ 301
+/checklists /checklists/ 301
+/go/live-youtube https://www.youtube.com/watch?v=4HYkV-6NRcY&utm_source=parenttechchecklist&utm_medium=live-page&utm_campaign=parent-tech-status 302
+/go/status-youtube https://www.youtube.com/watch?v=4HYkV-6NRcY&utm_source=parenttechchecklist&utm_medium=status-page&utm_campaign=parent-tech-status 302
+/go/home-live-youtube https://www.youtube.com/watch?v=4HYkV-6NRcY&utm_source=parenttechchecklist&utm_medium=home-live-band&utm_campaign=parent-tech-status 302
+/go/medication-live-youtube https://www.youtube.com/watch?v=4HYkV-6NRcY&utm_source=parenttechchecklist&utm_medium=guide&utm_campaign=medication-reminders 302
+/go/live-senior-phone /guides/senior-phones?utm_source=parenttechchecklist&utm_medium=live-page&utm_campaign=parent-tech-status&utm_content=senior-phone 302
+/go/live-video-calling /guides/video-calling?utm_source=parenttechchecklist&utm_medium=live-page&utm_campaign=parent-tech-status&utm_content=video-calling 302
+/go/live-scam-safety /guides/scam-call-safety?utm_source=parenttechchecklist&utm_medium=live-page&utm_campaign=parent-tech-status&utm_content=scam-safety 302
 /guides/senior-phones.html /guides/senior-phones 301
 /guides/scam-call-safety.html /guides/scam-call-safety 301
 /guides/video-calling.html /guides/video-calling 301

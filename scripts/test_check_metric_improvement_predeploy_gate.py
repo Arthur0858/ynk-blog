@@ -108,6 +108,25 @@ class ParentTechMetricImprovementPredeployGateTests(unittest.TestCase):
         self.assertIn("desktop /go/parent-tech-quick-start-kit text Files included after purchase", gate.EXPECTED_LIVE_DELTA_FAILURES)
         self.assertIn("desktop /go/parent-tech-quick-start-kit text 01-7-Day-Parent-Tech-Setup-Plan.pdf", gate.EXPECTED_LIVE_DELTA_FAILURES)
         self.assertIn("mobile /go/parent-tech-quick-start-kit text $9 one-time digital download", gate.EXPECTED_LIVE_DELTA_FAILURES)
+
+    def test_expected_delta_covers_public_status_trust_copy(self) -> None:
+        for viewport in ("desktop", "mobile"):
+            self.assertIn(
+                f"{viewport} /status/ text The website and live stream use the same verified snapshot",
+                gate.EXPECTED_LIVE_DELTA_FAILURES,
+            )
+            self.assertIn(
+                f"{viewport} /status/ text Parent Tech Status never asks families for passwords",
+                gate.EXPECTED_LIVE_DELTA_FAILURES,
+            )
+            self.assertIn(
+                f"{viewport} /status/ forbidden text Browser code must not call",
+                gate.EXPECTED_LIVE_DELTA_FAILURES,
+            )
+            self.assertIn(
+                f"{viewport} /status/ forbidden text OAuth tokens",
+                gate.EXPECTED_LIVE_DELTA_FAILURES,
+            )
         self.assertIn("mobile /go/parent-tech-quick-start-kit text Printable worksheets", gate.EXPECTED_LIVE_DELTA_FAILURES)
         self.assertIn("mobile /go/parent-tech-quick-start-kit text No sensitive details needed", gate.EXPECTED_LIVE_DELTA_FAILURES)
         self.assertIn("mobile /products/parent-tech-quick-start-kit text First 30 minutes after download", gate.EXPECTED_LIVE_DELTA_FAILURES)

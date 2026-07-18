@@ -8,7 +8,7 @@
   <meta name='impact-site-verification' value='ef98e677-3b33-460b-ae45-651650eb0139'>
   <meta name="impact-site-verification" content="ef98e677-3b33-460b-ae45-651650eb0139">
   <link rel="canonical" href="https://parenttechchecklist.com/">
-  <link rel="preload" as="image" href="assets/ptc-hero-family-tech.jpg">
+  <link rel="preload" as="image" href="assets/ptc-hero-family-tech-1280.webp" type="image/webp" imagesrcset="assets/ptc-hero-family-tech-800.webp 800w, assets/ptc-hero-family-tech-1280.webp 1280w" imagesizes="(max-width: 980px) calc(100vw - 36px), 560px">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Parent Tech Checklist for Families">
   <meta property="og:description" content="Practical buying guides and setup checklists for families helping aging parents use technology with less friction.">
@@ -72,6 +72,14 @@
     nav { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; font-size: 14px; color: var(--muted); }
     nav a { text-decoration: none; padding: 8px 10px; border-radius: 8px; }
     nav a:hover { background: #eef2f4; color: var(--ink); }
+    .live-now-band { display: flex; align-items: center; justify-content: center; gap: 14px; min-height: 52px; padding: 9px clamp(18px, 5vw, 72px); background: #12364a; color: #fff; border-bottom: 1px solid #31586d; }
+    .live-now-copy { display: flex; align-items: center; gap: 9px; font-size: 15px; }
+    .live-now-copy strong { white-space: nowrap; }
+    .live-now-dot { width: 9px; height: 9px; flex: 0 0 9px; border-radius: 50%; background: #38bdf8; box-shadow: 0 0 0 4px rgba(56, 189, 248, .16); }
+    .live-now-actions { display: flex; align-items: center; gap: 8px; margin-left: 6px; }
+    .live-now-actions a { display: inline-flex; min-height: 34px; align-items: center; padding: 6px 11px; border: 1px solid rgba(255, 255, 255, .58); border-radius: 7px; color: #fff; text-decoration: none; font-size: 14px; font-weight: 800; }
+    .live-now-actions a:first-child { background: #fff; color: #12364a; border-color: #fff; }
+    .live-now-actions a:hover { border-color: #fff; }
     main { overflow: hidden; }
     .hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, 560px); gap: clamp(22px, 4vw, 54px); align-items: center; padding: clamp(24px, 4vw, 52px) clamp(18px, 5vw, 72px) clamp(18px, 3vw, 34px); }
     .eyebrow { margin: 0 0 12px; color: var(--green); font-weight: 800; text-transform: uppercase; font-size: 13px; letter-spacing: .08em; }
@@ -115,10 +123,18 @@
       .guide-grid, .start-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
     @media (max-width: 620px) {
-      .site-header { position: static; min-height: 54px; padding: 8px 14px; align-items: flex-start; }
+      .site-header { position: static; display: block; min-height: 54px; padding: 8px 14px; }
       .brand img { width: 36px; height: 36px; }
-      nav { gap: 4px; font-size: 13px; }
-      nav a { padding: 5px 6px; }
+      nav { width: 100%; flex-wrap: nowrap; justify-content: flex-start; gap: 4px; overflow-x: auto; padding: 5px 0 1px; font-size: 13px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+      nav::-webkit-scrollbar { display: none; }
+      nav a { flex: 0 0 auto; padding: 5px 6px; }
+      .live-now-band { justify-content: flex-start; flex-wrap: wrap; gap: 7px 12px; min-height: 0; padding: 10px 14px 11px; }
+      .live-now-copy { display: grid; grid-template-columns: 9px minmax(0, 1fr); flex: 1 1 100%; gap: 2px 9px; font-size: 14px; }
+      .live-now-copy .live-now-dot { grid-column: 1; grid-row: 1; align-self: center; }
+      .live-now-copy strong { grid-column: 2; grid-row: 1; }
+      .live-now-copy span:last-child { grid-column: 2; grid-row: 2; color: #dbeafe; font-size: 13px; }
+      .live-now-actions { width: 100%; margin-left: 18px; }
+      .live-now-actions a { min-height: 32px; padding: 5px 9px; font-size: 13px; }
       .hero { padding-top: 14px; padding-bottom: 10px; gap: 12px; }
       .eyebrow { font-size: 12px; margin-bottom: 8px; }
       .hero-media img { max-height: 96px; }
@@ -130,7 +146,7 @@
       .button { width: 100%; min-height: 42px; }
     }
   </style>
-  <link rel="stylesheet" href="styles.css?v=20260630-ux">
+  <link rel="stylesheet" href="styles.css?v=20260717-nav">
 </head>
 <body class="site-home">
   <header class="site-header">
@@ -140,7 +156,9 @@
     </a>
     <nav aria-label="Main navigation">
       <a href="#guides">Guides</a>
+      <a href="/checklists/">40-week library</a>
       <a href="/status">Status</a>
+      <a href="/live">Live</a>
       <a href="products/parent-tech-quick-start-kit?utm_source=parenttechchecklist&utm_medium=nav&utm_campaign=ptc-product-kit-nav">Kit</a>
       <a href="#method">Method</a>
       <a href="#start">Start here</a>
@@ -148,6 +166,14 @@
       <a href="https://www.youtube.com/@ParentTechChecklist" rel="noopener">YouTube</a>
     </nav>
   </header>
+
+  <aside class="live-now-band" aria-label="Parent Tech live status">
+    <div class="live-now-copy"><span class="live-now-dot" aria-hidden="true"></span><strong>Family tech status desk</strong><span>Check Google, Apple or Zoom before resetting.</span></div>
+    <div class="live-now-actions">
+      <a href="/go/home-live-youtube">Watch live</a>
+      <a href="/status?utm_source=home-live-band&amp;utm_medium=internal&amp;utm_campaign=parent-tech-status">Read text status</a>
+    </div>
+  </aside>
 
   <main>
     <section class="hero">
@@ -167,23 +193,26 @@
         </div>
       </div>
       <figure class="hero-media" aria-label="Family helping an aging parent with a phone">
-        <img src="assets/ptc-hero-family-tech.jpg" width="1600" height="900" alt="Adult child helping an older parent review phone settings" decoding="async" fetchpriority="high">
+        <picture>
+          <source type="image/webp" srcset="assets/ptc-hero-family-tech-800.webp 800w, assets/ptc-hero-family-tech-1280.webp 1280w" sizes="(max-width: 980px) calc(100vw - 36px), 560px">
+          <img src="assets/ptc-hero-family-tech.jpg" width="1600" height="900" alt="Adult child helping an older parent review phone settings" decoding="async" fetchpriority="high">
+        </picture>
       </figure>
     </section>
 
     <section class="weekly-feature" aria-labelledby="weekly-title">
       <div class="weekly-inner">
         <div>
-          <p class="eyebrow">This week's checklist</p>
+          <p class="eyebrow" id="weekly-eyebrow">This week's checklist</p>
           <h2 id="weekly-title">Living Alone Safety Tech for Aging Parents</h2>
-          <p class="section-copy">Compare the response workflow before buying a watch, pendant, or monitoring plan. The checklist helps families review alerts, charging, backup contacts, and monthly-cost tradeoffs without making false safety promises.</p>
+          <p class="section-copy" id="weekly-copy">Compare the response workflow before buying a watch, pendant, or monitoring plan. The checklist helps families review alerts, charging, backup contacts, and monthly-cost tradeoffs without making false safety promises.</p>
           <div class="hero-actions">
-            <a class="button primary" href="guides/living-alone-safety">Read the living-alone guide</a>
-            <a class="button download" href="downloads/living-alone-tech-checklist.pdf" download>Download checklist</a>
-            <a class="button secondary" href="https://www.youtube.com/@ParentTechChecklist" rel="noopener">Watch on YouTube</a>
+            <a class="button primary" id="weekly-guide-link" href="guides/living-alone-safety">Read this week's guide</a>
+            <a class="button download" href="/checklists/">Browse all 40 guides</a>
+            <a class="button secondary" href="/go/home-live-youtube">Watch live status</a>
           </div>
         </div>
-        <div class="weekly-points" aria-label="What the checklist covers">
+        <div class="weekly-points" id="weekly-points" aria-label="What the checklist covers">
           <strong>Use this before you buy hardware</strong>
           <span>Define who gets the first alert and who backs them up.</span>
           <span>Check whether the parent will wear it, charge it, and use it under stress.</span>
@@ -242,7 +271,7 @@
           </div>
         </a>
         <a class="guide-card" href="guides/medication-reminders">
-          <img src="assets/ptc-hero-family-tech.jpg" width="1280" height="720" alt="Medication reminder guide thumbnail" loading="lazy" decoding="async">
+          <img src="assets/ptc-hero-family-tech-800.webp" width="800" height="450" alt="Medication reminder guide thumbnail" loading="lazy" decoding="async">
           <div class="guide-body">
             <span class="tag blue">Medication</span>
             <h3>Medication reminders</h3>
@@ -381,5 +410,38 @@
       <a href="https://www.youtube.com/@ParentTechChecklist" rel="noopener">YouTube</a>
     </div>
   </footer>
+  <script>
+    function taipeiDate() {
+      const parts = new Intl.DateTimeFormat('en-CA', {timeZone: 'Asia/Taipei', year: 'numeric', month: '2-digit', day: '2-digit'}).formatToParts(new Date());
+      const value = Object.fromEntries(parts.map(part => [part.type, part.value]));
+      return `${value.year}-${value.month}-${value.day}`;
+    }
+    function activeCatalogTopic(topics) {
+      const today = taipeiDate();
+      return topics.find(topic => topic.starts_on <= today && today <= topic.ends_on)
+        || topics.find(topic => topic.starts_on > today)
+        || topics[topics.length - 1];
+    }
+    async function hydrateWeeklyGuide() {
+      try {
+        const response = await fetch('/assets/weekly-editorial.json', {cache: 'no-store'});
+        if (!response.ok) return;
+        const payload = await response.json();
+        const topic = activeCatalogTopic(Array.isArray(payload.topics) ? payload.topics : []);
+        if (!topic) return;
+        document.querySelector('#weekly-eyebrow').textContent = `40-week family library · Week ${topic.week}`;
+        document.querySelector('#weekly-title').textContent = topic.title;
+        document.querySelector('#weekly-copy').textContent = topic.positioning;
+        const link = document.querySelector('#weekly-guide-link');
+        link.href = `${topic.companion_path}?utm_source=parenttechchecklist&utm_medium=home-weekly&utm_campaign=ptc-week${topic.week}-${topic.topic_id}`;
+        link.textContent = 'Open this family guide';
+        const points = document.querySelector('#weekly-points');
+        points.innerHTML = `<strong>${topic.primary_question}</strong>${topic.actions.map(action => `<span>${action}</span>`).join('')}`;
+      } catch (_) {
+        // Keep the established Living Alone feature when the catalog is unavailable.
+      }
+    }
+    hydrateWeeklyGuide();
+  </script>
 </body>
 </html>

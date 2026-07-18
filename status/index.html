@@ -13,7 +13,7 @@
   <meta property="og:image" content="https://parenttechchecklist.com/assets/ptc-hero-family-tech.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" type="image/png" href="/assets/ptc-avatar-96.png">
-  <link rel="stylesheet" href="../styles.css?v=20260711-status">
+  <link rel="stylesheet" href="../styles.css?v=20260717-status-cta2">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -37,6 +37,7 @@
     </a>
     <nav aria-label="Main navigation">
       <a href="/status">Status</a>
+      <a href="/checklists/">40-week library</a>
       <a href="/#guides">Guides</a>
       <a href="/products/parent-tech-quick-start-kit?utm_source=parenttechchecklist&utm_medium=status-nav&utm_campaign=ptc-status">Kit</a>
       <a href="/#downloads">Downloads</a>
@@ -47,15 +48,10 @@
 
   <main>
     <section class="status-hero" aria-labelledby="status-title">
-      <div>
+      <div class="status-intro">
         <p class="eyebrow">Official sources, family actions</p>
         <h1 id="status-title">Parent Tech Status</h1>
-        <p class="lede">Family communication services and verified U.S. consumer safety alerts, translated into practical next steps before you reset a phone, change an account, or buy another device.</p>
-        <div class="status-meta-grid" aria-label="Status summary">
-          <div class="status-pill attention" id="overall-status"><strong>STATUS UNAVAILABLE</strong><span>Current Google, Apple and Zoom status cannot be fully verified.</span></div>
-          <div><strong>Last successful snapshot</strong><span id="last-checked">July 11, 2026, 10:42 AM ET</span></div>
-          <div><strong>Data source</strong><span id="data-source-copy">Live update pipeline unavailable; last successful snapshot is expired.</span></div>
-        </div>
+        <p class="lede">Official service and safety updates, with the next safe step before you reset a phone or account.</p>
       </div>
       <aside class="current-update" aria-labelledby="current-update-title">
         <span class="status-label" id="current-status-label">Current Status Unavailable</span>
@@ -65,20 +61,25 @@
           <strong>Family action</strong>
           <span id="current-family-action">Try a regular call or text, then wait for a fresh official snapshot before resetting.</span>
         </div>
-        <p class="build-stamp" id="snapshot-stamp">Snapshot not verified</p>
         <dl class="event-facts" id="current-event-facts" hidden></dl>
         <div class="hero-actions">
-          <a id="current-checklist-link" class="button primary" href="/guides/video-calling?utm_source=parenttechchecklist&utm_medium=status-current&utm_campaign=ptc-status">Open Video Calling Checklist</a>
+          <a id="current-checklist-link" class="button primary" href="/guides/video-calling?utm_source=parenttechchecklist&utm_medium=status-current&utm_campaign=ptc-status">Open checklist</a>
           <a id="current-source-link" class="button secondary" href="https://www.google.com/appsstatus/dashboard/" rel="noopener">View Official Source</a>
         </div>
+        <p class="build-stamp" id="snapshot-stamp">Snapshot not verified</p>
       </aside>
+      <div class="status-meta-grid" aria-label="Status summary">
+        <div class="status-pill attention" id="overall-status"><strong>STATUS UNAVAILABLE</strong><span>Current Google, Apple and Zoom status cannot be fully verified.</span></div>
+        <div><strong>Last successful snapshot</strong><span id="last-checked">July 11, 2026, 10:42 AM ET</span></div>
+        <div><strong>Data source</strong><span id="data-source-copy">Live update pipeline unavailable; last successful snapshot is expired.</span></div>
+      </div>
     </section>
 
     <section class="status-band" aria-labelledby="services-title">
       <div class="section-head">
         <div>
           <h2 id="services-title">Family Service Status</h2>
-          <p>These cards should come from the same ParentTech status snapshot used by the live stream. Browser code must not call official vendor APIs directly.</p>
+          <p>The website and live stream use the same verified snapshot, so families see one consistent answer.</p>
         </div>
       </div>
       <div class="service-status-grid" id="service-status-grid">
@@ -122,14 +123,14 @@
       <div class="section-head">
         <div>
           <h2 id="alerts-title">U.S. Consumer Alerts</h2>
-          <p>Only consumer-relevant alerts should appear here. Enterprise-only advisories and raw official copy need filtering before publication.</p>
+          <p>Family-relevant scam, device-security, and product-recall updates from official U.S. sources.</p>
         </div>
       </div>
       <div class="alert-grid">
         <article class="alert-card">
           <span class="tag rose">FTC</span>
           <h3>Scam alert watch</h3>
-          <p>Latest consumer scam notices should be summarized into one family action, not republished as long copied articles.</p>
+          <p>Official scam notices are condensed into one clear family action.</p>
           <strong>Family action</strong>
           <span>Pause before tapping links in texts or emails that claim an account is locked.</span>
           <a href="https://consumer.ftc.gov/consumer-alerts" rel="noopener">Open FTC alerts</a>
@@ -137,7 +138,7 @@
         <article class="alert-card">
           <span class="tag blue">CISA</span>
           <h3>Device and browser security</h3>
-          <p>CISA items must be filtered for phones, browsers, routers, and home devices before they reach this page.</p>
+          <p>Only guidance that affects phones, browsers, routers, or home devices is shown here.</p>
           <strong>Family action</strong>
           <span>Update the browser or device only through the official settings screen.</span>
           <a href="https://www.cisa.gov/news-events/cybersecurity-advisories" rel="noopener">Open CISA advisories</a>
@@ -145,7 +146,7 @@
         <article class="alert-card">
           <span class="tag gold">CPSC</span>
           <h3>Device recall watch</h3>
-          <p>Recall entries should show product name, model, recall number, hazard, and official remedy.</p>
+          <p>Recall summaries include the product, model, hazard, and official remedy when available.</p>
           <strong>Family action</strong>
           <span>Check chargers, batteries, alert devices, and smart-home hardware before buying replacements.</span>
           <a href="https://www.cpsc.gov/Recalls" rel="noopener">Open CPSC recalls</a>
@@ -175,10 +176,11 @@
       <div class="section-head">
         <div>
           <h2 id="checklists-title">Checklist Routing</h2>
-          <p>Each status or alert should route to the guide that helps a family finish the setup or decision calmly.</p>
+          <p>Choose the guide that matches the issue and take the next step calmly.</p>
         </div>
       </div>
       <div class="status-checklist-grid">
+        <a class="start-card" id="weekly-guide-card" href="/checklists/"><strong id="weekly-guide-title">Browse all 40 family guides</strong><span id="weekly-guide-copy">Choose the phone, account, scam, network, smart-home, or caregiver routine your family needs now.</span></a>
         <a class="start-card" href="/guides/senior-phones?utm_source=parenttechchecklist&utm_medium=status-checklist&utm_campaign=ptc-status"><strong>Senior Phone Setup</strong><span>Use for sign-in, battery, contacts, charging, and account recovery issues.</span></a>
         <a class="start-card" href="/guides/scam-call-safety?utm_source=parenttechchecklist&utm_medium=status-checklist&utm_campaign=ptc-status"><strong>Scam Call Safety</strong><span>Use for FTC scam alerts, phishing warnings, and suspicious text messages.</span></a>
         <a class="start-card" href="/guides/video-calling?utm_source=parenttechchecklist&utm_medium=status-checklist&utm_campaign=ptc-status"><strong>Video Calling Setup</strong><span>Use for Google Meet, Zoom, FaceTime, microphone, camera, or answer-flow problems.</span></a>
@@ -193,7 +195,7 @@
         <h2 id="live-title">Watch the live status stream after checking the text summary</h2>
         <p class="section-copy">The text status comes first so families can get the answer without waiting for a player. The player below uses the current live video; if it is unavailable, the written status and official links remain useful.</p>
         <div class="hero-actions">
-          <a class="button primary" href="https://www.youtube.com/watch?v=4HYkV-6NRcY&utm_source=parenttechchecklist&utm_medium=status-live&utm_campaign=ptc-status" rel="noopener">Watch Live Status</a>
+          <a class="button primary" href="/go/status-youtube">Watch Live Status</a>
           <a class="button secondary" href="/live">Open broadcast view</a>
         </div>
       </div>
@@ -204,13 +206,13 @@
           loading="lazy"
           allow="autoplay; encrypted-media; picture-in-picture"
           allowfullscreen></iframe>
-        <a class="player-fallback" href="https://www.youtube.com/watch?v=4HYkV-6NRcY" rel="noopener">Open the current live stream</a>
+        <a class="player-fallback" href="/go/status-youtube">Open the current live stream</a>
       </div>
     </section>
 
     <section class="disclosure">
       <p><strong>Status note:</strong> Parent Tech Status reports known official incidents and verified public alerts. It does not prove that a specific device, account, network, or emergency situation is safe.</p>
-      <p><strong>Data boundary:</strong> Official sources should be fetched server-side, normalized once, then shared by the website and live stream. Public browser code must not expose private API keys, OAuth tokens, parser secrets, or internal rules.</p>
+      <p><strong>Privacy and source safety:</strong> Official updates are checked securely. Parent Tech Status never asks families for passwords, verification codes, or private account details.</p>
     </section>
   </main>
 
@@ -238,6 +240,9 @@
     const currentSourceLink = document.querySelector('#current-source-link');
     const currentStatusLabel = document.querySelector('#current-status-label');
     const snapshotStamp = document.querySelector('#snapshot-stamp');
+    const weeklyGuideCard = document.querySelector('#weekly-guide-card');
+    const weeklyGuideTitle = document.querySelector('#weekly-guide-title');
+    const weeklyGuideCopy = document.querySelector('#weekly-guide-copy');
     const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
     const clearStatuses = ['No known official incident', 'No new verified consumer alert'];
     const tone = card => card.source_available && clearStatuses.includes(card.status) ? 'ok' : card.source_available ? 'attention' : 'unavailable';
@@ -252,10 +257,11 @@
     };
     const sourceHref = card => card.official_url || sourcePublicUrls[card.key] || card.source_url || '/status';
     const snapshotMaxAgeSeconds = payload => Number(payload?.snapshot_policy?.max_age_seconds || 300);
-    const snapshotIsFresh = payload => {
+    const snapshotAgeSeconds = payload => {
       const generated = Date.parse(payload?.generated_at || '');
-      return Number.isFinite(generated) && (Date.now() - generated) / 1000 <= snapshotMaxAgeSeconds(payload);
+      return Number.isFinite(generated) ? Math.max(0, (Date.now() - generated) / 1000) : Number.POSITIVE_INFINITY;
     };
+    const snapshotIsFresh = payload => snapshotAgeSeconds(payload) <= snapshotMaxAgeSeconds(payload);
     const statusCardHtml = (card, stale, generated) => `
       <article class="service-card ${stale ? 'unavailable' : tone(card)}">
         <span class="source-name">${esc(card.source)}</span>
@@ -271,16 +277,6 @@
       const text = String(value || '').replace(/\s+/g, ' ').trim();
       return text.length > max ? `${text.slice(0, max - 1).trim()}…` : text;
     };
-    function eventFactsHtml(item) {
-      if (!item) return '';
-      const facts = [
-        ['Product', item.product_name],
-        ['Model', item.model_number],
-        ['Hazard', item.hazard],
-        ['Official remedy', shortText(item.remedy, 300)]
-      ].filter(([, value]) => value);
-      return facts.map(([label, value]) => `<div><dt>${esc(label)}</dt><dd>${esc(value)}</dd></div>`).join('');
-    }
     function familyImpactTitle(event, card) {
       if (event?.key === 'cpsc') return `Recall check: ${card?.product_name || 'match the product'} before using it`;
       if (event?.key === 'ftc' || event?.key === 'cisa') return 'Pause before clicking or sharing codes';
@@ -301,27 +297,55 @@
       return event && card.key === event.key;
     }
 
+    function showEditorialTopic(payload) {
+      const topic = payload.editorial_topic;
+      if (payload.priority_event || !topic) {
+        weeklyGuideCard.href = '/checklists/';
+        weeklyGuideTitle.textContent = 'Browse all 40 family guides';
+        weeklyGuideCopy.textContent = 'Choose the phone, account, scam, network, smart-home, or caregiver routine your family needs now.';
+        return;
+      }
+      weeklyGuideCard.href = `${topic.companion_path}?utm_source=status-page&utm_medium=weekly-topic&utm_campaign=ptc-week${topic.week}-${topic.topic_id}`;
+      weeklyGuideTitle.textContent = `Week ${topic.week}: ${topic.title}`;
+      weeklyGuideCopy.textContent = topic.primary_question;
+    }
+
+    function showExpiredSnapshot(payload, generated) {
+      overallStatus.innerHTML = '<strong>STATUS DATA UNAVAILABLE</strong><span>The last snapshot is too old to call any source normal.</span>';
+      overallStatus.className = 'status-pill attention';
+      dataSourceCopy.textContent = `Last successful snapshot: ${generated}. Reconnecting to official sources.`;
+      currentTitle.textContent = 'Status updates unavailable';
+      currentStatusLabel.textContent = 'Current Status Unavailable';
+      currentCopy.textContent = 'Do not assume Google, Apple or Zoom is operating normally. Check the official source before changing a phone or account.';
+      currentFamilyAction.textContent = 'Try a regular call or text, then wait for a fresh official snapshot before resetting.';
+      currentChecklistLink.href = '/guides/senior-phones?utm_source=parenttechchecklist&utm_medium=status-stale&utm_campaign=ptc-status';
+      currentChecklistLink.textContent = 'Open Senior Phone Checklist';
+      currentSourceLink.href = '/status';
+      currentSourceLink.textContent = 'Open status page';
+      const factList = document.querySelector('#current-event-facts');
+      factList.innerHTML = '';
+      factList.hidden = true;
+      serviceGrid.innerHTML = (payload.cards || []).map(card => statusCardHtml(card, true, generated)).join('');
+    }
+
+    let lastSnapshotPayload = null;
+    let statusHydrationInFlight = false;
     async function hydrateFromSnapshot() {
+      if (statusHydrationInFlight) return;
+      statusHydrationInFlight = true;
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 10000);
       try {
-        const response = await fetch(apiUrl, {cache: 'no-store'});
+        const response = await fetch(apiUrl, {cache: 'no-store', signal: controller.signal});
         if (!response.ok) return;
         const payload = await response.json();
         if (!payload || !Array.isArray(payload.cards) || !payload.cards.length) return;
+        lastSnapshotPayload = payload;
         const generated = payload.generated_at ? new Date(payload.generated_at).toUTCString() : 'Unavailable';
         lastChecked.textContent = generated;
         snapshotStamp.textContent = `Build ${payload.build_id || 'unknown'} · ${payload.snapshot_id || 'snapshot pending'}`;
         if (!snapshotIsFresh(payload)) {
-          overallStatus.innerHTML = '<strong>STATUS DATA UNAVAILABLE</strong><span>The last snapshot is too old to call any source normal.</span>';
-          overallStatus.className = 'status-pill attention';
-          dataSourceCopy.textContent = `Last successful snapshot: ${generated}. Reconnecting to official sources.`;
-          currentTitle.textContent = 'Status updates unavailable';
-          currentStatusLabel.textContent = 'Current Status Unavailable';
-          currentCopy.textContent = 'Do not assume Google, Apple or Zoom is operating normally. Check the official source before changing a phone or account.';
-          currentFamilyAction.textContent = 'Try a regular call or text, then wait for a fresh official snapshot before resetting.';
-          currentChecklistLink.href = '/guides/senior-phones?utm_source=parenttechchecklist&utm_medium=status-stale&utm_campaign=ptc-status';
-          currentChecklistLink.textContent = 'Open Senior Phone Checklist';
-          currentSourceLink.href = '/status';
-          serviceGrid.innerHTML = payload.cards.map(card => statusCardHtml(card, true, generated)).join('');
+          showExpiredSnapshot(payload, generated);
           return;
         }
         const unavailable = payload.cards.some(card => !card.source_available);
@@ -337,7 +361,9 @@
         overallStatus.className = `status-pill ${stateCopy[2]}`;
         currentStatusLabel.textContent = state === 'verified_normal' ? 'Current Verified Status' : state === 'partial_verification' ? 'Latest Available Snapshot' : state === 'incident_detected' ? 'Current Verified Update' : 'Current Status Unavailable';
         if (payload.scene) {
-          dataSourceCopy.textContent = `Live scene: ${payload.scene.name || payload.scene.id}. Next: ${payload.scene.next_scene_label || 'status segment'} in ${payload.scene.seconds_remaining ?? 0}s.`;
+          const age = snapshotAgeSeconds(payload);
+          const duration = Math.max(1, Number(payload.scene.duration_seconds || 10));
+          dataSourceCopy.textContent = `Stream snapshot: ${payload.scene.name || payload.scene.id} · ${Number.isFinite(age) ? `${Math.round(age)}s old` : 'age unknown'} · Rotates every ${duration}s.`;
         }
         if (payload.priority_event) {
           const eventCard = payload.cards.find(card => cardMatchesEvent(card, payload.priority_event));
@@ -346,8 +372,7 @@
           const activeEvent = payload.active_event;
           const timeline = activeEvent?.timeline?.length ? ` Timeline updates: ${activeEvent.timeline.length}.` : '';
           currentFamilyAction.textContent = `${actionLabel(payload.priority_event.consumer_action_code)}${timeline}`;
-          const factSource = activeEvent || eventCard;
-          const facts = eventFactsHtml(factSource);
+          const facts = '';
           const factList = document.querySelector('#current-event-facts');
           if (facts) {
             factList.innerHTML = facts;
@@ -364,15 +389,27 @@
           currentCopy.textContent = 'Current Google, Apple and Zoom status cannot be fully verified.';
           currentFamilyAction.textContent = 'Try a regular call or text, then wait for a fresh official snapshot before resetting.';
         }
+        showEditorialTopic(payload);
         serviceGrid.innerHTML = payload.cards.map(card => statusCardHtml(card, false, generated)).join('');
       } catch (_) {
-        // Keep the static preview if the public API is not deployed yet.
+        if (lastSnapshotPayload && !snapshotIsFresh(lastSnapshotPayload)) {
+          const generated = lastSnapshotPayload.generated_at ? new Date(lastSnapshotPayload.generated_at).toUTCString() : 'Unavailable';
+          showExpiredSnapshot(lastSnapshotPayload, generated);
+        }
+      } finally {
+        clearTimeout(timeout);
+        statusHydrationInFlight = false;
       }
     }
 
     window.hydrateParentTechStatus = hydrateFromSnapshot;
     if (document.body.dataset.statusApi === 'enabled' || ['127.0.0.1', 'localhost'].includes(window.location.hostname)) {
       hydrateFromSnapshot();
+      const hydrateIfVisible = () => {
+        if (document.visibilityState === 'visible') hydrateFromSnapshot();
+      };
+      setInterval(hydrateIfVisible, 240000);
+      document.addEventListener('visibilitychange', hydrateIfVisible);
     }
   </script>
 </body>

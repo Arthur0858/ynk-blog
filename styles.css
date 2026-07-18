@@ -661,11 +661,18 @@ h3 {
   line-height: .98;
 }
 
+.status-intro {
+  grid-column: 1;
+  grid-row: 1;
+}
+
 .status-meta-grid {
+  grid-column: 1;
+  grid-row: 2;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
-  margin-top: 24px;
+  margin-top: 0;
 }
 
 .status-meta-grid > div,
@@ -718,6 +725,9 @@ h3 {
 }
 
 .current-update {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  min-height: 650px;
   padding: 22px;
   border-left: 5px solid var(--od-gold);
 }
@@ -734,7 +744,12 @@ h3 {
 }
 
 .current-update h2 {
+  min-height: 110px;
   font-size: clamp(25px, 3vw, 34px);
+}
+
+.current-update > p:not(.build-stamp) {
+  min-height: 58px;
 }
 
 .current-update p,
@@ -745,11 +760,30 @@ h3 {
 }
 
 .family-action {
+  min-height: 104px;
   margin-top: 16px;
   padding: 14px;
   border: 1px solid rgba(47, 107, 83, .22);
   border-radius: 8px;
   background: var(--od-green-band);
+}
+
+.current-update .build-stamp {
+  min-height: 42px;
+}
+
+.current-update .hero-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  min-height: 56px;
+}
+
+.current-update .hero-actions .button {
+  width: 100%;
+  min-width: 0;
+  padding-inline: 12px;
+  line-height: 1.25;
 }
 
 .family-action span,
@@ -768,6 +802,10 @@ h3 {
   border: 1px solid rgba(47, 107, 83, .18);
   border-radius: 8px;
   background: #fff;
+}
+
+.event-facts[hidden] {
+  display: none;
 }
 
 .event-facts.compact {
@@ -1733,6 +1771,7 @@ td:first-child {
   }
 
   nav {
+    flex-wrap: nowrap;
     justify-content: flex-start !important;
     max-width: 100%;
     overflow-x: auto;
@@ -1740,13 +1779,66 @@ td:first-child {
     padding-bottom: 6px;
     white-space: nowrap;
     scroll-padding-inline: 18px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  nav::-webkit-scrollbar {
+    display: none;
   }
 
   nav a {
+    flex: 0 0 auto;
     min-height: 44px;
     display: inline-flex;
     align-items: center;
     padding: 10px 12px;
+  }
+
+  .status-intro {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .status-page .status-hero {
+    padding-top: 20px;
+  }
+
+  .current-update {
+    grid-column: 1;
+    grid-row: 2;
+    min-height: 560px;
+  }
+
+  .status-intro .lede {
+    margin-top: 12px;
+  }
+
+  .current-update .hero-actions {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    margin-top: 16px;
+  }
+
+  .current-update .hero-actions .button {
+    width: 100%;
+    min-width: 0;
+    min-height: 58px;
+    padding: 10px 8px;
+    font-size: 13px;
+    line-height: 1.25;
+  }
+
+  .status-meta-grid {
+    grid-column: 1;
+    grid-row: 3;
+    gap: 8px;
+  }
+
+  .status-meta-grid > div {
+    min-height: 0;
+    padding: 12px 14px;
   }
 
   .table-wrap {
