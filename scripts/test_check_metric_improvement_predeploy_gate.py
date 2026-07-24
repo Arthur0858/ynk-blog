@@ -27,6 +27,8 @@ class ParentTechMetricImprovementPredeployGateTests(unittest.TestCase):
         ahead: str = "1",
         approved: bool = False,
         dirty: str = "",
+        changed: str = "index.html\n",
+        git_fail_arg: str = "",
     ) -> dict:
         with tempfile.TemporaryDirectory() as tmp:
             tmp_path = Path(tmp)
@@ -36,14 +38,18 @@ class ParentTechMetricImprovementPredeployGateTests(unittest.TestCase):
             live_path.write_text(json.dumps(live), encoding="utf-8")
 
             def fake_git(args: list[str], *, cwd=gate.SITE_DIR) -> str:
+                if git_fail_arg and args and args[0] == git_fail_arg:
+                    raise RuntimeError(f"git_command_failed:{git_fail_arg}")
                 if args == ["rev-parse", "--short", "HEAD"]:
                     return head
                 if args == ["rev-parse", "--short", "origin/main"]:
                     return origin
                 if args == ["rev-list", "--count", "origin/main..HEAD"]:
                     return ahead
-                if args == ["status", "--short"]:
+                if args == ["status", "--porcelain=v1", "-z", "--untracked-files=all"]:
                     return dirty
+                if args == ["diff", "--name-only", "origin/main...HEAD"]:
+                    return changed if ahead != "0" else ""
                 return ""
 
             original = gate.git_output
@@ -213,6 +219,38 @@ class ParentTechMetricImprovementPredeployGateTests(unittest.TestCase):
         self.assertEqual(report["status"], "healthy_wait_no_unpublished_site_candidate")
         self.assertFalse(report["local_unpublished_change_ready"])
         self.assertEqual(report["rules"]["read_only"], True)
+
+    def test_waits_when_ahead_commit_only_changes_deploy_excluded_docs(self) -> None:
+        report = self.run_report(
+            {"ok": True, "failed": []},
+            {"ok": True, "failed": []},
+            changed=".gitignore\nCTA_MEASUREMENT.md\n",
+        )
+
+        self.assertEqual(report["status"], "healthy_wait_no_unpublished_site_candidate")
+        self.assertFalse(report["local_unpublished_change_ready"])
+        self.assertEqual(report["deploy_candidate_paths"], [])
+
+    def test_stripped_first_porcelain_line_keeps_full_path(self) -> None:
+        self.assertEqual(
+            gate.dirty_path("M scripts/check_metric_improvement_predeploy_gate.py"),
+            "scripts/check_metric_improvement_predeploy_gate.py",
+        )
+
+    def test_porcelain_z_preserves_arrow_in_deployable_filename(self) -> None:
+        paths = gate.parse_porcelain_z(" M public -> scripts/site.html\0")
+        self.assertEqual(paths, ["public -> scripts/site.html"])
+        self.assertTrue(gate.is_deploy_candidate_path(paths[0]))
+
+    def test_git_query_failure_blocks_gate(self) -> None:
+        report = self.run_report(
+            {"ok": True, "failed": []},
+            {"ok": True, "failed": []},
+            git_fail_arg="rev-parse",
+        )
+        self.assertEqual(report["status"], "blocked_git_state_unavailable")
+        self.assertFalse(report["git_state"]["ok"])
+        self.assertIn("git_rev-parse", report["git_state"]["errors"])
 
     def test_dirty_local_site_counts_as_unpublished_change(self) -> None:
         live = {"ok": False, "failed": [{"name": name, "details": {}} for name in gate.EXPECTED_LIVE_DELTA_FAILURES]}

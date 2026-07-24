@@ -106,6 +106,51 @@ EXPECTED_LIVE_DELTA_FAILURES = {
 EXPECTED_LIVE_DELTA_BROKEN_IMAGES = {
     "https://parenttechchecklist.com/assets/medication-reminder-hero.jpg",
 }
+DEPLOY_EXCLUDED_DIR_NAMES = {".git", ".wrangler", "node_modules", "scripts"}
+
+
+def is_deploy_candidate_path(path_text: str) -> bool:
+    path = path_text.strip().replace("\\", "/")
+    if not path or path == "__git_diff_unavailable__":
+        return bool(path)
+    parts = [part for part in path.split("/") if part]
+    if not parts:
+        return False
+    if parts[0] == "functions":
+        return True
+    if any(part in DEPLOY_EXCLUDED_DIR_NAMES for part in parts[:-1]):
+        return False
+    name = parts[-1]
+    return not name.startswith(".") and not name.endswith(".md")
+
+
+def dirty_path(line: str) -> str:
+    if len(line) >= 3 and line[2] == " ":
+        return line[3:].strip()
+    if len(line) >= 2 and line[1] == " ":
+        return line[2:].strip()
+    return ""
+
+
+def parse_porcelain_z(raw: str) -> list[str]:
+    if not raw:
+        return []
+    nul_mode = "\0" in raw
+    records = raw.split("\0") if nul_mode else raw.splitlines()
+    paths: list[str] = []
+    index = 0
+    while index < len(records):
+        record = records[index]
+        index += 1
+        if not record:
+            continue
+        path = dirty_path(record)
+        if path:
+            paths.append(path)
+        status = record[:2]
+        if nul_mode and any(marker in status for marker in ("R", "C")) and index < len(records):
+            index += 1  # v1 -z emits destination first, then source without an arrow marker.
+    return paths
 
 
 def read_json(path: Path) -> dict[str, Any]:
@@ -122,7 +167,9 @@ def read_json(path: Path) -> dict[str, Any]:
 
 def git_output(args: list[str], *, cwd: Path = SITE_DIR) -> str:
     result = subprocess.run(["git", "-C", str(cwd), *args], text=True, capture_output=True, check=False)
-    return result.stdout.strip() if result.returncode == 0 else ""
+    if result.returncode != 0:
+        raise RuntimeError(f"git_command_failed:{args[0] if args else 'unknown'}")
+    return result.stdout
 
 
 def failed_names(report: dict[str, Any]) -> set[str]:
@@ -169,33 +216,48 @@ def unexpected_live_failures(report: dict[str, Any]) -> list[str]:
 def build_report(args: argparse.Namespace) -> dict[str, Any]:
     local_smoke = read_json(args.local_smoke_json)
     live_smoke = read_json(args.live_smoke_json)
-    local_head = git_output(["rev-parse", "--short", "HEAD"])
-    origin_head = git_output(["rev-parse", "--short", "origin/main"])
-    ahead_count_text = git_output(["rev-list", "--count", "origin/main..HEAD"])
-    dirty_paths = [line for line in git_output(["status", "--short"]).splitlines() if line.strip()]
+    git_errors: list[str] = []
+
+    def required_git(args_list: list[str]) -> str:
+        try:
+            return git_output(args_list)
+        except (OSError, RuntimeError):
+            git_errors.append("git_" + (args_list[0] if args_list else "unknown"))
+            return ""
+
+    local_head = required_git(["rev-parse", "--short", "HEAD"]).strip()
+    origin_head = required_git(["rev-parse", "--short", "origin/main"]).strip()
+    ahead_count_text = required_git(["rev-list", "--count", "origin/main..HEAD"]).strip()
+    dirty_raw = required_git(["status", "--porcelain=v1", "-z", "--untracked-files=all"])
+    dirty_paths = parse_porcelain_z(dirty_raw)
     try:
-        ahead_count = int(ahead_count_text or "0")
+        ahead_count = int(ahead_count_text)
     except ValueError:
         ahead_count = None
+        git_errors.append("git_rev_list_invalid_count")
+
+    committed_paths_text = required_git(["diff", "--name-only", "origin/main...HEAD"])
+    committed_paths = [line.strip() for line in committed_paths_text.splitlines() if line.strip()]
+    git_state_ok = bool(local_head and origin_head and isinstance(ahead_count, int) and not git_errors)
+    if not local_head:
+        git_errors.append("git_local_head_missing")
+    if not origin_head:
+        git_errors.append("git_origin_main_missing")
+    changed_paths = sorted(set(committed_paths + dirty_paths))
+    deploy_candidate_paths = sorted(path for path in changed_paths if is_deploy_candidate_path(path))
 
     live_failed = failed_names(live_smoke)
     unexpected_failures = unexpected_live_failures(live_smoke)
     missing_expected_live_delta = sorted(EXPECTED_LIVE_DELTA_FAILURES - live_failed)
     local_ok = local_smoke.get("ok") is True
     live_delta_matches = bool(live_failed) and not unexpected_failures
-    local_unpublished_change_ready = (
-        (
-            isinstance(ahead_count, int)
-            and ahead_count >= 1
-            and bool(local_head)
-            and bool(origin_head)
-            and local_head != origin_head
-        )
-        or bool(dirty_paths)
-    )
+    local_unpublished_change_ready = bool(deploy_candidate_paths)
     publish_gate = "awaiting_explicit_publish_approval" if args.external_publish_approved is not True else "publish_approved_by_argument"
 
-    if not local_ok:
+    if not git_state_ok:
+        status = "blocked_git_state_unavailable"
+        next_action = "repair_required_git_queries_before_classifying_or_publishing_site_changes"
+    elif not local_ok:
         status = "blocked_local_smoke_failed"
         next_action = "repair_local_site_before_publish_or_scale"
     elif not local_unpublished_change_ready:
@@ -223,8 +285,16 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
         "local_head": local_head,
         "origin_main": origin_head,
         "ahead_count": ahead_count,
+        "git_state": {
+            "ok": git_state_ok,
+            "errors": sorted(set(git_errors)),
+            "required_queries_fail_closed": True,
+            "porcelain_format": "v1-z",
+        },
         "dirty_paths_count": len(dirty_paths),
         "dirty_paths_sample": dirty_paths[:20],
+        "changed_paths": changed_paths,
+        "deploy_candidate_paths": deploy_candidate_paths,
         "local_unpublished_change_ready": local_unpublished_change_ready,
         "publish_gate": publish_gate,
         "local_smoke": {
