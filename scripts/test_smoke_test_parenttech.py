@@ -65,8 +65,41 @@ class SmokeTestParentTechTests(unittest.TestCase):
         self.assertIn("/live/", smoke.SCREENSHOT_PATHS)
         self.assertIn("/checklists/", smoke.SCREENSHOT_PATHS)
         self.assertIn("/guides/password-recovery", smoke.SCREENSHOT_PATHS)
+        self.assertIn("/guides/7-day-parent-tech-setup", smoke.SCREENSHOT_PATHS)
         self.assertNotIn("/status", smoke.SCREENSHOT_PATHS)
         self.assertNotIn("/live", smoke.SCREENSHOT_PATHS)
+
+    def test_screenshot_reset_returns_page_to_top(self) -> None:
+        class Page:
+            def __init__(self) -> None:
+                self.scripts = []
+                self.styles = []
+
+            def evaluate(self, script: str) -> None:
+                self.scripts.append(script)
+
+            def add_style_tag(self, *, content: str) -> None:
+                self.styles.append(content)
+
+        page = Page()
+        smoke.reset_scroll_before_screenshot(page)
+        self.assertEqual(page.scripts, ["() => window.scrollTo(0, 0)"])
+        self.assertEqual(page.styles, [".site-header{position:static!important}"])
+
+    def test_required_link_preserves_campaign_query_for_relative_urls(self) -> None:
+        expected = (
+            "/products/parent-tech-quick-start-kit"
+            "?utm_source=parenttech-site&utm_medium=organic-guide"
+            "&utm_campaign=ptc-organic-20260726-family-setup"
+        )
+        correct = (
+            "http://127.0.0.1:8000/products/parent-tech-quick-start-kit"
+            "?utm_source=parenttech-site&utm_medium=organic-guide"
+            "&utm_campaign=ptc-organic-20260726-family-setup"
+        )
+        wrong_campaign = correct.replace("ptc-organic-20260726-family-setup", "wrong-campaign")
+        self.assertTrue(smoke.required_link_present(expected, [correct]))
+        self.assertFalse(smoke.required_link_present(expected, [wrong_campaign]))
 
     def test_complete_weekly_catalog_is_materialized_for_one_time_deploy(self) -> None:
         manifest = json.loads((smoke.SITE_DIR / "assets" / "weekly-editorial.json").read_text(encoding="utf-8"))

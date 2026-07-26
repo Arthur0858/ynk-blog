@@ -15,7 +15,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
-from urllib.parse import urljoin, urlparse
+from urllib.parse import parse_qsl, urljoin, urlparse
 from urllib.request import Request, urlopen
 
 try:
@@ -36,6 +36,7 @@ SCREENSHOT_PATHS = {
     "/",
     "/checklists/",
     "/guides/password-recovery",
+    "/guides/7-day-parent-tech-setup",
     "/status/",
     "/live/",
     "/products/parent-tech-quick-start-kit",
@@ -253,6 +254,21 @@ PAGE_CHECKS = [
         "required_links": [
             "/contact",
             "/products/parent-tech-quick-start-kit",
+        ],
+    },
+    {
+        "path": "/guides/7-day-parent-tech-setup",
+        "required_text": [
+            "7-Day Parent Tech Setup Plan",
+            "One calm task per day",
+            "Start with the routine, not another device",
+            "Parent Tech Quick-Start Kit",
+            "General technology guidance only",
+        ],
+        "required_links": [
+            "/products/parent-tech-quick-start-kit?utm_source=parenttech-site&utm_medium=organic-guide&utm_campaign=ptc-organic-20260726-family-setup",
+            "/downloads/scam-call-safety-checklist.pdf",
+            "/contact",
         ],
     },
     {
@@ -519,6 +535,26 @@ def normalize_path(href: str) -> str:
     return path
 
 
+def reset_scroll_before_screenshot(page: Any) -> None:
+    page.evaluate("() => window.scrollTo(0, 0)")
+    page.add_style_tag(content=".site-header{position:static!important}")
+
+
+def required_link_present(required: str, hrefs: list[str]) -> bool:
+    if required.startswith("http"):
+        return any(href.startswith(required) for href in hrefs)
+    expected = urlparse(required)
+    expected_path = normalize_path(required)
+    if not expected.query:
+        return any(normalize_path(href) == expected_path for href in hrefs)
+    expected_query = sorted(parse_qsl(expected.query, keep_blank_values=True))
+    return any(
+        normalize_path(href) == expected_path
+        and sorted(parse_qsl(urlparse(href).query, keep_blank_values=True)) == expected_query
+        for href in hrefs
+    )
+
+
 def assert_http_assets(base_url: str) -> list[CheckResult]:
     results: list[CheckResult] = []
     for path in ASSET_CHECKS:
@@ -631,16 +667,11 @@ def check_page(
             )
 
         hrefs = page.eval_on_selector_all("a[href]", "els => els.map(a => a.href)")
-        normalized_hrefs = {normalize_path(href) for href in hrefs}
-        raw_hrefs = set(hrefs)
         required_links = list(check.get("required_links", []))
         if live_status_api_mode == "mock":
             required_links.extend(check.get("required_links_when_api_mock", []))
         for required in required_links:
-            if required.startswith("http"):
-                ok = any(href.startswith(required) for href in raw_hrefs)
-            else:
-                ok = normalize_path(required) in normalized_hrefs
+            ok = required_link_present(required, hrefs)
             results.append(CheckResult(f"{viewport_name} {path} link {required}", ok))
 
         bad_hash_links = [href for href in hrefs if href.endswith("#")]
@@ -701,6 +732,7 @@ def check_page(
             )
 
         if screenshot and path in SCREENSHOT_PATHS:
+            reset_scroll_before_screenshot(page)
             filename = f"{viewport_name}-{path.strip('/').replace('/', '-') or 'home'}.png"
             page.screenshot(path=str(out_dir / filename), full_page=True)
     finally:
