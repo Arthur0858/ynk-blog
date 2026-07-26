@@ -21,12 +21,8 @@ from urllib.request import Request, urlopen
 
 try:
     from blake3 import blake3
-except ImportError as exc:  # pragma: no cover - operator guidance
-    raise SystemExit(
-        "Missing dependency: blake3\n"
-        "Install once with:\n"
-        "  python3 -m pip install --user blake3"
-    ) from exc
+except ImportError:  # pragma: no cover - exercised through the isolated CLI test
+    blake3 = None
 
 
 API_BASE = "https://api.cloudflare.com/client/v4"
@@ -209,6 +205,12 @@ def detect_git_metadata(
 
 
 def hash_file(path: Path) -> str:
+    if blake3 is None:
+        raise SystemExit(
+            "Missing dependency: blake3\n"
+            "Install once with:\n"
+            "  python3 -m pip install --user blake3"
+        )
     contents = path.read_bytes()
     base64_contents = base64.b64encode(contents).decode("ascii")
     extension = path.suffix[1:]

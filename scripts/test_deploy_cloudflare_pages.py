@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib.util
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -18,6 +19,17 @@ SPEC.loader.exec_module(module)
 
 
 class WranglerStagingTests(unittest.TestCase):
+    def test_help_works_without_optional_blake3_dependency(self) -> None:
+        completed = subprocess.run(
+            [sys.executable, "-S", str(SCRIPT), "--help"],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+
+        self.assertEqual(completed.returncode, 0, completed.stderr or completed.stdout)
+        self.assertIn("usage:", completed.stdout)
+
     def test_builds_pages_deploy_command(self) -> None:
         command = module.build_wrangler_deploy_command(
             Path("/tmp/public"), "parenttechchecklist", "main"
