@@ -32,7 +32,12 @@ class WranglerStagingTests(unittest.TestCase):
 
     def test_builds_pages_deploy_command(self) -> None:
         command = module.build_wrangler_deploy_command(
-            Path("/tmp/public"), "parenttechchecklist", "main"
+            Path("/tmp/public"),
+            "parenttechchecklist",
+            "main",
+            commit_hash="abc123",
+            commit_message="deploy verified source",
+            commit_dirty="true",
         )
 
         self.assertEqual(
@@ -40,7 +45,7 @@ class WranglerStagingTests(unittest.TestCase):
             [
                 "npx",
                 "--yes",
-                "wrangler",
+                "wrangler@4.100.0",
                 "pages",
                 "deploy",
                 "/tmp/public",
@@ -48,6 +53,11 @@ class WranglerStagingTests(unittest.TestCase):
                 "parenttechchecklist",
                 "--branch",
                 "main",
+                "--commit-hash",
+                "abc123",
+                "--commit-message",
+                "deploy verified source",
+                "--commit-dirty=true",
             ],
         )
 

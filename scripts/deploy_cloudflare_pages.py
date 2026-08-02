@@ -26,6 +26,7 @@ except ImportError:  # pragma: no cover - exercised through the isolated CLI tes
 
 
 API_BASE = "https://api.cloudflare.com/client/v4"
+WRANGLER_VERSION = "4.100.0"
 DEFAULT_ACCOUNT_ID = "e6780ef96bb6f53eba1dbc4d6dfa7376"
 DEFAULT_PROJECT_NAME = "parenttechchecklist"
 DEFAULT_BRANCH = "main"
@@ -286,12 +287,18 @@ def stage_wrangler_assets(
 
 
 def build_wrangler_deploy_command(
-    stage_dir: Path, project_name: str, branch: str
+    stage_dir: Path,
+    project_name: str,
+    branch: str,
+    *,
+    commit_hash: str | None,
+    commit_message: str | None,
+    commit_dirty: str,
 ) -> list[str]:
-    return [
+    command = [
         "npx",
         "--yes",
-        "wrangler",
+        f"wrangler@{WRANGLER_VERSION}",
         "pages",
         "deploy",
         str(stage_dir),
@@ -300,6 +307,12 @@ def build_wrangler_deploy_command(
         "--branch",
         branch,
     ]
+    if commit_hash:
+        command.extend(["--commit-hash", commit_hash])
+    if commit_message:
+        command.extend(["--commit-message", commit_message])
+    command.append(f"--commit-dirty={commit_dirty}")
+    return command
 
 
 def api_json(
@@ -678,7 +691,12 @@ def main() -> int:
             stage_dir = Path(temporary_dir)
             stage_wrangler_assets(site_dir, file_map, stage_dir)
             command = build_wrangler_deploy_command(
-                stage_dir, args.project_name, args.branch
+                stage_dir,
+                args.project_name,
+                args.branch,
+                commit_hash=commit_hash,
+                commit_message=commit_message,
+                commit_dirty=commit_dirty,
             )
             wrangler_env = os.environ.copy()
             wrangler_env["CLOUDFLARE_API_TOKEN"] = api_token
