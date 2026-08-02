@@ -313,6 +313,12 @@ class SmokeTestParentTechTests(unittest.TestCase):
         self.assertNotIn("setTimeout", checkout)
         self.assertIn("Nothing on this page will redirect you automatically", checkout)
 
+    def test_static_headers_scope_cors_and_enable_hsts(self) -> None:
+        headers = (smoke.SITE_DIR / "_headers").read_text(encoding="utf-8")
+        self.assertIn("Strict-Transport-Security: max-age=31536000", headers)
+        self.assertIn("Access-Control-Allow-Origin: https://parenttechchecklist.com", headers)
+        self.assertNotIn("Access-Control-Allow-Origin: *", headers)
+
     def test_status_details_are_collapsed_behind_clear_summaries(self) -> None:
         status = (smoke.SITE_DIR / "status" / "index.html").read_text(encoding="utf-8")
         self.assertIn("View Google, Zoom, and Apple details", status)
