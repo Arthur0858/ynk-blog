@@ -5,6 +5,12 @@ https://www.parenttechchecklist.com/* https://parenttechchecklist.com/:splat 301
 /go/live-youtube https://www.youtube.com/watch?v=4HYkV-6NRcY&utm_source=parenttechchecklist&utm_medium=live-page&utm_campaign=parent-tech-status 302
 /go/status-youtube https://www.youtube.com/watch?v=4HYkV-6NRcY&utm_source=parenttechchecklist&utm_medium=status-page&utm_campaign=parent-tech-status 302
 /go/home-live-youtube https://www.youtube.com/watch?v=4HYkV-6NRcY&utm_source=parenttechchecklist&utm_medium=home-live-band&utm_campaign=parent-tech-status 302
+/go/home-problem-communication /checklists/?topic=communication&utm_source=home&utm_medium=problem-choice&utm_campaign=family-guide-funnel 302
+/go/home-problem-account /checklists/?topic=account&utm_source=home&utm_medium=problem-choice&utm_campaign=family-guide-funnel 302
+/go/home-problem-scam /checklists/?topic=scam&utm_source=home&utm_medium=problem-choice&utm_campaign=family-guide-funnel 302
+/go/home-problem-network /checklists/?topic=home-network&utm_source=home&utm_medium=problem-choice&utm_campaign=family-guide-funnel 302
+/go/home-problem-device /checklists/?topic=device&utm_source=home&utm_medium=problem-choice&utm_campaign=family-guide-funnel 302
+/go/home-problem-caregiver /checklists/?topic=caregiver&utm_source=home&utm_medium=problem-choice&utm_campaign=family-guide-funnel 302
 /go/medication-live-youtube https://www.youtube.com/watch?v=4HYkV-6NRcY&utm_source=parenttechchecklist&utm_medium=guide&utm_campaign=medication-reminders 302
 /go/live-senior-phone /guides/senior-phones?utm_source=parenttechchecklist&utm_medium=live-page&utm_campaign=parent-tech-status&utm_content=senior-phone 302
 /go/live-video-calling /guides/video-calling?utm_source=parenttechchecklist&utm_medium=live-page&utm_campaign=parent-tech-status&utm_content=video-calling 302

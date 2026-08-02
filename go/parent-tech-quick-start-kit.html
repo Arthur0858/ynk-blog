@@ -66,17 +66,16 @@
         <span>Open the free scam-call checklist if you want to see the worksheet style before paying for the full 7-day kit.</span>
         <a class="button secondary" href="../downloads/scam-call-safety-checklist.pdf" download>Preview a free worksheet PDF</a>
       </div>
-      <div class="redirect-status" id="redirect-status" aria-live="polite">
-        <strong>Automatic checkout handoff</strong>
-        <span id="redirect-message">If you came from a buy button, Gumroad will open after this short fit check.</span>
-        <button type="button" id="pause-redirect">Stay on this page</button>
+      <div class="redirect-status paused" id="redirect-status" aria-live="polite">
+        <strong>You decide when to continue</strong>
+        <span id="redirect-message">Gumroad will open only after you choose Continue to Gumroad.</span>
       </div>
       <div class="hero-actions">
         <a class="button primary" id="continue-checkout" href="https://parenttechchecklist.gumroad.com/l/hjxqbv?utm_source=parenttechchecklist&utm_medium=clickthrough&utm_campaign=ptc-product-kit-checkout&utm_content=direct" rel="noopener">I understand, continue to Gumroad</a>
         <a class="button secondary" href="../products/parent-tech-quick-start-kit">Back to product page</a>
       </div>
       <p class="hero-note">Use the free scam-call checklist first if you only need one conversation today.</p>
-      <p class="hero-note" id="redirect-note">If you came from a checkout button, this page may continue automatically after about five seconds.</p>
+      <p class="hero-note" id="redirect-note">Nothing on this page will redirect you automatically.</p>
     </section>
   </main>
   <script>
@@ -84,34 +83,12 @@
       var params = new URLSearchParams(window.location.search);
       var surface = (params.get("surface") || "direct").replace(/[^a-z0-9_-]/gi, "").slice(0, 80) || "direct";
       var checkout = document.getElementById("continue-checkout");
-      var pause = document.getElementById("pause-redirect");
-      var status = document.getElementById("redirect-status");
-      var message = document.getElementById("redirect-message");
       var target = new URL("https://parenttechchecklist.gumroad.com/l/hjxqbv");
-      var redirectTimer = null;
       target.searchParams.set("utm_source", "parenttechchecklist");
       target.searchParams.set("utm_medium", "clickthrough");
       target.searchParams.set("utm_campaign", "ptc-product-kit-checkout");
       target.searchParams.set("utm_content", surface);
       checkout.href = target.toString();
-      pause.addEventListener("click", function () {
-        if (redirectTimer) {
-          window.clearTimeout(redirectTimer);
-          redirectTimer = null;
-        }
-        status.classList.add("paused");
-        message.textContent = "Automatic checkout is paused. Use Continue to Gumroad when you are ready.";
-      });
-      if (params.get("autoredirect") === "1") {
-        document.getElementById("redirect-note").textContent = "Gumroad will open after this short fit check unless you pause it.";
-        message.textContent = "Opening Gumroad in about five seconds. Choose Stay on this page if you want to review first.";
-        redirectTimer = window.setTimeout(function () {
-          window.location.href = target.toString();
-        }, 5000);
-      } else {
-        status.classList.add("paused");
-        message.textContent = "Automatic checkout is off. Use Continue to Gumroad when you are ready.";
-      }
     }());
   </script>
 </body>

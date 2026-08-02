@@ -49,8 +49,8 @@ PAGE_CHECKS = [
         "required_text": [
             "Parent Tech Checklists for Families",
             "Status",
-            "Buy on Gumroad",
-            "The paid kit is a one-time Gumroad download",
+            "Choose your family problem",
+            "What does your family need help with?",
             "Family tech status desk",
             "Featured guides",
         ],
@@ -62,17 +62,14 @@ PAGE_CHECKS = [
             "/live",
             "/go/home-live-youtube",
             "/products/parent-tech-quick-start-kit",
-            "/go/parent-tech-quick-start-kit",
         ],
     },
     {
         "path": "/checklists/",
         "required_text": [
-            "40 Weeks of Calm Family Tech Checklists",
+            "Find the right family tech checklist",
             "Week 8",
-            "Week 47",
             "Password Recovery Without Panic",
-            "Annual family tech review",
             "Core buying and setup guides",
         ],
         "required_links": [
@@ -89,7 +86,8 @@ PAGE_CHECKS = [
             "Password Recovery Without Panic",
             "Three safe steps",
             "Printable family checklist",
-            "Official-source note",
+            "Official sources",
+            "Parent Tech Checklist editorial desk",
             "Safety boundary",
         ],
         "required_links": [
@@ -183,7 +181,7 @@ PAGE_CHECKS = [
             "Parent Tech Quick-Start Kit",
             "$9",
             "US families",
-            "Buy on Gumroad",
+            "Check fit, then continue",
             "Delivered by Gumroad",
             "US Letter PDFs",
             "No sensitive details needed",
@@ -218,8 +216,8 @@ PAGE_CHECKS = [
             "US Letter printable worksheets",
             "Checkout fit check",
             "Best checkout fit",
-            "Automatic checkout handoff",
-            "Stay on this page",
+            "You decide when to continue",
+            "Gumroad will open only after you choose Continue to Gumroad",
             "No sensitive details needed",
             "What you get",
             "US Letter printable PDF worksheets",
@@ -228,7 +226,7 @@ PAGE_CHECKS = [
             "Preview a free worksheet PDF",
             "Ready to buy when",
             "I understand, continue to Gumroad",
-            "about five seconds",
+            "Nothing on this page will redirect you automatically",
             "Files included after purchase",
             "01-7-Day-Parent-Tech-Setup-Plan.pdf",
         ],
@@ -292,6 +290,9 @@ PAGE_CHECKS = [
         "required_links": ["/downloads/living-alone-tech-checklist.pdf"],
     },
     {"path": "/contact", "required_text": ["Contact"], "required_links": []},
+    {"path": "/about", "required_text": ["Calm technology help for families", "Who is responsible"], "required_links": ["/editorial-method", "/corrections"]},
+    {"path": "/editorial-method", "required_text": ["Editorial Method", "Assisted drafting"], "required_links": ["/about", "/corrections"]},
+    {"path": "/corrections", "required_text": ["Report a problem with a checklist", "How corrections are handled"], "required_links": ["/about", "/editorial-method"]},
     {"path": "/privacy", "required_text": ["Privacy"], "required_links": []},
     {"path": "/disclosure", "required_text": ["Disclosure"], "required_links": []},
 ]
@@ -722,7 +723,7 @@ def check_page(
         results.append(CheckResult(f"{viewport_name} {path} no console errors", not errors, {"errors": errors[:10]}))
 
         if path == "/live/":
-            player_src = page.locator("iframe[title='Parent Tech Status LIVE video']").get_attribute("src")
+            player_src = page.locator("#stream-play").get_attribute("data-player-src")
             results.append(
                 CheckResult(
                     f"{viewport_name} {path} privacy enhanced live player",

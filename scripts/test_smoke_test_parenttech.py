@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import importlib.util
+import html
 import json
 import re
 import sys
@@ -107,6 +108,10 @@ class SmokeTestParentTechTests(unittest.TestCase):
         self.assertEqual(len(topics), 40)
         self.assertEqual({item["week"] for item in topics}, set(range(8, 48)))
         self.assertEqual(len({item["topic_id"] for item in topics}), 40)
+        self.assertEqual(len({item["title"] for item in topics}), 40)
+        self.assertEqual(len({item["primary_question"] for item in topics}), 40)
+        self.assertTrue(all(item.get("reviewed_at") == "2026-08-02" for item in topics))
+        self.assertTrue(all(len(item.get("sources", [])) >= 2 for item in topics))
         self.assertTrue(all((smoke.SITE_DIR / "guides" / f"{item['topic_id']}.html").is_file() for item in topics))
         self.assertTrue(all((smoke.SITE_DIR / item["thumbnail_public_path"].lstrip("/")).is_file() for item in topics))
         sitemap = (smoke.SITE_DIR / "sitemap.xml").read_text(encoding="utf-8")
@@ -115,6 +120,33 @@ class SmokeTestParentTechTests(unittest.TestCase):
         self.assertIn("https://parenttechchecklist.com/checklists/", sitemap)
         for item in topics:
             self.assertEqual(sitemap.count(f"https://parenttechchecklist.com{item['companion_path']}"), 1)
+        self.assertIn("https://parenttechchecklist.com/guides/medication-reminders", sitemap)
+        self.assertTrue((smoke.SITE_DIR / "favicon.ico").is_file())
+
+    def test_weekly_guides_meet_people_first_content_gate(self) -> None:
+        manifest = json.loads((smoke.SITE_DIR / "assets" / "weekly-editorial.json").read_text(encoding="utf-8"))
+        sentence_sets = []
+        sentence_counts: dict[str, int] = {}
+        for topic in manifest["topics"]:
+            markup = (smoke.SITE_DIR / "guides" / f"{topic['topic_id']}.html").read_text(encoding="utf-8")
+            visible = html.unescape(re.sub(r"<[^>]+>", " ", re.sub(r"<script.*?</script>", " ", markup, flags=re.DOTALL)))
+            words = re.findall(r"\b[\w'-]+\b", visible)
+            self.assertGreaterEqual(len(words), 650, topic["topic_id"])
+            for source in topic["sources"]:
+                self.assertIn(f'href="{source["url"]}"', markup, topic["topic_id"])
+            sentences = {
+                re.sub(r"\s+", " ", sentence).strip().lower()
+                for sentence in re.split(r"(?<=[.!?])\s+", visible)
+                if len(sentence.split()) >= 10
+            }
+            sentence_sets.append(sentences)
+            for sentence in sentences:
+                sentence_counts[sentence] = sentence_counts.get(sentence, 0) + 1
+        repeat_ratios = [
+            sum(1 for sentence in sentences if sentence_counts[sentence] > 1) / max(1, len(sentences))
+            for sentences in sentence_sets
+        ]
+        self.assertLess(sorted(repeat_ratios)[len(repeat_ratios) // 2], 0.25)
 
     def test_live_and_status_share_editorial_topic_without_overriding_events(self) -> None:
         live = (smoke.SITE_DIR / "live" / "index.html").read_text(encoding="utf-8")
@@ -138,7 +170,9 @@ class SmokeTestParentTechTests(unittest.TestCase):
         sitemap = (smoke.SITE_DIR / "sitemap.xml").read_text(encoding="utf-8")
         self.assertIn('<meta name="robots" content="index,follow">', html)
         self.assertIn('<link rel="canonical" href="https://parenttechchecklist.com/live/">', html)
-        self.assertIn("https://www.youtube-nocookie.com/embed/4HYkV-6NRcY", html)
+        self.assertIn("data-player-src=\"https://www.youtube-nocookie.com/embed/4HYkV-6NRcY", html)
+        self.assertIn('id="stream-play"', html)
+        self.assertIn('/assets/live-status-poster.jpg', html)
         self.assertIn("https://parenttechchecklist.com/live/", sitemap)
 
     def test_live_page_exposes_video_and_live_broadcast_metadata(self) -> None:
@@ -230,7 +264,8 @@ class SmokeTestParentTechTests(unittest.TestCase):
         live = (smoke.SITE_DIR / "live" / "index.html").read_text(encoding="utf-8")
         self.assertLess(live.index('class="stream"'), live.index('id="event"'))
         self.assertLess(live.index('id="event"'), live.index('class="scene"'))
-        self.assertIn(".hero>.event{grid-row:2", live)
+        self.assertIn(".hero>.event{grid-row:1", live)
+        self.assertIn(".stream{grid-row:2}", live)
         self.assertIn(".hero>.weekly-topic{grid-row:3", live)
         self.assertIn(".hero>header.panel{grid-row:4", live)
         self.assertIn(".scene{grid-column:auto;grid-row:5", live)
@@ -241,7 +276,7 @@ class SmokeTestParentTechTests(unittest.TestCase):
         self.assertIn('aria-busy="true"', live)
         self.assertIn(".event{--event-accent:var(--gold);display:block", live)
         self.assertIn(".hero>header.panel,.stream{min-height:460px}", live)
-        self.assertIn("display:block;grid-column:1/-1;min-height:320px", live)
+        self.assertIn(".event{min-height:320px}", live)
         self.assertIn(".stream{grid-row:1;min-height:0}", live)
         self.assertIn("No urgent official update", live)
         self.assertIn("Official update temporarily unavailable", live)
@@ -258,9 +293,9 @@ class SmokeTestParentTechTests(unittest.TestCase):
 
     def test_live_player_uses_strict_referrer_policy_without_speculative_hints(self) -> None:
         live = (smoke.SITE_DIR / "live" / "index.html").read_text(encoding="utf-8")
-        self.assertIn('referrerpolicy="strict-origin-when-cross-origin"', live)
-        self.assertIn("?rel=0&amp;autoplay=1&amp;mute=1&amp;playsinline=1", live)
-        self.assertIn('allow="accelerometer; autoplay; encrypted-media; picture-in-picture"', live)
+        self.assertIn("player.referrerPolicy = 'strict-origin-when-cross-origin'", live)
+        self.assertIn("player.src = streamPlay.dataset.playerSrc", live)
+        self.assertIn("player.allow = 'accelerometer; autoplay; encrypted-media; picture-in-picture'", live)
         self.assertNotIn('rel="preconnect" href="https://www.youtube-nocookie.com"', live)
         self.assertNotIn('rel="dns-prefetch" href="//www.youtube-nocookie.com"', live)
         self.assertNotIn('rel="preload" href="https://i.ytimg.com', live)
@@ -270,6 +305,20 @@ class SmokeTestParentTechTests(unittest.TestCase):
         self.assertIn("a:focus-visible{outline:3px solid #f8fafc", live)
         self.assertIn(".stream-frame:focus-within{outline:4px solid var(--gold)", live)
         self.assertIn(".stream-caption a{display:inline-flex;min-height:44px", live)
+        self.assertIn(".stream-play{position:absolute", live)
+
+    def test_checkout_handoff_never_redirects_automatically(self) -> None:
+        checkout = (smoke.SITE_DIR / "go" / "parent-tech-quick-start-kit.html").read_text(encoding="utf-8")
+        self.assertNotIn("autoredirect", checkout)
+        self.assertNotIn("setTimeout", checkout)
+        self.assertIn("Nothing on this page will redirect you automatically", checkout)
+
+    def test_status_details_are_collapsed_behind_clear_summaries(self) -> None:
+        status = (smoke.SITE_DIR / "status" / "index.html").read_text(encoding="utf-8")
+        self.assertIn("View Google, Zoom, and Apple details", status)
+        self.assertIn("View FTC, CISA, and CPSC details", status)
+        self.assertIn("What happened", status)
+        self.assertIn("What to do now", status)
 
     def test_home_live_band_does_not_claim_unverified_runtime_state(self) -> None:
         home = (smoke.SITE_DIR / "index.html").read_text(encoding="utf-8")

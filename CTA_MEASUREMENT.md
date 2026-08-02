@@ -13,6 +13,14 @@ cookies, or KV writes.
 | `/go/live-senior-phone` | Senior phone checklist click from `/live/` |
 | `/go/live-video-calling` | Video calling checklist click from `/live/` |
 | `/go/live-scam-safety` | Scam safety checklist click from `/live/` |
+| `/go/home-problem-communication` | Calls and video problem choice from home |
+| `/go/home-problem-account` | Accounts and access problem choice from home |
+| `/go/home-problem-scam` | Scams and messages problem choice from home |
+| `/go/home-problem-network` | Wi-Fi and outage problem choice from home |
+| `/go/home-problem-device` | Devices and settings problem choice from home |
+| `/go/home-problem-caregiver` | Caregiver routines problem choice from home |
+
+The privacy-first funnel is read as page requests, without cookies: landing page, one problem-choice redirect, a guide or product page, the local Gumroad handoff, then the Gumroad sale UTM. A handoff request does not prove a sale.
 
 Measurement started with deployment `bcc42354` on 2026-07-17. Treat these as
 request counts, not unique people. Filter known bots where the Cloudflare view

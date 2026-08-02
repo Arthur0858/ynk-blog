@@ -743,6 +743,13 @@ h3 {
   text-transform: uppercase;
 }
 
+.summary-prompt {
+  display: block;
+  margin: 4px 0 6px;
+  color: var(--od-muted);
+  font-size: 14px;
+}
+
 .current-update h2 {
   min-height: 110px;
   font-size: clamp(25px, 3vw, 34px);
@@ -846,6 +853,37 @@ h3 {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
+}
+
+.status-detail-group {
+  border-top: 1px solid var(--od-line);
+}
+
+.status-detail-group summary {
+  display: flex;
+  min-height: 52px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 4px;
+  color: var(--od-blue);
+  font-size: 17px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.status-detail-group summary::after {
+  content: "Show details";
+  color: var(--od-muted);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.status-detail-group[open] summary::after {
+  content: "Hide details";
+}
+
+.status-detail-group > div {
+  margin-top: 14px;
 }
 
 .service-card,

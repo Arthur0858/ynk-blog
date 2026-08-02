@@ -57,6 +57,18 @@
   <style>
     :root{color-scheme:dark;--bg:#07111f;--panel:#10304a;--panel2:#0d2135;--ok:#123f37;--warn:#263b4f;--off:#3b1d2a;--line:#43617d;--text:#f8fafc;--muted:#bfdbfe;--gold:#facc15;--blue:#38bdf8;--teal:#2dd4bf;--coral:#fb7185}
     *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% 0,#123a59 0,#07111f 42rem);color:var(--text);font-family:Arial,Helvetica,sans-serif;line-height:1.45}.wrap{max-width:1180px;margin:auto;padding:28px 20px 48px}.hero{display:grid;grid-template-columns:minmax(320px,.8fr) minmax(480px,1.2fr);gap:18px;align-items:stretch}.panel,.scene,.event,.weekly-topic,.card,.note,.stream{border:1px solid var(--line);border-radius:16px;background:rgba(16,48,74,.92);box-shadow:0 18px 50px rgba(0,0,0,.22)}header{padding:26px 28px}.hero>header.panel,.stream{min-height:460px}.kicker,.label{color:#bae6fd;font-size:.78rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}h1{margin:.25rem 0 0;font-size:clamp(2rem,5vw,3.3rem);line-height:1}.lede,.muted{color:var(--muted)}a:focus-visible{outline:3px solid #f8fafc;outline-offset:3px}.stream{overflow:hidden;background:#020813}.stream-frame{aspect-ratio:16/9}.stream-frame:focus-within{outline:4px solid var(--gold);outline-offset:-5px}.stream iframe{display:block;width:100%;height:100%;border:0}.stream-caption{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:12px 16px;background:#0d2135;color:var(--muted);font-size:.9rem}.stream-caption strong{color:var(--text)}.stream-caption a{display:inline-flex;min-height:44px;align-items:center;color:#f8fafc;font-weight:800;text-underline-offset:3px}.scene{grid-column:1/-1;display:grid;grid-template-columns:minmax(190px,.7fr) minmax(260px,1fr) minmax(270px,1.1fr);gap:10px 24px;align-items:center;min-height:150px;padding:18px 22px}.scene strong{font-size:1.35rem}.scene .label{grid-column:1}.scene strong{grid-column:1;grid-row:2/4}.scene #scene-detail{grid-column:2;grid-row:1}.scene #program-theme{grid-column:2;grid-row:2}.scene .meter{grid-column:2;grid-row:3}.scene #scene-next{grid-column:3;grid-row:2}.scene #program-next{grid-column:3;grid-row:3}.meter{height:10px;border-radius:999px;background:#07111f;overflow:hidden}.meter span{display:block;height:100%;width:var(--progress,50%);background:linear-gradient(90deg,var(--blue),var(--gold))}.event{--event-accent:var(--gold);display:block;grid-column:1/-1;min-height:320px;padding:22px;border-left:5px solid var(--event-accent);background:rgba(13,33,53,.97)}.event.pending,.event[data-event-kind="service"]{--event-accent:var(--blue)}.event[data-event-kind="recall"]{--event-accent:var(--gold)}.event[data-event-kind="alert"]{--event-accent:var(--coral)}.event[data-event-kind="clear"]{--event-accent:var(--teal)}.event[data-event-kind="unavailable"]{--event-accent:#fda4af}.event .label{color:var(--event-accent)}.event h2{margin:.2rem 0 .5rem;font-size:clamp(1.55rem,3.5vw,2.45rem);max-width:920px}.facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}.facts[hidden],.weekly-topic[hidden]{display:none}.facts div{padding:10px;border:1px solid color-mix(in srgb,var(--event-accent) 32%,transparent);border-radius:10px;background:rgba(7,17,31,.32)}.facts dt{color:var(--event-accent);font-size:.74rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase}.facts dd{margin:4px 0 0;color:#f8fafc;font-size:.95rem;overflow-wrap:anywhere}.event .button:not(.secondary){border-color:var(--event-accent);background:var(--event-accent)}.weekly-topic{grid-column:1/-1;padding:20px 22px;border-left:5px solid var(--teal);background:rgba(13,33,53,.97)}.weekly-topic h2{margin:5px 0 8px;font-size:clamp(1.45rem,3vw,2.15rem)}.weekly-actions{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.weekly-actions span{padding:7px 10px;border:1px solid rgba(45,212,191,.45);border-radius:7px;background:rgba(18,63,55,.65)}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:18px 0}.card{min-height:108px;padding:15px 16px;background:var(--off)}.card.ok{background:var(--ok)}.card.warn{background:var(--warn)}.card h2{margin:0 0 8px;font-size:1rem}.status{font-weight:800;font-size:.95rem}.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px}.button{display:inline-flex;min-height:44px;align-items:center;justify-content:center;border:1px solid #d8b56a;border-radius:10px;padding:11px 15px;background:#d8b56a;color:#07111f;text-decoration:none;font-weight:800}.button.secondary{background:transparent;color:#f8fafc;border-color:#60a5fa}.note{padding:16px 18px;background:var(--panel2)}.error{color:#fecdd3}@media(max-width:820px){.hero,.scene,.grid,.facts{grid-template-columns:1fr}.wrap{padding:16px}.stream{grid-row:1;min-height:0}.hero>.event{grid-row:2;min-height:320px;padding:16px}.hero>.weekly-topic{grid-row:3}.hero>.event h2{font-size:1.45rem;line-height:1.15}.hero>.event p{margin:.45rem 0}.hero>.event .facts{margin-top:10px}.hero>.event .actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.hero>.event .button{padding:9px 10px}.hero>header.panel{grid-row:4;min-height:0;padding:18px 20px}.hero>header.panel h1{font-size:2rem}.hero>header.panel .lede{margin:.6rem 0}.scene{grid-column:auto;grid-row:5;display:grid;min-height:320px}.scene .label,.scene strong,.scene #scene-detail,.scene #program-theme,.scene .meter,.scene #scene-next,.scene #program-next{grid-column:1;grid-row:auto}.stream-caption{display:block}.stream-caption span{display:block;margin-top:4px}.card{min-height:auto}}
+    /* Stable, click-to-load player and summary-first mobile layout. */
+    button:focus-visible{outline:3px solid #f8fafc;outline-offset:3px}
+    .stream-frame{position:relative;background:#020813}
+    .stream-frame>img,.stream-frame>iframe{display:block;width:100%;height:100%;border:0;object-fit:cover}
+    .stream-frame::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(2,8,19,.06),rgba(2,8,19,.56));pointer-events:none}
+    .stream-play{position:absolute;z-index:1;left:50%;top:50%;min-width:180px;min-height:52px;transform:translate(-50%,-50%);border:1px solid #fff;border-radius:9px;background:rgba(7,17,31,.9);color:#fff;font:inherit;font-weight:800;cursor:pointer}
+    .stream-frame.loaded::after,.stream-frame.loaded .stream-play,.stream-frame.loaded>img{display:none}
+    .event{min-height:320px}
+    .source-details{margin:18px 0;border:1px solid var(--line);border-radius:12px;background:var(--panel2)}
+    .source-details summary{display:flex;min-height:54px;align-items:center;padding:12px 16px;color:#f8fafc;font-weight:800;cursor:pointer}
+    .source-details .grid{padding:0 14px 14px;margin:0}
+    @media(max-width:820px){.hero>.event{grid-row:1;min-height:320px}.stream{grid-row:2}.hero>.weekly-topic{grid-row:3}.hero>header.panel{grid-row:4}.scene{grid-row:5}}
   </style>
 </head>
 <body>
@@ -70,8 +82,9 @@
         <p id="snapshot-stamp" class="muted">Build not verified · Snapshot pending</p>
       </header>
       <section class="stream" aria-label="Parent Tech Status live stream">
-        <div class="stream-frame">
-          <iframe src="https://www.youtube-nocookie.com/embed/4HYkV-6NRcY?rel=0&amp;autoplay=1&amp;mute=1&amp;playsinline=1" title="Parent Tech Status LIVE video" loading="eager" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+        <div class="stream-frame" id="stream-frame">
+          <img src="/assets/live-status-poster.jpg" width="1280" height="720" alt="Parent Tech Status LIVE preview" decoding="async">
+          <button class="stream-play" id="stream-play" type="button" data-player-src="https://www.youtube-nocookie.com/embed/4HYkV-6NRcY?rel=0&amp;autoplay=1&amp;mute=1&amp;playsinline=1">Play live status</button>
         </div>
         <div class="stream-caption"><strong>Official checks, calm family actions</strong><span>Muted? <a href="/status?utm_source=live-player&amp;utm_medium=internal&amp;utm_campaign=parent-tech-status">Open text status</a></span></div>
       </section>
@@ -103,7 +116,10 @@
       </aside>
     </section>
 
-    <section id="cards" class="grid" aria-live="polite"></section>
+    <details class="source-details">
+      <summary>View all 6 official source checks</summary>
+      <section id="cards" class="grid" aria-live="polite"></section>
+    </details>
 
     <section class="note">
       <strong>Use this safely.</strong>
@@ -139,6 +155,8 @@
     const weeklyTopicQuestion = document.querySelector('#weekly-topic-question');
     const weeklyTopicActions = document.querySelector('#weekly-topic-actions');
     const weeklyTopicLink = document.querySelector('#weekly-topic-link');
+    const streamFrame = document.querySelector('#stream-frame');
+    const streamPlay = document.querySelector('#stream-play');
     const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
     const tone = card => card.source_available && (card.status === 'No known official incident' || card.status === 'No new verified consumer alert') ? 'ok' : card.source_available ? 'warn' : '';
     const snapshotMaxAgeSeconds = payload => Number(payload?.snapshot_policy?.max_age_seconds || 300);
@@ -239,7 +257,7 @@
       eventBox.removeAttribute('aria-busy');
       eventBox.hidden = false;
       eventTitle.textContent = familyImpactTitle(event, card);
-      eventDetail.textContent = `Family action: ${actionLabel(event.consumer_action_code)}`;
+      eventDetail.textContent = `${event.source}: ${card?.status || event.status}. Family action: ${actionLabel(event.consumer_action_code)}`;
       document.querySelector('#event-facts').innerHTML = facts;
       document.querySelector('#event-facts').hidden = !facts;
       eventSource.href = event.official_url || '/status';
@@ -253,16 +271,11 @@
         weeklyTopicBox.hidden = true;
         return;
       }
-      weeklyTopicLabel.textContent = `40-week family library · Week ${topic.week}`;
-      weeklyTopicTitle.textContent = topic.title;
-      weeklyTopicQuestion.textContent = topic.primary_question;
-      weeklyTopicActions.replaceChildren(...topic.actions.slice(0, 3).map(action => {
-        const item = document.createElement('span');
-        item.textContent = action;
-        return item;
-      }));
-      weeklyTopicLink.href = `${topic.companion_path}?utm_source=live-page&utm_medium=weekly-topic&utm_campaign=ptc-week${topic.week}-${topic.topic_id}`;
-      weeklyTopicBox.hidden = false;
+      eventTitle.textContent = `This week: ${topic.title}`;
+      eventDetail.textContent = topic.primary_question;
+      eventChecklist.href = `${topic.companion_path}?utm_source=live-page&utm_medium=weekly-topic&utm_campaign=ptc-week${topic.week}-${topic.topic_id}`;
+      eventChecklist.textContent = 'Open this week\'s guide';
+      weeklyTopicBox.hidden = true;
     }
     function showExpired(payload, generated) {
       const coreUnavailable = payload.overall_state === 'status_unavailable';
@@ -344,6 +357,17 @@
     const refreshIfVisible = () => {
       if (document.visibilityState === 'visible') refresh();
     };
+    streamPlay.addEventListener('click', () => {
+      if (streamFrame.classList.contains('loaded')) return;
+      const player = document.createElement('iframe');
+      player.src = streamPlay.dataset.playerSrc;
+      player.title = 'Parent Tech Status LIVE video';
+      player.referrerPolicy = 'strict-origin-when-cross-origin';
+      player.allow = 'accelerometer; autoplay; encrypted-media; picture-in-picture';
+      player.allowFullscreen = true;
+      streamFrame.appendChild(player);
+      streamFrame.classList.add('loaded');
+    });
     refresh();
     setInterval(refreshIfVisible, 60000);
     document.addEventListener('visibilitychange', refreshIfVisible);

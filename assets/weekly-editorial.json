@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-07-18T22:56:46+08:00",
+  "generated_at": "2026-08-02T17:39:45+08:00",
   "timezone": "Asia/Taipei",
   "catalog_mode": "complete_40_week_library",
   "publication_status": "ready_for_single_deploy",
@@ -29,7 +29,20 @@
       "source_sensitive": false,
       "thumbnail_source": "week-8-password-recovery/assets/thumbnails/parenttech-week8-password-recovery-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/password-recovery.jpg",
-      "word_count": 879
+      "word_count": 733,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "Google Account Recovery",
+          "url": "https://support.google.com/accounts/answer/7682439"
+        },
+        {
+          "name": "Apple Account Recovery",
+          "url": "https://support.apple.com/en-us/118574"
+        }
+      ]
     },
     {
       "week": 9,
@@ -54,7 +67,20 @@
       "source_sensitive": false,
       "thumbnail_source": "week-9-trusted-remote-support/assets/thumbnails/parenttech-week9-trusted-remote-support-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/trusted-remote-support.jpg",
-      "word_count": 888
+      "word_count": 767,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "FTC: Tech Support Scams",
+          "url": "https://consumer.ftc.gov/articles/how-spot-avoid-and-report-tech-support-scams"
+        },
+        {
+          "name": "CISA: Recognize and Report Phishing",
+          "url": "https://www.cisa.gov/secure-our-world/recognize-and-report-phishing"
+        }
+      ]
     },
     {
       "week": 10,
@@ -79,7 +105,20 @@
       "source_sensitive": false,
       "thumbnail_source": "week-10-contacts-favorites/assets/thumbnails/parenttech-week10-contacts-favorites-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/contacts-favorites.jpg",
-      "word_count": 878
+      "word_count": 740,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "Apple iPhone User Guide",
+          "url": "https://support.apple.com/guide/iphone/welcome/ios"
+        },
+        {
+          "name": "Google Android Help",
+          "url": "https://support.google.com/android/"
+        }
+      ]
     },
     {
       "week": 11,
@@ -104,7 +143,20 @@
       "source_sensitive": false,
       "thumbnail_source": "week-11-photo-sharing-backup/assets/thumbnails/parenttech-week11-photo-sharing-backup-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/photo-sharing-backup.jpg",
-      "word_count": 870
+      "word_count": 745,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "Google Photos Help",
+          "url": "https://support.google.com/photos/"
+        },
+        {
+          "name": "Apple iPhone User Guide",
+          "url": "https://support.apple.com/guide/iphone/welcome/ios"
+        }
+      ]
     },
     {
       "week": 12,
@@ -129,7 +181,20 @@
       "source_sensitive": false,
       "thumbnail_source": "week-12-voicemail-setup/assets/thumbnails/parenttech-week12-voicemail-setup-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/voicemail-setup.jpg",
-      "word_count": 873
+      "word_count": 741,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "Apple iPhone User Guide",
+          "url": "https://support.apple.com/guide/iphone/welcome/ios"
+        },
+        {
+          "name": "FTC Consumer Scams",
+          "url": "https://consumer.ftc.gov/scams"
+        }
+      ]
     },
     {
       "week": 13,
@@ -154,7 +219,20 @@
       "source_sensitive": false,
       "thumbnail_source": "week-13-family-group-chat/assets/thumbnails/parenttech-week13-family-group-chat-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/family-group-chat.jpg",
-      "word_count": 875
+      "word_count": 725,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "Apple iPhone User Guide",
+          "url": "https://support.apple.com/guide/iphone/welcome/ios"
+        },
+        {
+          "name": "Google Android Help",
+          "url": "https://support.google.com/android/"
+        }
+      ]
     },
     {
       "week": 14,
@@ -179,7 +257,20 @@
       "source_sensitive": false,
       "thumbnail_source": "week-14-fake-delivery-texts/assets/thumbnails/parenttech-week14-fake-delivery-texts-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/fake-delivery-texts.jpg",
-      "word_count": 875
+      "word_count": 735,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "U.S. Postal Inspection Service: Smishing",
+          "url": "https://www.uspis.gov/news/scam-article/smishing-package-tracking-text-scams"
+        },
+        {
+          "name": "FTC: Recognize and Avoid Phishing",
+          "url": "https://consumer.ftc.gov/articles/how-recognize-and-avoid-phishing-scams"
+        }
+      ]
     },
     {
       "week": 15,
@@ -204,7 +295,20 @@
       "source_sensitive": false,
       "thumbnail_source": "week-15-fake-bank-government/assets/thumbnails/parenttech-week15-fake-bank-government-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/fake-bank-government.jpg",
-      "word_count": 876
+      "word_count": 722,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "FTC: Government Impersonation Scams",
+          "url": "https://consumer.ftc.gov/articles/government-impersonation-scams"
+        },
+        {
+          "name": "FTC Consumer Scams",
+          "url": "https://consumer.ftc.gov/scams"
+        }
+      ]
     },
     {
       "week": 16,
@@ -229,7 +333,20 @@
       "source_sensitive": false,
       "thumbnail_source": "week-16-remote-support-scams/assets/thumbnails/parenttech-week16-remote-support-scams-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/remote-support-scams.jpg",
-      "word_count": 875
+      "word_count": 727,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "FTC: Tech Support Scams",
+          "url": "https://consumer.ftc.gov/articles/how-spot-avoid-and-report-tech-support-scams"
+        },
+        {
+          "name": "CISA: Recognize and Report Phishing",
+          "url": "https://www.cisa.gov/secure-our-world/recognize-and-report-phishing"
+        }
+      ]
     },
     {
       "week": 17,
@@ -254,7 +371,20 @@
       "source_sensitive": false,
       "thumbnail_source": "week-17-marketplace-gift-cards/assets/thumbnails/parenttech-week17-marketplace-gift-cards-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/marketplace-gift-cards.jpg",
-      "word_count": 870
+      "word_count": 732,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "FTC: Gift Card Scams",
+          "url": "https://consumer.ftc.gov/articles/avoiding-and-reporting-gift-card-scams"
+        },
+        {
+          "name": "FTC Consumer Scams",
+          "url": "https://consumer.ftc.gov/scams"
+        }
+      ]
     },
     {
       "week": 18,
@@ -279,7 +409,20 @@
       "source_sensitive": true,
       "thumbnail_source": "week-18-current-ftc-alert/assets/thumbnails/parenttech-week18-current-ftc-alert-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/current-ftc-alert.jpg",
-      "word_count": 899
+      "word_count": 759,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "FTC: Recognize and Avoid Phishing",
+          "url": "https://consumer.ftc.gov/articles/how-recognize-and-avoid-phishing-scams"
+        },
+        {
+          "name": "CISA: Recognize and Report Phishing",
+          "url": "https://www.cisa.gov/secure-our-world/recognize-and-report-phishing"
+        }
+      ]
     },
     {
       "week": 19,
@@ -304,7 +447,20 @@
       "source_sensitive": false,
       "thumbnail_source": "week-19-router-labeling/assets/thumbnails/parenttech-week19-router-labeling-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/router-labeling.jpg",
-      "word_count": 873
+      "word_count": 732,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "FTC: Secure Your Home Wi-Fi",
+          "url": "https://consumer.ftc.gov/articles/how-secure-your-home-wi-fi-network"
+        },
+        {
+          "name": "NIST Consumer IoT Cybersecurity",
+          "url": "https://www.nist.gov/itl/applied-cybersecurity/nist-cybersecurity-iot-program/consumer-iot-cybersecurity"
+        }
+      ]
     },
     {
       "week": 20,
@@ -329,7 +485,20 @@
       "source_sensitive": false,
       "thumbnail_source": "week-20-wifi-dead-zones/assets/thumbnails/parenttech-week20-wifi-dead-zones-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/wifi-dead-zones.jpg",
-      "word_count": 876
+      "word_count": 724,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "FTC: Secure Your Home Wi-Fi",
+          "url": "https://consumer.ftc.gov/articles/how-secure-your-home-wi-fi-network"
+        },
+        {
+          "name": "NIST Consumer IoT Cybersecurity",
+          "url": "https://www.nist.gov/itl/applied-cybersecurity/nist-cybersecurity-iot-program/consumer-iot-cybersecurity"
+        }
+      ]
     },
     {
       "week": 21,
@@ -354,7 +523,20 @@
       "source_sensitive": false,
       "thumbnail_source": "week-21-guest-wifi/assets/thumbnails/parenttech-week21-guest-wifi-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/guest-wifi.jpg",
-      "word_count": 874
+      "word_count": 744,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "FTC: Secure Your Home Wi-Fi",
+          "url": "https://consumer.ftc.gov/articles/how-secure-your-home-wi-fi-network"
+        },
+        {
+          "name": "NIST Consumer IoT Cybersecurity",
+          "url": "https://www.nist.gov/itl/applied-cybersecurity/nist-cybersecurity-iot-program/consumer-iot-cybersecurity"
+        }
+      ]
     },
     {
       "week": 22,
@@ -379,7 +561,20 @@
       "source_sensitive": false,
       "thumbnail_source": "week-22-official-isp-outage/assets/thumbnails/parenttech-week22-official-isp-outage-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/official-isp-outage.jpg",
-      "word_count": 873
+      "word_count": 732,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "CISA Secure Our World",
+          "url": "https://www.cisa.gov/secure-our-world"
+        },
+        {
+          "name": "Ready.gov Family Communication Plan",
+          "url": "https://www.ready.gov/plan"
+        }
+      ]
     },
     {
       "week": 23,
@@ -404,7 +599,20 @@
       "source_sensitive": true,
       "thumbnail_source": "week-23-outage-offline-plan/assets/thumbnails/parenttech-week23-outage-offline-plan-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/outage-offline-plan.jpg",
-      "word_count": 887
+      "word_count": 708,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "Ready.gov Family Communication Plan",
+          "url": "https://www.ready.gov/plan"
+        },
+        {
+          "name": "CISA Secure Our World",
+          "url": "https://www.cisa.gov/secure-our-world"
+        }
+      ]
     },
     {
       "week": 24,
@@ -429,7 +637,20 @@
       "source_sensitive": false,
       "thumbnail_source": "week-24-new-phone-handoff/assets/thumbnails/parenttech-week24-new-phone-handoff-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/new-phone-handoff.jpg",
-      "word_count": 871
+      "word_count": 739,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "Apple iPhone User Guide",
+          "url": "https://support.apple.com/guide/iphone/welcome/ios"
+        },
+        {
+          "name": "Google Android Help",
+          "url": "https://support.google.com/android/"
+        }
+      ]
     },
     {
       "week": 25,
@@ -454,7 +675,20 @@
       "source_sensitive": false,
       "thumbnail_source": "week-25-accessibility-settings/assets/thumbnails/parenttech-week25-accessibility-settings-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/accessibility-settings.jpg",
-      "word_count": 873
+      "word_count": 740,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "Apple iPhone User Guide",
+          "url": "https://support.apple.com/guide/iphone/welcome/ios"
+        },
+        {
+          "name": "Google Android Help",
+          "url": "https://support.google.com/android/"
+        }
+      ]
     },
     {
       "week": 26,
@@ -479,7 +713,20 @@
       "source_sensitive": false,
       "thumbnail_source": "week-26-tablet-setup/assets/thumbnails/parenttech-week26-tablet-setup-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/tablet-setup.jpg",
-      "word_count": 870
+      "word_count": 714,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "Apple iPhone User Guide",
+          "url": "https://support.apple.com/guide/iphone/welcome/ios"
+        },
+        {
+          "name": "Google Android Help",
+          "url": "https://support.google.com/android/"
+        }
+      ]
     },
     {
       "week": 27,
@@ -504,7 +751,20 @@
       "source_sensitive": false,
       "thumbnail_source": "week-27-storage-cleanup/assets/thumbnails/parenttech-week27-storage-cleanup-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/storage-cleanup.jpg",
-      "word_count": 862
+      "word_count": 705,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "Google Photos Help",
+          "url": "https://support.google.com/photos/"
+        },
+        {
+          "name": "Apple iPhone User Guide",
+          "url": "https://support.apple.com/guide/iphone/welcome/ios"
+        }
+      ]
     },
     {
       "week": 28,
@@ -529,7 +789,20 @@
       "source_sensitive": true,
       "thumbnail_source": "week-28-major-os-update/assets/thumbnails/parenttech-week28-major-os-update-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/major-os-update.jpg",
-      "word_count": 892
+      "word_count": 718,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "Apple iPhone User Guide",
+          "url": "https://support.apple.com/guide/iphone/welcome/ios"
+        },
+        {
+          "name": "Google Android Help",
+          "url": "https://support.google.com/android/"
+        }
+      ]
     },
     {
       "week": 29,
@@ -554,7 +827,20 @@
       "source_sensitive": false,
       "thumbnail_source": "week-29-smart-lights-plugs/assets/thumbnails/parenttech-week29-smart-lights-plugs-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/smart-lights-plugs.jpg",
-      "word_count": 878
+      "word_count": 750,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "NIST Consumer IoT Cybersecurity",
+          "url": "https://www.nist.gov/itl/applied-cybersecurity/nist-cybersecurity-iot-program/consumer-iot-cybersecurity"
+        },
+        {
+          "name": "CISA Secure Our World",
+          "url": "https://www.cisa.gov/secure-our-world"
+        }
+      ]
     },
     {
       "week": 30,
@@ -579,7 +865,20 @@
       "source_sensitive": false,
       "thumbnail_source": "week-30-video-doorbells/assets/thumbnails/parenttech-week30-video-doorbells-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/video-doorbells.jpg",
-      "word_count": 866
+      "word_count": 713,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "NIST Consumer IoT Cybersecurity",
+          "url": "https://www.nist.gov/itl/applied-cybersecurity/nist-cybersecurity-iot-program/consumer-iot-cybersecurity"
+        },
+        {
+          "name": "CISA Secure Our World",
+          "url": "https://www.cisa.gov/secure-our-world"
+        }
+      ]
     },
     {
       "week": 31,
@@ -604,7 +903,20 @@
       "source_sensitive": false,
       "thumbnail_source": "week-31-voice-assistants/assets/thumbnails/parenttech-week31-voice-assistants-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/voice-assistants.jpg",
-      "word_count": 859
+      "word_count": 706,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "NIST Consumer IoT Cybersecurity",
+          "url": "https://www.nist.gov/itl/applied-cybersecurity/nist-cybersecurity-iot-program/consumer-iot-cybersecurity"
+        },
+        {
+          "name": "CISA Secure Our World",
+          "url": "https://www.cisa.gov/secure-our-world"
+        }
+      ]
     },
     {
       "week": 32,
@@ -629,7 +941,20 @@
       "source_sensitive": false,
       "thumbnail_source": "week-32-thermostat-basics/assets/thumbnails/parenttech-week32-thermostat-basics-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/thermostat-basics.jpg",
-      "word_count": 860
+      "word_count": 699,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "NIST Consumer IoT Cybersecurity",
+          "url": "https://www.nist.gov/itl/applied-cybersecurity/nist-cybersecurity-iot-program/consumer-iot-cybersecurity"
+        },
+        {
+          "name": "CISA Secure Our World",
+          "url": "https://www.cisa.gov/secure-our-world"
+        }
+      ]
     },
     {
       "week": 33,
@@ -654,7 +979,20 @@
       "source_sensitive": true,
       "thumbnail_source": "week-33-smart-home-official-alert/assets/thumbnails/parenttech-week33-smart-home-official-alert-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/smart-home-official-alert.jpg",
-      "word_count": 905
+      "word_count": 745,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "NIST Consumer IoT Cybersecurity",
+          "url": "https://www.nist.gov/itl/applied-cybersecurity/nist-cybersecurity-iot-program/consumer-iot-cybersecurity"
+        },
+        {
+          "name": "CISA: Recognize and Report Phishing",
+          "url": "https://www.cisa.gov/secure-our-world/recognize-and-report-phishing"
+        }
+      ]
     },
     {
       "week": 34,
@@ -679,7 +1017,20 @@
       "source_sensitive": false,
       "thumbnail_source": "week-34-official-updates/assets/thumbnails/parenttech-week34-official-updates-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/official-updates.jpg",
-      "word_count": 867
+      "word_count": 714,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "CISA Secure Our World",
+          "url": "https://www.cisa.gov/secure-our-world"
+        },
+        {
+          "name": "Apple iPhone User Guide",
+          "url": "https://support.apple.com/guide/iphone/welcome/ios"
+        }
+      ]
     },
     {
       "week": 35,
@@ -704,7 +1055,20 @@
       "source_sensitive": false,
       "thumbnail_source": "week-35-app-permissions/assets/thumbnails/parenttech-week35-app-permissions-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/app-permissions.jpg",
-      "word_count": 870
+      "word_count": 725,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "Apple iPhone User Guide",
+          "url": "https://support.apple.com/guide/iphone/welcome/ios"
+        },
+        {
+          "name": "Google Android Help",
+          "url": "https://support.google.com/android/"
+        }
+      ]
     },
     {
       "week": 36,
@@ -729,7 +1093,20 @@
       "source_sensitive": false,
       "thumbnail_source": "week-36-subscription-audit/assets/thumbnails/parenttech-week36-subscription-audit-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/subscription-audit.jpg",
-      "word_count": 877
+      "word_count": 719,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "Apple: Cancel a Subscription",
+          "url": "https://support.apple.com/en-us/118428"
+        },
+        {
+          "name": "Google Play Subscriptions",
+          "url": "https://support.google.com/googleplay/answer/7018481"
+        }
+      ]
     },
     {
       "week": 37,
@@ -754,7 +1131,20 @@
       "source_sensitive": false,
       "thumbnail_source": "week-37-charging-battery-safety/assets/thumbnails/parenttech-week37-charging-battery-safety-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/charging-battery-safety.jpg",
-      "word_count": 862
+      "word_count": 711,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "CPSC: High-Energy Battery Fire Safety",
+          "url": "https://www.cpsc.gov/Regulations-Laws--Standards/Voluntary-Standards/Batteries-Fire-High-Energy-Density"
+        },
+        {
+          "name": "U.S. CPSC Recalls",
+          "url": "https://www.cpsc.gov/Recalls"
+        }
+      ]
     },
     {
       "week": 38,
@@ -779,7 +1169,20 @@
       "source_sensitive": true,
       "thumbnail_source": "week-38-current-cpsc-recall/assets/thumbnails/parenttech-week38-current-cpsc-recall-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/current-cpsc-recall.jpg",
-      "word_count": 893
+      "word_count": 732,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "U.S. CPSC Recalls",
+          "url": "https://www.cpsc.gov/Recalls"
+        },
+        {
+          "name": "CPSC: High-Energy Battery Fire Safety",
+          "url": "https://www.cpsc.gov/Regulations-Laws--Standards/Voluntary-Standards/Batteries-Fire-High-Energy-Density"
+        }
+      ]
     },
     {
       "week": 39,
@@ -804,7 +1207,20 @@
       "source_sensitive": false,
       "thumbnail_source": "week-39-shared-calendar/assets/thumbnails/parenttech-week39-shared-calendar-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/shared-calendar.jpg",
-      "word_count": 867
+      "word_count": 699,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "Apple iPhone User Guide",
+          "url": "https://support.apple.com/guide/iphone/welcome/ios"
+        },
+        {
+          "name": "Google Android Help",
+          "url": "https://support.google.com/android/"
+        }
+      ]
     },
     {
       "week": 40,
@@ -829,7 +1245,20 @@
       "source_sensitive": false,
       "thumbnail_source": "week-40-support-handoff/assets/thumbnails/parenttech-week40-support-handoff-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/support-handoff.jpg",
-      "word_count": 875
+      "word_count": 725,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "FTC: Tech Support Scams",
+          "url": "https://consumer.ftc.gov/articles/how-spot-avoid-and-report-tech-support-scams"
+        },
+        {
+          "name": "CISA: Recognize and Report Phishing",
+          "url": "https://www.cisa.gov/secure-our-world/recognize-and-report-phishing"
+        }
+      ]
     },
     {
       "week": 41,
@@ -854,7 +1283,20 @@
       "source_sensitive": false,
       "thumbnail_source": "week-41-travel-away-checklist/assets/thumbnails/parenttech-week41-travel-away-checklist-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/travel-away-checklist.jpg",
-      "word_count": 869
+      "word_count": 715,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "Ready.gov Family Communication Plan",
+          "url": "https://www.ready.gov/plan"
+        },
+        {
+          "name": "CISA Secure Our World",
+          "url": "https://www.cisa.gov/secure-our-world"
+        }
+      ]
     },
     {
       "week": 42,
@@ -879,7 +1321,20 @@
       "source_sensitive": false,
       "thumbnail_source": "week-42-device-retirement/assets/thumbnails/parenttech-week42-device-retirement-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/device-retirement.jpg",
-      "word_count": 876
+      "word_count": 736,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "EPA Electronics Donation and Recycling",
+          "url": "https://www.epa.gov/recycle/electronics-donation-and-recycling"
+        },
+        {
+          "name": "CISA Secure Our World",
+          "url": "https://www.cisa.gov/secure-our-world"
+        }
+      ]
     },
     {
       "week": 43,
@@ -904,7 +1359,20 @@
       "source_sensitive": true,
       "thumbnail_source": "week-43-annual-family-need/assets/thumbnails/parenttech-week43-annual-family-need-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/annual-family-need.jpg",
-      "word_count": 888
+      "word_count": 713,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "CISA Secure Our World",
+          "url": "https://www.cisa.gov/secure-our-world"
+        },
+        {
+          "name": "Ready.gov Family Communication Plan",
+          "url": "https://www.ready.gov/plan"
+        }
+      ]
     },
     {
       "week": 44,
@@ -929,7 +1397,20 @@
       "source_sensitive": false,
       "thumbnail_source": "week-44-password-manager/assets/thumbnails/parenttech-week44-password-manager-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/password-manager.jpg",
-      "word_count": 883
+      "word_count": 766,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "CISA: Use Strong Passwords",
+          "url": "https://www.cisa.gov/secure-our-world/use-strong-passwords"
+        },
+        {
+          "name": "Google Account Recovery",
+          "url": "https://support.google.com/accounts/answer/7682439"
+        }
+      ]
     },
     {
       "week": 45,
@@ -954,7 +1435,20 @@
       "source_sensitive": true,
       "thumbnail_source": "week-45-two-factor-authentication/assets/thumbnails/parenttech-week45-two-factor-authentication-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/two-factor-authentication.jpg",
-      "word_count": 885
+      "word_count": 723,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "CISA: Turn On MFA",
+          "url": "https://www.cisa.gov/secure-our-world/turn-mfa"
+        },
+        {
+          "name": "CISA: Use Strong Passwords",
+          "url": "https://www.cisa.gov/secure-our-world/use-strong-passwords"
+        }
+      ]
     },
     {
       "week": 46,
@@ -979,15 +1473,28 @@
       "source_sensitive": false,
       "thumbnail_source": "week-46-phone-number-change/assets/thumbnails/parenttech-week46-phone-number-change-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/phone-number-change.jpg",
-      "word_count": 884
+      "word_count": 752,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "CISA: Turn On MFA",
+          "url": "https://www.cisa.gov/secure-our-world/turn-mfa"
+        },
+        {
+          "name": "Google Account Recovery",
+          "url": "https://support.google.com/accounts/answer/7682439"
+        }
+      ]
     },
     {
       "week": 47,
       "topic_id": "family-tech-binder",
       "original_title": "The Annual Family Tech Binder Review",
-      "title": "Annual family tech review",
-      "primary_question": "How can the family practice annual family tech review without relying on an unverified alert or private account details?",
-      "positioning": "Keep an annual family tech binder useful without storing passwords or security codes.",
+      "title": "Build a Family Tech Binder",
+      "primary_question": "Can another trusted helper follow the plan without receiving passwords or codes?",
+      "positioning": "Create a safe family handoff guide for devices, helpers and official support routes.",
       "actions": [
         "Record device ownership and official support routes.",
         "List trusted helpers and safe procedures.",
@@ -1004,7 +1511,20 @@
       "source_sensitive": true,
       "thumbnail_source": "week-47-family-tech-binder/assets/thumbnails/parenttech-week47-family-tech-binder-thumbnail.jpg",
       "thumbnail_public_path": "/assets/guides/family-tech-binder.jpg",
-      "word_count": 901
+      "word_count": 739,
+      "reviewed_at": "2026-08-02",
+      "reviewed_by": "Parent Tech Checklist editorial desk",
+      "update_reason": "Rewritten with topic-specific steps, stop conditions and primary official sources.",
+      "sources": [
+        {
+          "name": "Ready.gov Family Communication Plan",
+          "url": "https://www.ready.gov/plan"
+        },
+        {
+          "name": "CISA Secure Our World",
+          "url": "https://www.cisa.gov/secure-our-world"
+        }
+      ]
     }
   ],
   "safety": {
@@ -1012,5 +1532,6 @@
     "schedules": false,
     "publishes": false,
     "current_alert_claims": false
-  }
+  },
+  "editorial_revision": "people_first_sources_v1"
 }
