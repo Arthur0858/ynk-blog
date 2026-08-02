@@ -5,7 +5,7 @@
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
   X-Frame-Options: SAMEORIGIN
   Strict-Transport-Security: max-age=31536000
-  Access-Control-Allow-Origin: https://parenttechchecklist.com
+  ! Access-Control-Allow-Origin
 
 /
   Cache-Control: public, max-age=300

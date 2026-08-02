@@ -316,7 +316,7 @@ class SmokeTestParentTechTests(unittest.TestCase):
     def test_static_headers_scope_cors_and_enable_hsts(self) -> None:
         headers = (smoke.SITE_DIR / "_headers").read_text(encoding="utf-8")
         self.assertIn("Strict-Transport-Security: max-age=31536000", headers)
-        self.assertIn("Access-Control-Allow-Origin: https://parenttechchecklist.com", headers)
+        self.assertIn("! Access-Control-Allow-Origin", headers)
         self.assertNotIn("Access-Control-Allow-Origin: *", headers)
 
     def test_status_details_are_collapsed_behind_clear_summaries(self) -> None:
