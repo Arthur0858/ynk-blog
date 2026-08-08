@@ -10,7 +10,7 @@ from typing import Any
 from urllib.parse import parse_qs, urlparse
 
 
-SITE = Path("/Users/mac/Documents/New project 3/parenttechchecklist/site")
+SITE = Path("/home/s7551/np3-workspace/parenttechchecklist/site")
 PRODUCT_PAGE = SITE / "products" / "parent-tech-quick-start-kit.html"
 HOME_PAGE = SITE / "index.html"
 HANDOFF_PAGE = SITE / "go" / "parent-tech-quick-start-kit.html"

@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Any
 
 
-DEFAULT_REPORT_ROOT = Path("/Users/mac/Mounts/ProjectDataCenter/reports/gui-ops")
+DEFAULT_REPORT_ROOT = Path("/mnt/d/ProjectDataCenter/reports/gui-ops")
 EXPECTED_IDENTITIES = {"@ParentTechChecklist", "ParentTechChecklist", "Parent Tech Checklist"}
 EXPECTED_GUI_MACHINE = "ArthurNB"
 

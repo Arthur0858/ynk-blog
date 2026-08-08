@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import Any
 
 
-DEFAULT_REQUEST_DIR = Path("/Users/mac/Mounts/ProjectDataCenter/inputs/gui-ops/parenttech")
+DEFAULT_REQUEST_DIR = Path("/mnt/d/ProjectDataCenter/inputs/gui-ops/parenttech")
 EXPECTED_CHANNEL_HANDLE = "@ParentTechChecklist"
 EXPECTED_CHANNEL_URL = "https://www.youtube.com/@ParentTechChecklist"
 

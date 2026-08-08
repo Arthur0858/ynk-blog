@@ -10,7 +10,7 @@ from typing import Any
 from urllib.parse import urlencode
 
 
-ROOT = Path("/Users/mac/Documents/New project 3/parenttechchecklist")
+ROOT = Path("/home/s7551/np3-workspace/parenttechchecklist")
 PRODUCT_TRACKER = ROOT / "tracking" / "product-tracker.csv"
 PRODUCT_PAGE = "https://parenttechchecklist.com/products/parent-tech-quick-start-kit"
 GUMROAD_URL = "https://parenttechchecklist.gumroad.com/l/hjxqbv"

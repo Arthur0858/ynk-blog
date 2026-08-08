@@ -9,7 +9,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 
-ROOT = Path("/Users/mac/Documents/New project 3/parenttechchecklist")
+ROOT = Path("/home/s7551/np3-workspace/parenttechchecklist")
 SITE = ROOT / "site"
 REGISTRATION_STATUS = ROOT / "affiliate" / "registration-status.csv"
 LINK_TRACKING_MAP = ROOT / "affiliate" / "link-tracking-map.md"

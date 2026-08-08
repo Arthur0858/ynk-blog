@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import Any
 
 
-ROOT = Path("/Users/mac/Documents/New project 3")
+ROOT = Path("/home/s7551/np3-workspace")
 PARENTTECH = ROOT / "parenttechchecklist"
 PRODUCT_TRACKER = PARENTTECH / "tracking" / "product-tracker.csv"
 CHANNEL_PROFILE = PARENTTECH / "youtube-channel-profile.md"
